@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ARENSIL · Portal de pedidos</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-95 -108 190 216'%3E%3Cpath d='M0,-100 L86.6,-50 L86.6,50 L0,0 Z' fill='%23E9CFA4'/%3E%3Cpath d='M86.6,50 L0,100 L-86.6,50 L0,0 Z' fill='%238C4A22'/%3E%3Cpath d='M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z' fill='%23C98A3C'/%3E%3Cpath d='M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z' fill='%23F4E3C8'/%3E%3C/svg%3E">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{
+  --bg:#F7F5F1; --panel:#fff; --ink:#1C1A17; --tinta:#3A352E; --muted:#6F6A62;
+  --line:#E3DED6; --arena:#E9CFA4; --ambar:#C98A3C; --terra:#8C4A22;
+  --ok:#2f6b48; --warn:#a8761b; --bad:#a3392c; --r:11px;
+  --shadow:0 1px 2px rgba(28,26,23,.06),0 10px 28px rgba(28,26,23,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;letter-spacing:-.015em;font-weight:640;line-height:1.2}
+h1{font-size:1.6rem} h2{font-size:1.22rem} h3{font-size:1rem}
+p{margin:0}
+a{color:var(--terra)}
+button,input,select,textarea{font:inherit;color:inherit}
+.hide{display:none!important}
+.muted{color:var(--muted)}
+.mono{font-variant-numeric:tabular-nums}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+header.top{position:sticky;top:0;z-index:30;background:rgba(247,245,241,.94);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:22px;padding:12px 20px;max-width:1120px;margin:0 auto;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo svg{width:22px;height:25px;display:block}
+.logo b{font-weight:700;letter-spacing:.1em}
+nav.tabs{display:flex;gap:2px;flex-wrap:wrap}
+nav.tabs button{background:none;border:0;padding:7px 13px;border-radius:8px;color:var(--muted);
+  cursor:pointer;font-weight:550}
+nav.tabs button:hover{background:#EFEBE4}
+nav.tabs button[aria-current="true"]{background:var(--arena);color:var(--terra)}
+.spacer{flex:1}
+.who{font-size:12.5px;color:var(--muted);text-align:right;line-height:1.3}
+
+main{padding:26px 0 70px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.pad{padding:20px}
+.grid{display:grid;gap:14px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+label.f{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--muted);font-weight:600}
+input,select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:8px;
+  padding:9px 11px;width:100%;font-weight:400;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--ambar);outline-offset:-1px}
+.btn{background:var(--terra);color:#fff;border:0;border-radius:8px;padding:10px 17px;
+  cursor:pointer;font-weight:600}
+.btn:hover{background:#73391a}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{background:#EFEBE4}
+.btn.sm{padding:6px 11px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;
+  background:var(--bg);border:1px solid var(--line);white-space:nowrap}
+.tag.ok{color:var(--ok);border-color:currentColor}
+.tag.warn{color:var(--warn);border-color:currentColor}
+.tag.bad{color:var(--bad);border-color:currentColor}
+.tag.on{background:var(--terra);color:#fff;border-color:transparent}
+.aviso{border-radius:8px;padding:10px 13px;font-size:13.5px;font-weight:550;margin-top:10px}
+.aviso.err{background:#FBEAE7;border:1px solid #E6BCB4;color:#8C2F20}
+.aviso.ok{background:#E8F3EC;border:1px solid #B8D9C4;color:#255C3C}
+.tblwrap{overflow-x:auto;border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:13.5px}
+th{text-align:left;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+  font-weight:700;padding:11px 14px;border-bottom:1px solid var(--line)}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+.right{text-align:right}
+
+.acceso{min-height:calc(100dvh - 60px);display:grid;place-items:center;padding:26px 20px}
+.acceso .card{width:min(460px,100%)}
+.pest{display:flex;gap:4px;background:var(--bg);padding:4px;border-radius:9px;margin-bottom:18px}
+.pest button{flex:1;background:none;border:0;padding:8px;border-radius:7px;cursor:pointer;
+  font-weight:600;color:var(--muted)}
+.pest button[aria-current="true"]{background:var(--panel);color:var(--ink);box-shadow:var(--shadow)}
+
+.prods{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:14px;margin-top:16px}
+.prod{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:17px;
+  display:flex;flex-direction:column;gap:9px}
+.prod .malla{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ambar)}
+.prod h3{font-size:.98rem}
+.prod .ficha{font-size:12.5px;color:var(--muted);flex:1}
+.prod .precio{font-size:1.22rem;font-weight:660;letter-spacing:-.02em}
+.prod .precio small{font-size:12px;font-weight:500;color:var(--muted)}
+.prod .tag{align-self:flex-start}
+.addrow{display:flex;gap:8px;align-items:center;margin-top:2px}
+.addrow input{width:96px}
+
+.carrito{position:sticky;top:78px}
+.lineas{display:grid;gap:9px;margin:12px 0}
+.linea{display:grid;grid-template-columns:1fr auto auto;gap:9px;align-items:center;
+  padding-bottom:9px;border-bottom:1px dashed var(--line);font-size:13.5px}
+.linea b{display:block;font-weight:600}
+.linea small{color:var(--muted)}
+.tot{display:flex;justify-content:space-between;gap:20px;font-variant-numeric:tabular-nums;font-size:14px}
+.tot.big{font-size:1.22rem;font-weight:660;border-top:1px solid var(--line);padding-top:9px;margin-top:5px}
+
+.vacio{color:var(--muted);font-size:14px;padding:18px 0}
+.split{display:grid;grid-template-columns:1fr 372px;gap:20px;align-items:start}
+@media(max-width:940px){.split{grid-template-columns:1fr}.carrito{position:static}}
+</style>
+</head>
+<body>
+
+<div id="acceso" class="acceso hide">
+  <div class="card pad">
+    <div class="logo" style="margin-bottom:6px">
+      <svg viewBox="-95 -108 190 216" aria-hidden="true"><path d="M0,-100 L86.6,-50 L86.6,50 L0,0 Z" fill="#E9CFA4"/><path d="M86.6,50 L0,100 L-86.6,50 L0,0 Z" fill="#8C4A22"/><path d="M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z" fill="#C98A3C"/><path d="M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z" fill="#F4E3C8"/></svg>
+      <b>ARENSIL</b>
+    </div>
+    <p class="muted" style="font-size:13.5px;margin-bottom:16px">Portal de pedidos · Lagos de Moreno, Jalisco</p>
+
+    <div class="pest" id="pest">
+      <button data-p="entrar" aria-current="true">Entrar</button>
+      <button data-p="registro">Crear cuenta</button>
+    </div>
+
+    <div id="p-entrar" class="grid">
+      <label class="f">Correo <input id="e-mail" type="email" autocomplete="username"></label>
+      <label class="f">Contraseña <input id="e-pass" type="password" autocomplete="current-password"></label>
+      <button class="btn" id="e-go">Entrar</button>
+    </div>
+
+    <div id="p-registro" class="grid hide">
+      <div id="ref-aviso" class="aviso ok hide"></div>
+      <label class="f">Empresa <input id="r-empresa" placeholder="Constructora del Bajío"></label>
+      <div class="row">
+        <label class="f" style="flex:1;min-width:150px">Tu nombre <input id="r-nombre"></label>
+        <label class="f" style="flex:1;min-width:130px">Teléfono <input id="r-tel" inputmode="tel"></label>
+      </div>
+      <div class="row">
+        <label class="f" style="flex:1;min-width:150px">Municipio <input id="r-muni" placeholder="Guadalajara"></label>
+        <label class="f" style="flex:1;min-width:130px">Estado <input id="r-edo" value="Jalisco"></label>
+      </div>
+      <label class="f">Correo <input id="r-mail" type="email" autocomplete="username"></label>
+      <label class="f">Contraseña <input id="r-pass" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres"></label>
+      <button class="btn" id="r-go">Crear cuenta</button>
+      <p class="muted" style="font-size:12px">Al crear tu cuenta puedes cotizar y pedir en línea. El pedido entra a producción cuando se confirma el pago.</p>
+    </div>
+
+    <div id="acc-msg"></div>
+  </div>
+</div>
+
+<div id="app" class="hide">
+<header class="top">
+  <div class="nav">
+    <a class="logo" href="/">
+      <svg viewBox="-95 -108 190 216" aria-hidden="true"><path d="M0,-100 L86.6,-50 L86.6,50 L0,0 Z" fill="#E9CFA4"/><path d="M86.6,50 L0,100 L-86.6,50 L0,0 Z" fill="#8C4A22"/><path d="M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z" fill="#C98A3C"/><path d="M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z" fill="#F4E3C8"/></svg>
+      <b>ARENSIL</b>
+    </a>
+    <nav class="tabs" id="tabs">
+      <button data-v="tienda" aria-current="true">Hacer pedido</button>
+      <button data-v="pedidos">Mis pedidos</button>
+      <button data-v="programados">Programados</button>
+      <button data-v="cuenta">Mi cuenta</button>
+      <button data-v="vendedor" class="hide">Vendedor</button>
+    </nav>
+    <div class="spacer"></div>
+    <div class="who" id="who"></div>
+    <button class="btn ghost sm" id="salir">Salir</button>
+  </div>
+</header>
+
+<main>
+  <section id="v-tienda" class="wrap">
+    <div class="split">
+      <div>
+        <h1>Haz tu pedido</h1>
+        <p class="muted" style="margin-top:6px">Precios por tonelada, cargados en el banco. El flete se calcula por tu zona de entrega y se muestra por separado.</p>
+        <div class="prods" id="prods"></div>
+      </div>
+
+      <aside class="card pad carrito">
+        <h2>Tu pedido</h2>
+        <div class="lineas" id="lineas"></div>
+        <div id="car-vacio" class="vacio">Todavía no agregas producto.</div>
+
+        <div class="grid" style="margin-top:6px">
+          <label class="f">Entrega
+            <select id="c-inco">
+              <option value="entregado">Entregado en mi obra o planta</option>
+              <option value="lab_mina">Yo recojo en el banco (Lagos de Moreno)</option>
+            </select></label>
+          <label class="f" id="lbl-dir">Dirección de entrega
+            <select id="c-dir"></select></label>
+          <label class="f">¿Para cuándo lo necesitas? <input id="c-fecha" type="date"></label>
+        </div>
+
+        <div style="margin-top:14px;display:grid;gap:5px">
+          <div class="tot"><span class="muted">Producto</span><span id="t-sub" class="mono">$0.00</span></div>
+          <div class="tot"><span class="muted">Flete</span><span id="t-fle" class="mono">$0.00</span></div>
+          <div class="tot"><span class="muted">IVA 16 %</span><span id="t-iva" class="mono">$0.00</span></div>
+          <div class="tot big"><span>Total</span><span id="t-tot" class="mono">$0.00</span></div>
+        </div>
+
+        <button class="btn" id="c-pagar" style="width:100%;margin-top:14px" disabled>Pagar y confirmar pedido</button>
+        <button class="btn ghost sm" id="c-prog" style="width:100%;margin-top:8px" disabled>Convertir en pedido recurrente</button>
+        <p class="muted" style="font-size:11.5px;margin-top:10px">Pagas con tarjeta, OXXO o transferencia SPEI. Con tarjeta puedes diferir a meses.</p>
+        <div id="car-msg"></div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="v-pedidos" class="wrap hide">
+    <h1>Mis pedidos</h1>
+    <div class="card tblwrap" style="margin-top:16px">
+      <table><thead><tr>
+        <th>Folio</th><th>Fecha</th><th>Entrega</th><th class="right">Total</th><th>Estatus</th><th></th>
+      </tr></thead><tbody id="ped-body"></tbody></table>
+    </div>
+  </section>
+
+  <section id="v-programados" class="wrap hide">
+    <h1>Pedidos programados</h1>
+    <p class="muted" style="margin-top:6px">Deja lista tu compra recurrente y nosotros la preparamos sin que tengas que volver a capturarla.</p>
+    <div class="card tblwrap" style="margin-top:16px">
+      <table><thead><tr>
+        <th>Nombre</th><th>Frecuencia</th><th>Próxima fecha</th><th>Productos</th><th>Estado</th><th></th>
+      </tr></thead><tbody id="prog-body"></tbody></table>
+    </div>
+    <div id="prog-msg"></div>
+  </section>
+
+  <section id="v-cuenta" class="wrap hide">
+    <h1>Mi cuenta</h1>
+    <div class="grid" style="grid-template-columns:1fr 1fr;margin-top:16px" id="cuenta-grid">
+      <div class="card pad">
+        <h2 style="font-size:1.05rem">Datos</h2>
+        <div class="grid" style="margin-top:12px">
+          <label class="f">Nombre <input id="q-nombre"></label>
+          <label class="f">Teléfono <input id="q-tel"></label>
+          <button class="btn sm" id="q-save" style="justify-self:start">Guardar</button>
+        </div>
+        <div id="q-msg"></div>
+      </div>
+      <div class="card pad">
+        <h2 style="font-size:1.05rem">Direcciones de entrega</h2>
+        <div id="dir-lista" style="margin-top:10px"></div>
+        <button class="btn ghost sm" id="dir-nueva" style="margin-top:10px">+ Agregar dirección</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="v-vendedor" class="wrap hide">
+    <h1>Panel de vendedor</h1>
+    <div class="card pad" style="margin-top:16px">
+      <h2 style="font-size:1.05rem">Tu enlace de referido</h2>
+      <p class="muted" style="font-size:13.5px;margin-top:6px">Todo cliente que se registre con este enlace queda ligado a ti, y cada pedido que pague te genera comisión sobre el producto.</p>
+      <div class="row" style="margin-top:12px">
+        <input id="ven-link" readonly style="flex:1;min-width:240px">
+        <button class="btn sm" id="ven-copiar">Copiar</button>
+      </div>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-top:16px" id="ven-kpis"></div>
+    <h2 style="margin-top:24px;font-size:1.05rem">Comisiones</h2>
+    <div class="card tblwrap" style="margin-top:12px">
+      <table><thead><tr>
+        <th>Fecha</th><th>Pedido</th><th class="right">Base</th><th class="right">%</th>
+        <th class="right">Comisión</th><th>Estatus</th>
+      </tr></thead><tbody id="ven-body"></tbody></table>
+    </div>
+  </section>
+</main>
+</div>
+
+<script src="portal-core.js"></script>
+<script src="portal-tienda.js"></script>
+<script src="portal-cuenta.js"></script>
+</body>
+</html>
