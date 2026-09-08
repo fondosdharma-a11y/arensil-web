@@ -15,18 +15,38 @@
 </head>
 <body>
 
+<div class="anuncio">
+  <div class="wrap">
+    <span><b>Nuevo:</b> plataforma de pedidos en línea.<span class="largo"> Cotice, pague y programe sus entregas sin llamadas.</span></span>
+    <a href="/pedidos/">Entrar a la plataforma →</a>
+  </div>
+</div>
+
 <header>
   <div class="nav">
     <a class="logo" href="/">
       <svg viewBox="-95 -108 190 216" aria-hidden="true"><path d="M0,-100 L86.6,-50 L86.6,50 L0,0 Z" fill="#E9CFA4"/><path d="M86.6,50 L0,100 L-86.6,50 L0,0 Z" fill="#8C4A22"/><path d="M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z" fill="#C98A3C"/><path d="M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z" fill="#F4E3C8"/></svg>
-      <b>ARENSIL</b></a>
-    <nav>
+      <b>ARENSIL</b>
+    </a>
+    <nav id="menu" aria-label="Principal">
       <a href="/productos/">Productos</a>
       <a href="/industrias/" aria-current="page">Industrias</a>
       <a href="/calidad/">Calidad</a>
+      <a href="/#empresa">Empresa</a>
       <a href="/preguntas/">Preguntas</a>
+      <a href="/#contacto">Contacto</a>
+      <div class="menu-ctas">
+        <a class="cta ghost" href="/pedidos/">Entrar al portal</a>
+        <a class="cta" href="/pedidos/">Pedir en línea</a>
+      </div>
     </nav>
-    <a class="cta" href="/pedidos/">Pedir en línea</a>
+    <div class="nav-ctas">
+      <a class="cta ghost" href="/pedidos/">Entrar al portal</a>
+      <a class="cta" href="/pedidos/">Pedir en línea</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
@@ -121,14 +141,36 @@
 </section>
 </main>
 
-<footer>
+<footer class="pie">
   <div class="wrap">
-    <div><strong>ARENSIL</strong> · Arena sílica · Lagos de Moreno, Jalisco · 322 310 2049</div>
-    <nav>
-      <a href="/">Inicio</a><a href="/productos/">Productos</a><a href="/industrias/">Industrias</a>
-      <a href="/calidad/">Calidad</a><a href="/preguntas/">Preguntas</a><a href="/pedidos/">Portal</a>
-    </nav>
+    <div class="pie-grid">
+      <div class="pie-marca">
+        <a class="logo" href="/"><svg viewBox="-95 -108 190 216" aria-hidden="true"><path d="M0,-100 L86.6,-50 L86.6,50 L0,0 Z" fill="#E9CFA4"/><path d="M86.6,50 L0,100 L-86.6,50 L0,0 Z" fill="#8C4A22"/><path d="M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z" fill="#C98A3C"/><path d="M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z" fill="#F4E3C8"/></svg><b>ARENSIL</b></a>
+        <p>Productor de arena sílica industrial. Banco propio en Lagos de Moreno, Jalisco. Lavada, secada y clasificada por malla.</p>
+      </div>
+      <div><h4>Productos</h4><a href="/productos/#filtracion">Filtración de agua</a><a href="/productos/#fundicion">Moldeo de fundición</a><a href="/productos/#construccion">Construcción y morteros</a><a href="/productos/#sandblast">Sandblast</a><a href="/productos/">Catálogo completo</a></div>
+      <div><h4>Empresa</h4><a href="/#empresa">Quiénes somos</a><a href="/calidad/">Calidad y laboratorio</a><a href="/#cobertura">Cobertura</a><a href="/#precios">Lista de precios</a><a href="/preguntas/">Preguntas frecuentes</a></div>
+      <div><h4>Plataforma</h4><a href="/pedidos/">Entrar a mi cuenta</a><a href="/pedidos/">Crear cuenta de empresa</a><a href="/preguntas/#pagos">Formas de pago</a><a href="/preguntas/#recurrentes">Pedidos recurrentes</a><a href="/privacidad/">Aviso de privacidad</a></div>
+      <div><h4>Contacto</h4><a href="tel:+523223102049">322 310 2049</a><a href="https://wa.me/523223102049">WhatsApp</a><span>Lagos de Moreno, Jalisco</span><span>Lunes a sábado, 8:00 a 18:00</span></div>
+    </div>
+    <div class="pie-legal">
+      <span>© 2026 ARENSIL · Todos los derechos reservados.</span>
+      <span>Precios de referencia sujetos a cambio sin previo aviso. Sitio operado desde Lagos de Moreno, Jalisco, México.</span>
+    </div>
   </div>
 </footer>
+<script>
+(function(){
+  var b=document.getElementById("burger"),m=document.getElementById("menu");
+  if(!b||!m)return;
+  function cerrar(){document.body.classList.remove("menu-abierto");b.setAttribute("aria-expanded","false");b.setAttribute("aria-label","Abrir menú");}
+  b.addEventListener("click",function(){
+    var abierto=document.body.classList.toggle("menu-abierto");
+    b.setAttribute("aria-expanded",abierto);b.setAttribute("aria-label",abierto?"Cerrar menú":"Abrir menú");
+  });
+  m.addEventListener("click",function(e){if(e.target.closest("a"))cerrar();});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")cerrar();});
+})();
+</script>
 </body>
 </html>

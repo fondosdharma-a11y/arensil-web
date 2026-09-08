@@ -3,44 +3,102 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ARENSIL · Arena sílica de banco propio en Lagos de Moreno, Jalisco</title>
-<meta name="description" content="Arena sílica lavada, secada y clasificada, directo de banco propio en Lagos de Moreno, Jalisco. Entrega en Guadalajara, León, Aguascalientes y el Bajío. Pide en línea y paga con tarjeta, OXXO o SPEI.">
+<title>ARENSIL · Arena sílica industrial de banco propio · Lagos de Moreno, Jalisco</title>
+<meta name="description" content="Productor de arena sílica lavada, secada y clasificada por malla en Lagos de Moreno, Jalisco. Plataforma de pedidos en línea con pago con tarjeta, OXXO y SPEI, y entrega en Guadalajara, León, Aguascalientes y el Bajío.">
 <link rel="canonical" href="https://arensil.com/">
-<meta property="og:title" content="ARENSIL · Arena sílica de banco propio">
-<meta property="og:description" content="Lavada, secada y clasificada. Directo de banco en Lagos de Moreno, Jalisco. Pedidos en línea.">
+<meta property="og:title" content="ARENSIL · Arena sílica industrial de banco propio">
+<meta property="og:description" content="Lavada, secada y clasificada por malla. Pedidos en línea con pago y entrega programada. Lagos de Moreno, Jalisco.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://arensil.com/">
 <meta property="og:locale" content="es_MX">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-95 -108 190 216'%3E%3Cpath d='M0,-100 L86.6,-50 L86.6,50 L0,0 Z' fill='%23E9CFA4'/%3E%3Cpath d='M86.6,50 L0,100 L-86.6,50 L0,0 Z' fill='%238C4A22'/%3E%3Cpath d='M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z' fill='%23C98A3C'/%3E%3Cpath d='M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z' fill='%23F4E3C8'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="/estilo.css">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LocalBusiness","name":"ARENSIL",
-"description":"Banco de arena sílica. Extracción, lavado, secado y clasificación por malla. Venta a granel y ensacada.",
+{"@context":"https://schema.org","@type":"Organization","name":"ARENSIL",
+"description":"Productor de arena sílica industrial. Extracción, lavado, secado y clasificación por malla en banco propio. Venta a granel y ensacada con plataforma de pedidos en línea.",
 "url":"https://arensil.com/","telephone":"+523223102049",
 "address":{"@type":"PostalAddress","addressLocality":"Lagos de Moreno","addressRegion":"Jalisco","addressCountry":"MX"},
-"areaServed":["Jalisco","Guanajuato","Aguascalientes","Zacatecas","Querétaro"]}
+"areaServed":["Jalisco","Guanajuato","Aguascalientes","Zacatecas","Querétaro","San Luis Potosí"],
+"contactPoint":{"@type":"ContactPoint","telephone":"+523223102049","contactType":"sales","availableLanguage":"es"}}
 </script>
 <style>
-.hero-inicio{padding:74px 0 82px;background:
-  radial-gradient(120% 90% at 88% 8%, #F3E4CE 0%, rgba(243,228,206,0) 58%), var(--hueso)}
-.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:52px;align-items:center}
-@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:34px}}
-.hero-btns{display:flex;gap:11px;flex-wrap:wrap;margin-top:28px}
-.crystal-big{width:100%;max-width:280px;margin:0 auto;display:block;
-  filter:drop-shadow(0 22px 44px rgba(140,74,34,.22))}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;
-  background:var(--linea);border:1px solid var(--linea);border-radius:11px;overflow:hidden;margin-top:46px}
+/* ---- solo portada ---- */
+.hero{padding:64px 0 56px;background:
+  radial-gradient(120% 90% at 92% 0%, #F3E4CE 0%, rgba(243,228,206,0) 60%), var(--hueso)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+@media(max-width:940px){.hero-grid{grid-template-columns:1fr;gap:36px}}
+.hero h1{margin-bottom:18px;font-size:clamp(2.05rem,4.9vw,3.35rem)}
+.hero .lede{margin-bottom:26px}
+.hero-btns{display:flex;gap:11px;flex-wrap:wrap;align-items:center}
+.hero-btns .cta{padding:12px 20px;font-size:.96rem}
+.hero-nota{font-size:.84rem;color:var(--gris);margin-top:16px}
+
+/* panel de la plataforma en el hero */
+.panel{background:var(--papel);border:1px solid var(--linea);border-radius:14px;padding:26px 26px 22px;
+  box-shadow:0 1px 2px rgba(28,26,23,.05),0 24px 48px -20px rgba(140,74,34,.28);position:relative}
+.panel::before{content:"";position:absolute;inset:0 auto auto 0;height:4px;width:100%;
+  border-radius:14px 14px 0 0;background:linear-gradient(90deg,var(--arena),var(--ambar) 55%,var(--terra))}
+.panel .k{display:flex;align-items:center;gap:9px;font-size:.72rem;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--terra);margin-bottom:10px}
+.panel .k i{width:8px;height:8px;border-radius:50%;background:#2f8f5b;box-shadow:0 0 0 4px rgba(47,143,91,.15)}
+.panel h2{font-size:1.32rem;margin-bottom:6px}
+.panel > p{font-size:.92rem;color:var(--tinta);margin-bottom:16px}
+.panel ul{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:9px}
+.panel li{display:flex;gap:11px;align-items:flex-start;font-size:.92rem;color:var(--tinta)}
+.panel li svg{width:18px;height:18px;flex:none;margin-top:2px}
+.panel .btns{display:flex;gap:9px;flex-wrap:wrap}
+.panel .btns .cta{flex:1;text-align:center;min-width:140px}
+.panel .pagos{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--linea)}
+.panel .pagos span{font-size:.72rem;font-weight:600;color:var(--gris);border:1px solid var(--linea);
+  border-radius:999px;padding:3px 9px;background:#FBFAF8}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+  background:var(--linea);border:1px solid var(--linea);border-radius:11px;overflow:hidden;margin-top:44px}
 .stat{background:var(--papel);padding:18px 20px}
-.stat b{display:block;font-size:1.5rem;letter-spacing:-.02em}
+.stat b{display:block;font-size:1.45rem;letter-spacing:-.02em}
 .stat span{font-size:.82rem;color:var(--gris)}
-.facet{width:26px;height:26px;border-radius:6px;margin-bottom:13px;
-  background:linear-gradient(140deg,var(--arena),var(--ambar) 55%,var(--terra))}
-.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:34px;margin-top:38px}
-.why-grid h3{color:#fff;margin-bottom:8px}
-.why-grid p{color:#B8B1A6;font-size:.94rem}
-.why-grid .n{font-size:.72rem;font-weight:700;letter-spacing:.16em;color:var(--ambar);margin-bottom:11px}
-.cbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:34px;text-align:left}
-.cbox a,.cbox div{display:block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+
+/* pasos de la plataforma */
+.pasos-oscuro{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:26px;margin-top:38px}
+.pasos-oscuro > div{border-top:1px solid rgba(255,255,255,.14);padding-top:18px}
+.pasos-oscuro .n{font-size:.72rem;font-weight:700;letter-spacing:.16em;color:var(--ambar);margin-bottom:10px}
+.pasos-oscuro h3{color:#fff;margin-bottom:7px}
+.pasos-oscuro p{font-size:.92rem;color:#B8B1A6}
+.oscuro .btns{display:flex;gap:11px;flex-wrap:wrap;margin-top:34px}
+.oscuro .cta.ghost{color:#fff!important;border-color:rgba(255,255,255,.3)}
+
+/* industrias */
+.ind{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:34px}
+.ind a{display:block;background:var(--papel);border:1px solid var(--linea);border-radius:11px;padding:18px;
+  text-decoration:none;color:var(--grafito)}
+.ind a:hover{border-color:#D9CDB9;background:#FDFBF8}
+.ind b{display:block;margin-bottom:5px;font-size:.98rem;letter-spacing:-.01em}
+.ind span{font-size:.84rem;color:var(--gris)}
+
+/* calidad */
+.calidad-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;margin-top:12px}
+@media(max-width:820px){.calidad-grid{grid-template-columns:1fr}}
+.params{list-style:none;margin:0;padding:0;border:1px solid var(--linea);border-radius:11px;background:var(--papel);overflow:hidden}
+.params li{display:flex;justify-content:space-between;gap:16px;padding:12px 18px;border-bottom:1px solid var(--linea);font-size:.92rem}
+.params li:last-child{border-bottom:0}
+.params li span{color:var(--gris)}
+
+/* empresa */
+.empresa-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:start}
+@media(max-width:860px){.empresa-grid{grid-template-columns:1fr}}
+.proceso{list-style:none;margin:0;padding:0;counter-reset:p}
+.proceso li{counter-increment:p;display:grid;grid-template-columns:44px 1fr;gap:14px;padding:15px 0;border-top:1px solid var(--linea)}
+.proceso li::before{content:"0" counter(p);font-size:.78rem;font-weight:700;letter-spacing:.12em;color:var(--ambar);padding-top:4px}
+.proceso b{display:block;margin-bottom:3px}
+.proceso p{font-size:.92rem;color:var(--tinta)}
+
+/* contacto */
+.contacto{background:linear-gradient(160deg,#8C4A22,#5E2F14);color:#fff;border-top:0}
+.contacto h2{color:#fff}
+.contacto .eyebrow{color:var(--arena)}
+.contacto .lede{color:#F0DCC6}
+.cbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:34px}
+.cbox a,.cbox div.box{display:block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
   border-radius:11px;padding:19px 21px;text-decoration:none;color:#fff}
 .cbox a:hover{background:rgba(255,255,255,.16)}
 .cbox .k{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--arena);font-weight:700}
@@ -50,132 +108,187 @@
 </head>
 <body>
 
+<div class="anuncio">
+  <div class="wrap">
+    <span><b>Nuevo:</b> plataforma de pedidos en línea.<span class="largo"> Cotice, pague y programe sus entregas sin llamadas.</span></span>
+    <a href="/pedidos/">Entrar a la plataforma →</a>
+  </div>
+</div>
+
 <header>
   <div class="nav">
     <a class="logo" href="/">
       <svg viewBox="-95 -108 190 216" aria-hidden="true"><path d="M0,-100 L86.6,-50 L86.6,50 L0,0 Z" fill="#E9CFA4"/><path d="M86.6,50 L0,100 L-86.6,50 L0,0 Z" fill="#8C4A22"/><path d="M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z" fill="#C98A3C"/><path d="M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z" fill="#F4E3C8"/></svg>
       <b>ARENSIL</b>
     </a>
-    <nav>
+    <nav id="menu" aria-label="Principal">
       <a href="/productos/">Productos</a>
       <a href="/industrias/">Industrias</a>
       <a href="/calidad/">Calidad</a>
+      <a href="/#empresa">Empresa</a>
       <a href="/preguntas/">Preguntas</a>
+      <a href="/#contacto">Contacto</a>
+      <div class="menu-ctas">
+        <a class="cta ghost" href="/pedidos/">Entrar al portal</a>
+        <a class="cta" href="/pedidos/">Pedir en línea</a>
+      </div>
     </nav>
-    <a class="cta" href="/pedidos/">Pedir en línea</a>
+    <div class="nav-ctas">
+      <a class="cta ghost" href="/pedidos/">Entrar al portal</a>
+      <a class="cta" href="/pedidos/">Pedir en línea</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
 <main id="top">
 
-<div class="hero-inicio">
+<div class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="eyebrow">Banco propio · Lagos de Moreno, Jalisco</div>
-      <h1>Arena sílica lavada, secada y clasificada. Directo de banco.</h1>
-      <p class="lede" style="margin-top:18px">Somos el banco, no un intermediario. Extraemos, lavamos, secamos y clasificamos por malla en Los Altos de Jalisco, y entregamos en obra o en planta en Guadalajara, León, Aguascalientes y el Bajío. Ahora también puedes pedir y pagar en línea.</p>
+      <div class="eyebrow">Productor de arena sílica · Lagos de Moreno, Jalisco</div>
+      <h1>Arena sílica industrial, directo del banco y con pedidos en línea.</h1>
+      <p class="lede">ARENSIL extrae, lava, seca y clasifica arena sílica por malla en yacimiento propio en Los Altos de Jalisco, y la entrega en obra o en planta en Guadalajara, León, Aguascalientes y el Bajío. Cada lote sale con su análisis de laboratorio, y cada pedido puede hacerse, pagarse y programarse desde nuestra plataforma.</p>
       <div class="hero-btns">
-        <a class="cta" href="/pedidos/">Hacer un pedido en línea</a>
-        <a class="cta ghost" href="https://wa.me/523223102049?text=Buen%20d%C3%ADa%2C%20quiero%20cotizar%20arena%20s%C3%ADlica.">Cotizar por WhatsApp</a>
+        <a class="cta" href="/pedidos/">Entrar a la plataforma de pedidos</a>
+        <a class="cta ghost" href="https://wa.me/523223102049?text=Buen%20d%C3%ADa%2C%20solicito%20cotizaci%C3%B3n%20de%20arena%20s%C3%ADlica.%20Uso%3A%20___%2C%20volumen%3A%20___%2C%20entrega%20en%3A%20___">Solicitar cotización</a>
       </div>
+      <p class="hero-nota">Atención directa: 322 310 2049 · Lunes a sábado, 8:00 a 18:00.</p>
     </div>
-    <div>
-      <svg class="crystal-big" viewBox="-104 -118 208 236" aria-label="Cristal de cuarzo">
-        <path d="M0,-100 L86.6,-50 L86.6,50 L0,0 Z" fill="#E9CFA4"/>
-        <path d="M86.6,50 L0,100 L-86.6,50 L0,0 Z" fill="#8C4A22"/>
-        <path d="M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z" fill="#C98A3C"/>
-        <path d="M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z" fill="#F4E3C8"/>
-      </svg>
-    </div>
+
+    <aside class="panel" aria-label="Plataforma de pedidos">
+      <div class="k"><i></i> Plataforma de pedidos en línea</div>
+      <h2>Su cuenta ARENSIL, disponible las 24 horas.</h2>
+      <p>Registre a su empresa una sola vez y gestione sus compras de arena sílica sin llamadas ni correos.</p>
+      <ul>
+        <li><svg viewBox="0 0 20 20" fill="none" stroke="#2f8f5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Precio y flete calculados al instante según su zona de entrega</li>
+        <li><svg viewBox="0 0 20 20" fill="none" stroke="#2f8f5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Pago seguro con tarjeta, OXXO, transferencia SPEI o meses sin intereses</li>
+        <li><svg viewBox="0 0 20 20" fill="none" stroke="#2f8f5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Pedidos recurrentes programados: semanal, quincenal o mensual</li>
+        <li><svg viewBox="0 0 20 20" fill="none" stroke="#2f8f5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Historial, estatus de entrega y direcciones de obra guardadas</li>
+      </ul>
+      <div class="btns">
+        <a class="cta" href="/pedidos/">Crear cuenta</a>
+        <a class="cta ghost" href="/pedidos/">Ya tengo cuenta</a>
+      </div>
+      <div class="pagos"><span>Tarjeta</span><span>OXXO</span><span>SPEI</span><span>Meses sin intereses</span><span>Factura</span></div>
+    </aside>
   </div>
   <div class="wrap">
     <div class="stats">
-      <div class="stat"><b>48–72 h</b><span>Tiempo de entrega</span></div>
-      <div class="stat"><b>&lt; 15 min</b><span>Respuesta de cotización</span></div>
-      <div class="stat"><b>25 kg a 30 t</b><span>Desde saco hasta camión</span></div>
-      <div class="stat"><b>Por lote</b><span>Trazabilidad en cada remisión</span></div>
+      <div class="stat"><b>Banco propio</b><span>Extracción y proceso en Lagos de Moreno</span></div>
+      <div class="stat"><b>48–72 h</b><span>Tiempo de entrega en zona</span></div>
+      <div class="stat"><b>25 kg a 30 t</b><span>Del saco a la carga completa</span></div>
+      <div class="stat"><b>Análisis por lote</b><span>Trazabilidad en cada remisión</span></div>
     </div>
   </div>
 </div>
 
-<section id="productos">
+<section class="oscuro" id="plataforma">
   <div class="wrap">
-    <div class="eyebrow">Catálogo</div>
-    <h2>Una malla para cada proceso.</h2>
-    <p class="lede" style="margin-top:14px">Clasificamos a la medida. Si tu proceso pide una granulometría que no está en esta lista, la corremos: dinos la aplicación y te decimos si la tenemos.</p>
-    <div class="cards">
-      <div class="card"><div class="facet"></div><div class="k">Malla 8–16</div>
-        <h3>Empaque de pozo</h3>
-        <p>Grava sílica de alta esfericidad para filter pack en el ademe de pozos profundos. Lavada, sin finos ni arcillas.</p></div>
-      <div class="card"><div class="facet"></div><div class="k">Malla 10–20 · 20–30</div>
-        <h3>Filtración de agua y albercas</h3>
-        <p>Lechos filtrantes para potabilizadoras, plantas de tratamiento, filtros multimedia y albercas.</p></div>
-      <div class="card"><div class="facet"></div><div class="k">AFS 45–60</div>
-        <h3>Moldeo de fundición</h3>
-        <p>Arena de moldeo en verde y con resina. Granulometría estable entrega tras entrega, con AFS por lote.</p></div>
-      <div class="card"><div class="facet"></div><div class="k">Malla 16–40</div>
-        <h3>Construcción y prefabricados</h3>
-        <p>Cribada y seca para mortero, estuco, block, adoquín, tubo de concreto y canchas.</p></div>
-      <div class="card"><div class="facet"></div><div class="k">Malla 30–60</div>
-        <h3>Sandblast</h3>
-        <p>Seca y clasificada para chorro abrasivo y preparación de superficies metálicas.</p></div>
-      <div class="card"><div class="facet"></div><div class="k">Malla 200</div>
-        <h3>Sílice molida</h3>
-        <p>Carga mineral para pinturas, recubrimientos de piso, esmaltes y pastas cerámicas.</p></div>
+    <div class="eyebrow">Cómo funciona la plataforma</div>
+    <h2>Cuatro pasos entre la necesidad y la arena en su obra.</h2>
+    <p class="lede" style="margin-top:14px">Diseñamos la plataforma para el comprador industrial: cotización transparente, pago a su conveniencia y entregas que se repiten solas.</p>
+    <div class="pasos-oscuro">
+      <div><div class="n">01</div><h3>Registre su empresa</h3><p>Con su correo, Google, Facebook o X. Capture razón social, municipio y direcciones de obra o planta una sola vez.</p></div>
+      <div><div class="n">02</div><h3>Elija producto y cantidad</h3><p>Catálogo completo por malla y presentación. El sistema calcula subtotal, flete por zona e IVA antes de confirmar.</p></div>
+      <div><div class="n">03</div><h3>Pague como prefiera</h3><p>Tarjeta de crédito o débito, depósito en OXXO, transferencia SPEI o meses sin intereses. Factura electrónica sobre cada pedido.</p></div>
+      <div><div class="n">04</div><h3>Reciba y programe</h3><p>Siga el estatus de su pedido y, si su consumo es constante, prográmelo para que se genere solo cada semana, quincena o mes.</p></div>
     </div>
-    <p style="margin-top:24px"><a href="/productos/">Ver el catálogo completo con precios →</a> &nbsp; <a href="/industrias/">Ver por industria →</a></p>
+    <div class="btns">
+      <a class="cta" href="/pedidos/">Abrir mi cuenta</a>
+      <a class="cta ghost" href="/preguntas/">Preguntas frecuentes</a>
+    </div>
   </div>
 </section>
 
-<section class="oscuro" id="porque">
+<section id="productos">
   <div class="wrap">
-    <div class="eyebrow">La diferencia</div>
-    <h2>Tres cosas que casi nadie en el sector tiene juntas.</h2>
-    <div class="why-grid">
-      <div><div class="n">01</div><h3>Somos el banco</h3>
-        <p>No revendemos la arena de alguien más. Extraemos de yacimiento propio en Lagos de Moreno, así que el precio que te damos es precio de mina, sin el margen de un intermediario encima.</p></div>
-      <div><div class="n">02</div><h3>Lavada, secada y clasificada</h3>
-        <p>La arena en greña sirve para relleno y poco más. Nosotros procesamos. Eso es lo que permite que entre a un filtro de agua, a un molde de fundición o a un mortero sin castigarte el proceso.</p></div>
-      <div><div class="n">03</div><h3>Estamos al lado</h3>
-        <p>Los grandes productores tienen sus plantas en Nuevo León, Coahuila y Veracruz, y pagan flete para llegar al Occidente. Nosotros ya estamos aquí: a 43 km de León, 87 de Aguascalientes y 183 de Guadalajara.</p></div>
+    <div class="eyebrow">Productos</div>
+    <h2>Una granulometría para cada proceso.</h2>
+    <p class="lede" style="margin-top:14px">Clasificamos por malla a la medida de la aplicación. Si su proceso requiere una granulometría fuera de catálogo, la evaluamos y la producimos.</p>
+    <div class="cards">
+      <div class="card"><div class="k">Filtración</div><h3>Malla 8–16 · 10–20 · 20–30</h3><p>Lechos filtrantes para potabilizadoras, plantas de tratamiento, filtros multimedia, albercas y empaque de pozo profundo. Lavada, secada y libre de arcillas.</p></div>
+      <div class="card"><div class="k">Fundición</div><h3>AFS 45–60</h3><p>Arena de moldeo en verde y con resina. Granulometría estable entrega tras entrega, con índice AFS y análisis químico por lote.</p></div>
+      <div class="card"><div class="k">Construcción</div><h3>Malla 16–40 · 40–100</h3><p>Cribada y seca para mortero, estuco, block, adoquín y prefabricados; fina para adhesivo cerámico, boquilla y mortero industrial.</p></div>
+      <div class="card"><div class="k">Abrasivos y cargas</div><h3>Malla 30–60 · 200</h3><p>Sandblast para preparación de superficies, y sílice molida como carga mineral en pinturas, recubrimientos y pastas cerámicas.</p></div>
+    </div>
+    <p class="nota">Presentaciones: granel por tonelada, saco de 25 y 50 kg y súper saco de 1 tonelada. <a href="/productos/">Ver catálogo completo y fichas técnicas →</a></p>
+  </div>
+</section>
+
+<section id="industrias">
+  <div class="wrap">
+    <div class="eyebrow">Industrias</div>
+    <h2>Atendemos al comprador industrial de Occidente y el Bajío.</h2>
+    <div class="ind">
+      <a href="/industrias/#construccion"><b>Construcción y morteros</b><span>Constructoras, plantas de mortero seco, prefabricados</span></a>
+      <a href="/industrias/#filtracion"><b>Tratamiento de agua</b><span>Organismos operadores, plantas potabilizadoras, pozos</span></a>
+      <a href="/industrias/#albercas"><b>Albercas y filtros</b><span>Instaladores, mantenimiento, distribuidores</span></a>
+      <a href="/industrias/#fundicion"><b>Fundición</b><span>Fundidoras de hierro, aluminio y bronce</span></a>
+      <a href="/industrias/#vidrio"><b>Vidrio y cerámica</b><span>Vidrieras, esmaltes, pastas y fritas</span></a>
+      <a href="/industrias/#sandblast"><b>Sandblast y recubrimientos</b><span>Talleres de pintura industrial, pailerías, astilleros</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="calidad">
+  <div class="wrap">
+    <div class="eyebrow">Calidad y trazabilidad</div>
+    <div class="calidad-grid">
+      <div>
+        <h2>Cada lote sale con su análisis.</h2>
+        <p class="lede" style="margin-top:14px">La arena sílica se compra por especificación, no por apariencia. Por eso cada lote que sale del banco lleva su reporte de laboratorio, y cada remisión indica el lote al que pertenece. Si su proceso lo exige, entregamos certificado por embarque.</p>
+        <p class="nota"><a href="/calidad/">Conozca nuestro control de calidad y los parámetros que reportamos →</a></p>
+      </div>
+      <ul class="params">
+        <li><strong>Pureza (SiO₂)</strong><span>Análisis químico por lote</span></li>
+        <li><strong>Óxido de hierro (Fe₂O₃)</strong><span>Determinante para vidrio y fundición</span></li>
+        <li><strong>Granulometría</strong><span>Distribución por malla ASTM</span></li>
+        <li><strong>Índice AFS</strong><span>Para arena de moldeo</span></li>
+        <li><strong>Humedad y pérdida por ignición</strong><span>Control de secado</span></li>
+        <li><strong>Turbidez y arcillas</strong><span>Para lechos de filtración</span></li>
+      </ul>
     </div>
   </div>
 </section>
 
 <section id="cobertura">
   <div class="wrap">
-    <div class="eyebrow">Cobertura</div>
-    <h2>Entregamos en obra o en planta.</h2>
-    <p class="lede" style="margin-top:14px">Cotizamos con el flete desglosado: ves qué pagas por producto y qué por transporte. Si prefieres cargar con tu propia unidad, también puedes recoger en el banco.</p>
+    <div class="eyebrow">Cobertura y logística</div>
+    <h2>Entregamos en obra o en planta, con el flete desglosado.</h2>
+    <p class="lede" style="margin-top:14px">Toda cotización separa el precio del producto y el del transporte, para que su empresa sepa exactamente qué paga por cada concepto. También puede recoger con unidad propia en el banco, en Lagos de Moreno.</p>
     <div class="tblwrap">
       <table>
-        <thead><tr><th>Zona</th><th>Cobertura</th><th class="right">Distancia</th></tr></thead>
+        <thead><tr><th>Zona</th><th>Cobertura</th><th class="right">Distancia desde el banco</th></tr></thead>
         <tbody>
           <tr><td><strong>Los Altos Norte</strong></td><td>Lagos de Moreno, Unión de San Antonio, San Juan de los Lagos, Encarnación de Díaz, Ojuelos</td><td class="right">0–40 km</td></tr>
           <tr><td><strong>León y Bajío norte</strong></td><td>León, San Francisco del Rincón, Purísima, Silao, Romita</td><td class="right">43–90 km</td></tr>
           <tr><td><strong>Aguascalientes</strong></td><td>Aguascalientes, Jesús María, Pabellón de Arteaga, Rincón de Romos</td><td class="right">87 km</td></tr>
           <tr><td><strong>Los Altos Sur</strong></td><td>Tepatitlán, Arandas, Atotonilco, San Miguel el Alto, Jalostotitlán</td><td class="right">110 km</td></tr>
-          <tr><td><strong>Guadalajara</strong></td><td>Guadalajara, Zapopan, Tlaquepaque, Tonalá, Tlajomulco, El Salto</td><td class="right">183 km</td></tr>
+          <tr><td><strong>Zona metropolitana de Guadalajara</strong></td><td>Guadalajara, Zapopan, Tlaquepaque, Tonalá, Tlajomulco, El Salto</td><td class="right">183 km</td></tr>
           <tr><td><strong>Bajío sur y Querétaro</strong></td><td>Irapuato, Salamanca, Celaya, Querétaro, Guanajuato</td><td class="right">213 km</td></tr>
-          <tr><td><strong>Otros destinos</strong></td><td>Zacatecas, San Luis Potosí, Colima, Manzanillo y Puerto Vallarta, cotizando por volumen</td><td class="right">250–465 km</td></tr>
+          <tr><td><strong>Otros destinos</strong></td><td>Zacatecas, San Luis Potosí, Colima, Manzanillo y Puerto Vallarta, con cotización por volumen</td><td class="right">250–465 km</td></tr>
         </tbody>
       </table>
     </div>
+    <p class="nota">Unidades: torton de 14 toneladas y tráiler de 30 toneladas para granel; camión con plataforma para saco y súper saco. Los tiempos de entrega habituales son de 48 a 72 horas dentro de las zonas de cobertura.</p>
   </div>
 </section>
 
 <section id="precios">
   <div class="wrap">
-    <div class="eyebrow">Transparencia</div>
-    <h2>Publicamos el precio. Nadie más lo hace.</h2>
-    <p class="lede" style="margin-top:14px">En este sector todo se cotiza “bajo pedido” y el comprador nunca sabe si le están viendo la cara. Nosotros publicamos la lista. Precios por tonelada, cargados en el banco, sin IVA y sin flete.</p>
+    <div class="eyebrow">Lista de precios de referencia</div>
+    <h2>Precios públicos, sin sorpresas.</h2>
+    <p class="lede" style="margin-top:14px">Publicamos nuestra lista de referencia porque creemos que el comprador industrial merece planear con información. Los precios son por tonelada, cargados en el banco, sin IVA y sin flete. La plataforma calcula el precio final para su zona en segundos.</p>
     <div class="tblwrap">
       <table>
         <thead><tr><th>Producto</th><th>Malla</th><th class="right">MXN / tonelada</th></tr></thead>
         <tbody>
           <tr><td>Cribada seca — construcción</td><td>16–40</td><td class="right">$2,650</td></tr>
-          <tr><td>Sandblast</td><td>30–60</td><td class="right">$3,200</td></tr>
           <tr><td>Fina — mortero y adhesivos</td><td>40–100</td><td class="right">$3,250</td></tr>
+          <tr><td>Sandblast</td><td>30–60</td><td class="right">$3,200</td></tr>
           <tr><td>Moldeo de fundición</td><td>AFS 45–60</td><td class="right">$3,450</td></tr>
           <tr><td>Empaque de pozo</td><td>8–16</td><td class="right">$3,800</td></tr>
           <tr><td>Filtración lavada</td><td>20–30</td><td class="right">$3,900</td></tr>
@@ -184,38 +297,80 @@
         </tbody>
       </table>
     </div>
-    <p class="nota">Precios de referencia a septiembre de 2026, sin IVA, cargados en el banco. El flete se cotiza aparte según zona y volumen. <a href="/productos/">Ver también las presentaciones en saco y súper saco →</a></p>
+    <p class="nota">Precios de referencia vigentes a septiembre de 2026, en pesos mexicanos, sin IVA, cargados en el banco en Lagos de Moreno. Las presentaciones en saco y súper saco, los volúmenes mayores y los contratos de suministro mensual se cotizan por separado. <a href="/pedidos/">Cotice con flete incluido en la plataforma →</a></p>
   </div>
 </section>
 
-<section class="cierre">
+<section id="empresa">
+  <div class="wrap">
+    <div class="eyebrow">La empresa</div>
+    <div class="empresa-grid">
+      <div>
+        <h2>Somos el banco, no un intermediario.</h2>
+        <p class="lede" style="margin-top:14px">ARENSIL nace en Lagos de Moreno con un yacimiento propio de arena sílica y una convicción: el comprador industrial del Occidente y el Bajío merece un proveedor cercano, que produzca con especificación y que trabaje con la claridad que el sector no acostumbra.</p>
+        <p class="lede" style="margin-top:14px">Los grandes productores nacionales operan desde Nuevo León, Coahuila y Veracruz y absorben cientos de kilómetros de flete para llegar a esta región. Nosotros estamos a 43 km de León, 87 de Aguascalientes y 183 de Guadalajara. Esa cercanía se traduce en precio, en tiempo de entrega y en la posibilidad de visitar el banco.</p>
+        <p class="lede" style="margin-top:14px">Nuestro compromiso es simple: producto conforme a especificación, análisis en cada lote, precio publicado y una plataforma que le ahorra tiempo.</p>
+      </div>
+      <div>
+        <ol class="proceso">
+          <li><div><b>Extracción</b><p>Banco propio en Los Altos de Jalisco, con permisos vigentes y explotación planificada por frentes.</p></div></li>
+          <li><div><b>Lavado</b><p>Retiro de arcillas, limos y materia orgánica. Es lo que separa a la arena de proceso de la arena de relleno.</p></div></li>
+          <li><div><b>Secado</b><p>Control de humedad para procesos que lo exigen: fundición, mortero seco, sandblast y ensacado.</p></div></li>
+          <li><div><b>Clasificación por malla</b><p>Cribado a la granulometría de cada aplicación, con verificación en laboratorio antes de liberar el lote.</p></div></li>
+          <li><div><b>Ensacado y despacho</b><p>Granel, saco de 25 y 50 kg y súper saco. Remisión con número de lote y entrega programada.</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contacto" id="contacto">
   <div class="wrap">
     <div class="eyebrow">Contacto</div>
-    <h2>Dinos el uso, el volumen y a dónde va.</h2>
-    <p class="lede">Con esos tres datos te mandamos precio, ficha técnica y tiempo de entrega el mismo día. O entra al portal y arma tu pedido tú mismo, con el flete ya calculado.</p>
+    <h2>Indíquenos uso, volumen y destino.</h2>
+    <p class="lede" style="margin-top:14px">Con esos tres datos le enviamos precio, ficha técnica y tiempo de entrega el mismo día. Si prefiere hacerlo por su cuenta, la plataforma cotiza y confirma pedidos a cualquier hora.</p>
     <div class="cbox">
-      <a href="/pedidos/">
-        <div class="k">Portal</div><div class="v">Pedir en línea</div><div class="s">Tarjeta, OXXO o SPEI</div></a>
-      <a href="https://wa.me/523223102049?text=Buen%20d%C3%ADa%2C%20quiero%20cotizar%20arena%20s%C3%ADlica.%20Mi%20uso%20es%3A%20___%2C%20volumen%3A%20___%20y%20entrega%20en%3A%20___">
-        <div class="k">WhatsApp</div><div class="v">322 310 2049</div><div class="s">La vía más rápida</div></a>
-      <a href="tel:+523223102049">
-        <div class="k">Teléfono</div><div class="v">322 310 2049</div><div class="s">Atiende Juan Pablo</div></a>
-      <div>
-        <div class="k">Banco</div><div class="v">Lagos de Moreno</div><div class="s">Jalisco · visitas con cita</div></div>
+      <a href="/pedidos/"><div class="k">Plataforma</div><div class="v">arensil.com/pedidos</div><div class="s">Cotice, pague y programe en línea</div></a>
+      <a href="https://wa.me/523223102049?text=Buen%20d%C3%ADa%2C%20solicito%20cotizaci%C3%B3n%20de%20arena%20s%C3%ADlica.%20Uso%3A%20___%2C%20volumen%3A%20___%2C%20entrega%20en%3A%20___"><div class="k">WhatsApp</div><div class="v">322 310 2049</div><div class="s">Respuesta en horario de atención</div></a>
+      <a href="tel:+523223102049"><div class="k">Teléfono</div><div class="v">322 310 2049</div><div class="s">Atiende Juan Pablo · Ventas</div></a>
+      <div class="box"><div class="k">Banco y oficina</div><div class="v">Lagos de Moreno</div><div class="s">Jalisco, México · Visitas con cita previa</div></div>
     </div>
   </div>
 </section>
 
 </main>
 
-<footer>
+<footer class="pie">
   <div class="wrap">
-    <div><strong>ARENSIL</strong> · Arena sílica · Lagos de Moreno, Jalisco · © 2026</div>
-    <nav>
-      <a href="/productos/">Productos</a><a href="/industrias/">Industrias</a>
-      <a href="/calidad/">Calidad</a><a href="/preguntas/">Preguntas</a><a href="/pedidos/">Portal de pedidos</a>
-    </nav>
+    <div class="pie-grid">
+      <div class="pie-marca">
+        <a class="logo" href="/"><svg viewBox="-95 -108 190 216" aria-hidden="true"><path d="M0,-100 L86.6,-50 L86.6,50 L0,0 Z" fill="#E9CFA4"/><path d="M86.6,50 L0,100 L-86.6,50 L0,0 Z" fill="#8C4A22"/><path d="M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z" fill="#C98A3C"/><path d="M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z" fill="#F4E3C8"/></svg><b>ARENSIL</b></a>
+        <p>Productor de arena sílica industrial. Banco propio en Lagos de Moreno, Jalisco. Lavada, secada y clasificada por malla.</p>
+      </div>
+      <div><h4>Productos</h4><a href="/productos/#filtracion">Filtración de agua</a><a href="/productos/#fundicion">Moldeo de fundición</a><a href="/productos/#construccion">Construcción y morteros</a><a href="/productos/#sandblast">Sandblast</a><a href="/productos/">Catálogo completo</a></div>
+      <div><h4>Empresa</h4><a href="/#empresa">Quiénes somos</a><a href="/calidad/">Calidad y laboratorio</a><a href="/#cobertura">Cobertura</a><a href="/#precios">Lista de precios</a><a href="/preguntas/">Preguntas frecuentes</a></div>
+      <div><h4>Plataforma</h4><a href="/pedidos/">Entrar a mi cuenta</a><a href="/pedidos/">Crear cuenta de empresa</a><a href="/preguntas/#pagos">Formas de pago</a><a href="/preguntas/#recurrentes">Pedidos recurrentes</a><a href="/privacidad/">Aviso de privacidad</a></div>
+      <div><h4>Contacto</h4><a href="tel:+523223102049">322 310 2049</a><a href="https://wa.me/523223102049">WhatsApp</a><span>Lagos de Moreno, Jalisco</span><span>Lunes a sábado, 8:00 a 18:00</span></div>
+    </div>
+    <div class="pie-legal">
+      <span>© 2026 ARENSIL · Todos los derechos reservados.</span>
+      <span>Precios de referencia sujetos a cambio sin previo aviso. Sitio operado desde Lagos de Moreno, Jalisco, México.</span>
+    </div>
   </div>
 </footer>
+
+<script>
+(function(){
+  var b=document.getElementById("burger"),m=document.getElementById("menu");
+  if(!b||!m)return;
+  function cerrar(){document.body.classList.remove("menu-abierto");b.setAttribute("aria-expanded","false");b.setAttribute("aria-label","Abrir menú");}
+  b.addEventListener("click",function(){
+    var abierto=document.body.classList.toggle("menu-abierto");
+    b.setAttribute("aria-expanded",abierto);b.setAttribute("aria-label",abierto?"Cerrar menú":"Abrir menú");
+  });
+  m.addEventListener("click",function(e){if(e.target.closest("a"))cerrar();});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")cerrar();});
+})();
+</script>
 </body>
 </html>
