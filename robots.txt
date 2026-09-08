@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /pedidos/
+
+Sitemap: https://arensil.com/sitemap.xml
