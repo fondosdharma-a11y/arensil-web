@@ -88,6 +88,7 @@ $("#r-go").onclick = async () => {
   const { data, error } = await sb.auth.signUp({
     email, password: pass,
     options: {
+      emailRedirectTo: location.origin + location.pathname,
       data: {
         empresa, nombre: $("#r-nombre").value.trim(), telefono: $("#r-tel").value.trim(),
         municipio: $("#r-muni").value.trim(), estado: $("#r-edo").value.trim() || "Jalisco",
