@@ -106,6 +106,14 @@ tr:last-child td{border-bottom:0}
 .vacio{color:var(--muted);font-size:14px;padding:18px 0}
 .split{display:grid;grid-template-columns:1fr 372px;gap:20px;align-items:start}
 @media(max-width:940px){.split{grid-template-columns:1fr}.carrito{position:static}}
+
+.social{display:grid;gap:8px;margin-bottom:14px}
+.social button{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 14px;cursor:pointer;font-weight:600}
+.social button:hover{background:#FBF8F3;border-color:#D9CDB9}
+.social svg{width:18px;height:18px;flex:none}
+.sep{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12px;margin:2px 0 14px}
+.sep::before,.sep::after{content:"";flex:1;border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -122,6 +130,13 @@ tr:last-child td{border-bottom:0}
       <button data-p="entrar" aria-current="true">Entrar</button>
       <button data-p="registro">Crear cuenta</button>
     </div>
+
+    <div class="social" id="social">
+      <button type="button" data-prov="google"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.6v3h3.9c2.2-2.1 3.5-5.1 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.2v3.1C3.2 21.3 7.3 24 12 24z"/><path fill="#FBBC05" d="M5.3 14.3c-.5-1.5-.5-3.1 0-4.6V6.6H1.2c-1.6 3.3-1.6 7.5 0 10.8l4.1-3.1z"/><path fill="#EA4335" d="M12 4.7c1.8 0 3.3.6 4.6 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0 7.3 0 3.2 2.7 1.2 6.6l4.1 3.1c.9-2.9 3.6-5 6.7-5z"/></svg>Continuar con Google</button>
+      <button type="button" data-prov="facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1877F2" d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.3l-.5 3.5h-2.8v8.4A12 12 0 0 0 24 12z"/></svg>Continuar con Facebook</button>
+      <button type="button" data-prov="twitter"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1C1A17" d="M18.2 2h3.4l-7.4 8.5L23 22h-6.8l-5.3-7-6.1 7H1.4l7.9-9.1L1 2h7l4.8 6.4L18.2 2zm-1.2 18h1.9L7.1 3.9H5.1L17 20z"/></svg>Continuar con X</button>
+    </div>
+    <div class="sep">o con tu correo</div>
 
     <div id="p-entrar" class="grid">
       <label class="f">Correo <input id="e-mail" type="email" autocomplete="username"></label>
@@ -144,6 +159,20 @@ tr:last-child td{border-bottom:0}
       <label class="f">Contraseña <input id="r-pass" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres"></label>
       <button class="btn" id="r-go">Crear cuenta</button>
       <p class="muted" style="font-size:12px">Al crear tu cuenta puedes cotizar y pedir en línea. El pedido entra a producción cuando se confirma el pago.</p>
+    </div>
+
+    <div id="p-empresa" class="grid hide">
+      <div class="aviso ok">Ya tienes acceso. Cuéntanos de tu empresa para poder cotizar el flete y facturarte.</div>
+      <label class="f">Empresa <input id="m-empresa" placeholder="Constructora del Bajío"></label>
+      <div class="row">
+        <label class="f" style="flex:1;min-width:150px">Tu nombre <input id="m-nombre"></label>
+        <label class="f" style="flex:1;min-width:130px">Teléfono <input id="m-tel" inputmode="tel"></label>
+      </div>
+      <div class="row">
+        <label class="f" style="flex:1;min-width:150px">Municipio <input id="m-muni" placeholder="Guadalajara"></label>
+        <label class="f" style="flex:1;min-width:130px">Estado <input id="m-edo" value="Jalisco"></label>
+      </div>
+      <button class="btn" id="m-go">Guardar y entrar al portal</button>
     </div>
 
     <div id="acc-msg"></div>
