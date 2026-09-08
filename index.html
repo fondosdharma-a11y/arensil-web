@@ -104,6 +104,23 @@
 .cbox .k{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--arena);font-weight:700}
 .cbox .v{font-size:1.14rem;font-weight:640;margin-top:5px}
 .cbox .s{font-size:.84rem;color:#E4CDB4;margin-top:3px}
+
+/* cotizador público */
+.cot{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;margin-top:34px;align-items:start}
+@media(max-width:860px){.cot{grid-template-columns:1fr}}
+.cot .form{background:var(--papel);border:1px solid var(--linea);border-radius:14px;padding:24px;display:grid;gap:14px}
+.cot label{display:flex;flex-direction:column;gap:6px;font-size:.8rem;font-weight:700;color:var(--gris)}
+.cot select,.cot input{font:inherit;color:var(--grafito);background:var(--hueso);border:1px solid var(--linea);border-radius:8px;padding:11px 12px;width:100%}
+.cot select:focus,.cot input:focus{outline:2px solid var(--ambar);outline-offset:-1px}
+.cot .dos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cot .res{background:var(--grafito);color:#EDE9E1;border-radius:14px;padding:26px}
+.cot .res .k{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--arena);margin-bottom:14px}
+.cot .fila{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.1);font-variant-numeric:tabular-nums;font-size:.95rem}
+.cot .fila span:first-child{color:#B8B1A6}
+.cot .fila.total{border-bottom:0;font-size:1.5rem;font-weight:660;letter-spacing:-.02em;padding-top:14px}
+.cot .res .cta{display:block;text-align:center;margin-top:18px;padding:13px 18px}
+.cot .res .nota{color:#8F887D;margin-top:12px}
+.cot .estado{font-size:.86rem;color:var(--gris)}
 </style>
 </head>
 <body>
@@ -129,12 +146,12 @@
       <a href="/preguntas/">Preguntas</a>
       <a href="/#contacto">Contacto</a>
       <div class="menu-ctas">
-        <a class="cta ghost" href="/pedidos/">Entrar al portal</a>
+        <a class="cta ghost" href="/#cotizar">Cotizar</a>
         <a class="cta" href="/pedidos/">Pedir en línea</a>
       </div>
     </nav>
     <div class="nav-ctas">
-      <a class="cta ghost" href="/pedidos/">Entrar al portal</a>
+      <a class="cta ghost" href="/#cotizar">Cotizar</a>
       <a class="cta" href="/pedidos/">Pedir en línea</a>
     </div>
     <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu">
@@ -199,6 +216,35 @@
     <div class="btns">
       <a class="cta" href="/pedidos/">Abrir mi cuenta</a>
       <a class="cta ghost" href="/preguntas/">Preguntas frecuentes</a>
+    </div>
+  </div>
+</section>
+
+
+<section id="cotizar">
+  <div class="wrap">
+    <div class="eyebrow">Cotizador</div>
+    <h2>Precio entregado en su zona, en diez segundos.</h2>
+    <p class="lede" style="margin-top:14px">Elija producto, cantidad y zona de entrega. El cálculo usa nuestra lista pública y el flete vigente por zona; no necesita registrarse para verlo.</p>
+    <div class="cot">
+      <div class="form">
+        <label>Producto <select id="ct-prod"><option>Cargando catálogo…</option></select></label>
+        <div class="dos">
+          <label>Cantidad <input id="ct-cant" type="number" min="1" step="1" value="20"></label>
+          <label>Unidad <input id="ct-uni" value="toneladas" readonly></label>
+        </div>
+        <label>Entrega <select id="ct-zona"><option value="0">Recojo en el banco (Lagos de Moreno)</option></select></label>
+        <p class="estado" id="ct-estado">Precios de referencia, cargados en el banco, sin IVA. El flete mostrado es por zona; el precio final se confirma en la plataforma con la dirección exacta.</p>
+      </div>
+      <div class="res">
+        <div class="k">Su cotización</div>
+        <div class="fila"><span>Producto</span><span id="ct-sub">$0.00</span></div>
+        <div class="fila"><span>Flete</span><span id="ct-fle">$0.00</span></div>
+        <div class="fila"><span>IVA 16 %</span><span id="ct-iva">$0.00</span></div>
+        <div class="fila total"><span>Total</span><span id="ct-tot">$0.00</span></div>
+        <a class="cta" id="ct-go" href="/pedidos/">Confirmar este pedido en la plataforma</a>
+        <p class="nota">Al continuar, la cantidad y el producto ya van cargados en su carrito. Pague con tarjeta, OXXO o SPEI.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -370,6 +416,40 @@
   });
   m.addEventListener("click",function(e){if(e.target.closest("a"))cerrar();});
   document.addEventListener("keydown",function(e){if(e.key==="Escape")cerrar();});
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+  if (!window.supabase) return;
+  var sb = supabase.createClient("https://pfsbltkdlnrkodvetfnu.supabase.co", "sb_publishable_D-anC38mBEtdn9mEoxLtiA_3wjan8v2");
+  var $ = function(s){ return document.querySelector(s); };
+  var mx = function(n){ return "$" + (Number(n)||0).toLocaleString("es-MX",{minimumFractionDigits:2,maximumFractionDigits:2}); };
+  var P = [], Z = [];
+  var UNI = {granel_ton:"toneladas", saco_25kg:"sacos de 25 kg", saco_50kg:"sacos de 50 kg", supersaco_1t:"súper sacos"};
+  function calc(){
+    var p = P.find(function(x){ return x.id === Number($("#ct-prod").value); }); if (!p) return;
+    var cant = Math.max(0, Number($("#ct-cant").value) || 0);
+    var z = Z.find(function(x){ return x.id === Number($("#ct-zona").value); });
+    var sub = cant * Number(p.precio_lista);
+    var fle = z ? cant * Number(z.precio_cliente_ton) * (Number(p.kg_por_unidad)/1000) : 0;
+    var iva = (sub + fle) * 0.16;
+    $("#ct-sub").textContent = mx(sub); $("#ct-fle").textContent = mx(fle);
+    $("#ct-iva").textContent = mx(iva); $("#ct-tot").textContent = mx(sub + fle + iva);
+    $("#ct-uni").value = UNI[p.presentacion] || p.unidad;
+    $("#ct-go").href = "/pedidos/?producto=" + p.id + "&cantidad=" + cant + (z ? "&zona=" + z.id : "");
+  }
+  Promise.all([
+    sb.from("catalogo").select("id,nombre,malla,presentacion,unidad,precio_lista,kg_por_unidad").order("id"),
+    sb.from("zonas_publicas").select("id,nombre,cobertura,precio_cliente_ton,activa").order("km_desde_lagos")
+  ]).then(function(r){
+    P = r[0].data || []; Z = (r[1].data || []).filter(function(z){ return z.activa !== false; });
+    if (!P.length) { $("#ct-estado").textContent = "No pudimos cargar el catálogo. Escríbanos por WhatsApp y le cotizamos de inmediato."; return; }
+    $("#ct-prod").innerHTML = P.map(function(p){ return '<option value="' + p.id + '">' + p.nombre + (p.malla ? " · " + p.malla : "") + " — " + mx(p.precio_lista) + "/" + p.unidad + "</option>"; }).join("");
+    $("#ct-zona").innerHTML += Z.map(function(z){ return '<option value="' + z.id + '">' + z.nombre + " · " + mx(z.precio_cliente_ton) + "/t</option>"; }).join("");
+    ["#ct-prod","#ct-cant","#ct-zona"].forEach(function(s){ $(s).addEventListener("input", calc); $(s).addEventListener("change", calc); });
+    calc();
+  }).catch(function(){ $("#ct-estado").textContent = "No pudimos cargar el catálogo. Escríbanos por WhatsApp y le cotizamos de inmediato."; });
 })();
 </script>
 </body>

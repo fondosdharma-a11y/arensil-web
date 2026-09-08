@@ -28,8 +28,24 @@ function aviso(sel, texto, tipo = "err") {
   el.innerHTML = `<div class="aviso ${tipo}">${esc(texto)}</div>`;
 }
 
+// ---------------------------------------------------------------- modal
+function abrirModal(html) {
+  $("#modal-body").innerHTML = html;
+  $("#modal").classList.remove("hide");
+  const f = $("#modal-body input, #modal-body select"); if (f) f.focus();
+}
+function cerrarModal() { $("#modal").classList.add("hide"); $("#modal-body").innerHTML = ""; }
+$("#modal").addEventListener("click", e => { if (e.target.id === "modal") cerrarModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") cerrarModal(); });
+const opt = (arr, val, txt, sel) => arr.map(x => `<option value="${x[val]}"${sel === x[val] ? " selected" : ""}>${esc(x[txt])}</option>`).join("");
+
 // ---------------------------------------------------------------- acceso
 const params = new URLSearchParams(location.search);
+// Pedido que viene del cotizador público de la portada (?producto=&cantidad=&zona=)
+const PRE_KEY = "arensil_pre";
+try {
+  if (params.get("producto")) localStorage.setItem(PRE_KEY, JSON.stringify({ producto_id: Number(params.get("producto")), cantidad: Number(params.get("cantidad")) || 0, zona: Number(params.get("zona")) || null }));
+} catch {}
 const REF_KEY = "arensil_ref";
 let REF = (params.get("ref") || "").trim().toUpperCase();
 try {
@@ -181,6 +197,17 @@ async function cargar(user) {
   pintarProductos();
   pintarDirecciones();
   llenarSelectDireccion();
+  try {
+    const pre = JSON.parse(localStorage.getItem(PRE_KEY) || "null");
+    if (pre && pre.producto_id && pre.cantidad > 0 && D.productos.some(p => p.id === pre.producto_id)) {
+      CARRITO.push({ producto_id: pre.producto_id, cantidad: pre.cantidad });
+      recalcular();
+      aviso("#car-msg", "Traemos tu cotización de la portada. Elige la dirección de entrega y confirma.", "ok");
+    }
+    localStorage.removeItem(PRE_KEY);
+    if (params.get("producto")) history.replaceState({}, "", location.pathname);
+  } catch {}
+  pintarEmpresa();
   $("#q-nombre").value = D.perfil.nombre || "";
   $("#q-tel").value = D.perfil.telefono || "";
   $("#c-fecha").min = hoyMas(1);
@@ -264,35 +291,71 @@ function pintarDirecciones() {
   }).join("");
 }
 
-$("#dir-nueva").onclick = async () => {
-  if (!D.perfil.cuenta_id) return alert("Tu usuario todavía no tiene cuenta asociada.");
-  const alias = prompt("Nombre de la dirección (obra, planta, bodega):", "Obra principal");
-  if (!alias) return;
-  const municipio = prompt("Municipio:", D.cuenta?.municipio || "");
-  if (!municipio) return;
-  const calle = prompt("Calle y número (opcional):") || null;
-  const colonia = prompt("Colonia (opcional):") || null;
-  const cp = prompt("Código postal (opcional):") || null;
-
-  const lista = D.zonas.filter(z => z.activa).map((z, i) => `${i + 1}. ${z.nombre} (${z.cobertura.slice(0, 60)})`).join("\n");
-  const eleccion = prompt("¿En qué zona queda? Escribe el número:\n\n" + lista);
-  const zi = parseInt(eleccion, 10);
+$("#dir-nueva").onclick = () => {
+  if (!D.perfil.cuenta_id) return aviso("#q-msg", "Tu usuario todavía no tiene cuenta asociada.");
   const zonas = D.zonas.filter(z => z.activa);
-  const zona = zi >= 1 && zi <= zonas.length ? zonas[zi - 1] : null;
-  if (!zona) return alert("No reconocí la zona. Intenta de nuevo.");
+  abrirModal(`
+    <h2>Nueva dirección de entrega</h2>
+    <p class="sub">Con la zona calculamos el flete por tonelada. Si no sabes cuál es, elige el municipio más cercano.</p>
+    <div class="grid">
+      <label class="f">Nombre de la dirección <input id="d-alias" placeholder="Obra principal, planta, bodega"></label>
+      <label class="f">Calle y número <input id="d-calle"></label>
+      <div class="row">
+        <label class="f" style="flex:1;min-width:150px">Colonia <input id="d-col"></label>
+        <label class="f" style="flex:1;min-width:110px">C.P. <input id="d-cp" inputmode="numeric"></label>
+      </div>
+      <div class="row">
+        <label class="f" style="flex:1;min-width:150px">Municipio <input id="d-muni" value="${esc(D.cuenta?.municipio || "")}"></label>
+        <label class="f" style="flex:1;min-width:110px">Estado <input id="d-edo" value="${esc(D.cuenta?.estado || "Jalisco")}"></label>
+      </div>
+      <label class="f">Zona de flete <select id="d-zona">${zonas.map(z => `<option value="${z.id}">${esc(z.nombre)} · ${mx(z.precio_cliente_ton)}/t — ${esc((z.cobertura || "").slice(0, 70))}</option>`).join("")}</select></label>
+      <label class="f">Referencias para el chofer <input id="d-ref" placeholder="Portón verde, preguntar por…"></label>
+      <div class="row">
+        <label class="f" style="flex:1;min-width:150px">Contacto en sitio <input id="d-cont" value="${esc(D.perfil.nombre || "")}"></label>
+        <label class="f" style="flex:1;min-width:130px">Teléfono <input id="d-tel" value="${esc(D.perfil.telefono || "")}"></label>
+      </div>
+    </div>
+    <div id="d-msg"></div>
+    <div class="acciones"><button class="btn ghost" onclick="cerrarModal()">Cancelar</button><button class="btn" id="d-ok">Guardar dirección</button></div>`);
 
-  const { error } = await sb.from("direcciones").insert({
-    cuenta_id: D.perfil.cuenta_id, alias, calle, colonia, municipio,
-    estado: D.cuenta?.estado || "Jalisco", cp, zona_flete_id: zona.id,
-    contacto: D.perfil.nombre, telefono: D.perfil.telefono,
-    principal: D.direcciones.length === 0
+  $("#d-ok").onclick = async () => {
+    const alias = $("#d-alias").value.trim(), municipio = $("#d-muni").value.trim();
+    if (!alias) return aviso("#d-msg", "Ponle un nombre a la dirección.");
+    if (!municipio) return aviso("#d-msg", "Escribe el municipio.");
+    $("#d-ok").disabled = true;
+    const { error } = await sb.from("direcciones").insert({
+      cuenta_id: D.perfil.cuenta_id, alias, calle: $("#d-calle").value.trim() || null, colonia: $("#d-col").value.trim() || null,
+      cp: $("#d-cp").value.trim() || null, municipio, estado: $("#d-edo").value.trim() || "Jalisco",
+      zona_flete_id: Number($("#d-zona").value), referencias: $("#d-ref").value.trim() || null,
+      contacto: $("#d-cont").value.trim() || null, telefono: $("#d-tel").value.trim() || null,
+      principal: D.direcciones.length === 0
+    });
+    if (error) { $("#d-ok").disabled = false; return aviso("#d-msg", error.message); }
+    const { data } = await sb.from("direcciones").select("*").eq("cuenta_id", D.perfil.cuenta_id).order("principal", { ascending: false });
+    D.direcciones = data || [];
+    pintarDirecciones(); llenarSelectDireccion(); cerrarModal();
+    if (CARRITO.length) irA("tienda");
+  };
+};
+
+// Empresa y facturación
+function pintarEmpresa() {
+  if (!D.cuenta) return;
+  $("#f-empresa").value = D.cuenta.nombre || ""; $("#f-muni").value = D.cuenta.municipio || "";
+  $("#f-edo").value = D.cuenta.estado || ""; $("#f-razon").value = D.cuenta.razon_social || ""; $("#f-rfc").value = D.cuenta.rfc || "";
+}
+$("#f-save").onclick = async () => {
+  const rfc = $("#f-rfc").value.trim().toUpperCase();
+  if (rfc && !/^[A-ZÑ&]{3,4}\d{6}[A-Z0-9]{3}$/.test(rfc)) return aviso("#f-msg", "El RFC no tiene el formato correcto (12 o 13 caracteres).");
+  const { data: ok, error } = await sb.rpc("actualizar_mi_empresa", {
+    p_nombre: $("#f-empresa").value.trim(), p_municipio: $("#f-muni").value.trim(), p_estado: $("#f-edo").value.trim(),
+    p_telefono: D.perfil.telefono || "", p_razon_social: $("#f-razon").value.trim() || null, p_rfc: rfc || null
   });
-  if (error) return alert(error.message);
-
-  const { data } = await sb.from("direcciones").select("*")
-    .eq("cuenta_id", D.perfil.cuenta_id).order("principal", { ascending: false });
-  D.direcciones = data || [];
-  pintarDirecciones(); llenarSelectDireccion();
+  if (error || !ok) return aviso("#f-msg", "No se pudo guardar: " + (error?.message || "intenta de nuevo"));
+  const { data } = await sb.from("mi_cuenta_v").select("*").single();
+  D.cuenta = data || D.cuenta; pintarEmpresa();
+  $("#who").querySelector("strong").textContent = D.cuenta.nombre;
+  aviso("#f-msg", "Guardado.", "ok");
 };
 
 $("#q-save").onclick = async () => {

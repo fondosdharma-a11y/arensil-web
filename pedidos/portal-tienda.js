@@ -137,35 +137,43 @@ $("#c-pagar").onclick = async () => {
 };
 
 // ---------------------------------------------------------------- recurrencia
-$("#c-prog").onclick = async () => {
+$("#c-prog").onclick = () => {
   if (!CARRITO.length) return;
-  const nombre = prompt("Ponle nombre a este pedido recurrente:", "Surtido mensual de obra");
-  if (!nombre) return;
-  const opciones = Object.entries(FREC);
-  const lista = opciones.map(([k, v], i) => `${i + 1}. ${v}`).join("\n");
-  const el = parseInt(prompt("¿Cada cuánto lo quieres?\n\n" + lista), 10);
-  if (!(el >= 1 && el <= opciones.length)) return;
-  const frecuencia = opciones[el - 1][0];
-  const proxima = prompt("¿Cuándo lo quieres la primera vez? (AAAA-MM-DD)", hoyMas(7));
-  if (!proxima || !/^\d{4}-\d{2}-\d{2}$/.test(proxima)) return alert("Fecha no válida.");
+  const resumen = CARRITO.map(l => { const p = D.productos.find(p => p.id === l.producto_id); return p ? `${num(l.cantidad)} ${p.unidad} de ${esc(p.nombre)}` : ""; }).join("<br>");
+  abrirModal(`
+    <h2>Pedido recurrente</h2>
+    <p class="sub">Guardamos este pedido y te lo preparamos con la frecuencia que elijas. Cada entrega se confirma con su pago.</p>
+    <div class="card pad" style="font-size:13px;margin-bottom:12px;box-shadow:none">${resumen}</div>
+    <div class="grid">
+      <label class="f">Nombre del pedido <input id="g-nombre" value="Surtido mensual de obra"></label>
+      <div class="row">
+        <label class="f" style="flex:1;min-width:160px">Frecuencia <select id="g-frec">${Object.entries(FREC).map(([k, v]) => `<option value="${k}"${k === "mensual" ? " selected" : ""}>${v}</option>`).join("")}</select></label>
+        <label class="f" style="flex:1;min-width:160px">Primera entrega <input id="g-fecha" type="date" min="${hoyMas(1)}" value="${hoyMas(7)}"></label>
+      </div>
+    </div>
+    <div id="g-msg"></div>
+    <div class="acciones"><button class="btn ghost" onclick="cerrarModal()">Cancelar</button><button class="btn" id="g-ok">Programar</button></div>`);
 
-  const entregado = $("#c-inco").value === "entregado";
-  const dirId = entregado ? ($("#c-dir").value || null) : null;
-
-  const { data: prog, error } = await sb.from("programaciones").insert({
-    cuenta_id: D.perfil.cuenta_id, usuario_id: D.perfil.id, nombre, frecuencia,
-    proxima_fecha: proxima, direccion_id: dirId,
-    incoterm: $("#c-inco").value,
-    zona_flete_id: entregado ? (zonaDe(dirId)?.id ?? null) : null
-  }).select().single();
-  if (error) return aviso("#car-msg", error.message);
-
-  const { error: e2 } = await sb.from("programacion_partidas").insert(
-    CARRITO.map((l, i) => ({ programacion_id: prog.id, producto_id: l.producto_id, cantidad: l.cantidad, orden: i + 1 }))
-  );
-  if (e2) return aviso("#car-msg", e2.message);
-
-  await cargarProgramaciones();
-  aviso("#car-msg", "Listo. Tu pedido recurrente quedó programado.", "ok");
-  irA("programados");
+  $("#g-ok").onclick = async () => {
+    const nombre = $("#g-nombre").value.trim(), proxima = $("#g-fecha").value;
+    if (!nombre) return aviso("#g-msg", "Ponle nombre al pedido.");
+    if (!proxima) return aviso("#g-msg", "Elige la fecha de la primera entrega.");
+    $("#g-ok").disabled = true;
+    const entregado = $("#c-inco").value === "entregado";
+    const dirId = entregado ? ($("#c-dir").value || null) : null;
+    const { data: prog, error } = await sb.from("programaciones").insert({
+      cuenta_id: D.perfil.cuenta_id, usuario_id: D.perfil.id, nombre, frecuencia: $("#g-frec").value,
+      proxima_fecha: proxima, direccion_id: dirId, incoterm: $("#c-inco").value,
+      zona_flete_id: entregado ? (zonaDe(dirId)?.id ?? null) : null
+    }).select().single();
+    if (error) { $("#g-ok").disabled = false; return aviso("#g-msg", error.message); }
+    const { error: e2 } = await sb.from("programacion_partidas").insert(
+      CARRITO.map((l, i) => ({ programacion_id: prog.id, producto_id: l.producto_id, cantidad: l.cantidad, orden: i + 1 }))
+    );
+    if (e2) { $("#g-ok").disabled = false; return aviso("#g-msg", e2.message); }
+    cerrarModal();
+    await cargarProgramaciones();
+    aviso("#car-msg", "Listo. Tu pedido recurrente quedó programado.", "ok");
+    irA("programados");
+  };
 };

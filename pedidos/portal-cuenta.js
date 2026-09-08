@@ -3,7 +3,7 @@
 async function cargarPedidos() {
   if (!D.perfil?.cuenta_id) return;
   const { data } = await sb.from("pedidos")
-    .select("*, direcciones(alias,municipio), pedido_partidas(descripcion,cantidad,unidad)")
+    .select("*, direcciones(alias,municipio), pedido_partidas(descripcion,cantidad,unidad,lote_id)")
     .eq("cuenta_id", D.perfil.cuenta_id)
     .order("fecha", { ascending: false }).limit(100);
   D.pedidos = data || [];
@@ -21,13 +21,13 @@ function pintarPedidos() {
     const dir = p.incoterm === "lab_mina"
       ? "Recojo en el banco"
       : (p.direcciones ? `${esc(p.direcciones.alias)} · ${esc(p.direcciones.municipio)}` : "—");
-    const items = (p.pedido_partidas || []).map(x => `${num(x.cantidad)} ${x.unidad} de ${esc(x.descripcion)}`).join("<br>");
+    const items = (p.pedido_partidas || []).map(x => `<div>${num(x.cantidad)} ${x.unidad} de ${esc(x.descripcion)}${x.lote_id ? ` <button class="lnk" data-cert="${x.lote_id}">Certificado de lote</button>` : ""}</div>`).join("");
     const accion = (p.estatus === "borrador" || p.estatus === "pendiente_pago")
       ? `<button class="btn sm" data-pagar="${p.id}">Pagar</button>`
       : "";
     return `<tr>
       <td class="mono"><strong>${esc(p.folio)}</strong>
-        <div class="muted" style="font-size:11.5px">${items}</div></td>
+        <div class="partidas">${items}</div></td>
       <td class="mono">${new Date(p.fecha).toLocaleDateString("es-MX")}</td>
       <td>${dir}<div class="muted" style="font-size:11.5px">${p.entrega_deseada ? "para el " + p.entrega_deseada : ""}</div></td>
       <td class="right mono"><strong>${mx(p.total)}</strong>
@@ -38,6 +38,39 @@ function pintarPedidos() {
   }).join("");
 
   $$("#ped-body [data-pagar]").forEach(b => b.onclick = () => pagarPedido(b.dataset.pagar, b));
+  $$("#ped-body [data-cert]").forEach(b => b.onclick = () => verCertificado(b.dataset.cert));
+}
+
+// Certificado de análisis del lote con el que se surtió la partida.
+async function verCertificado(loteId) {
+  const { data: c, error } = await sb.from("certificados_v").select("*").eq("id", loteId).single();
+  if (error || !c) return alert("No encontramos el certificado de ese lote.");
+  const pct = v => v == null ? "—" : Number(v).toFixed(v < 1 ? 3 : 2) + " %";
+  const fila = (k, v) => `<tr><td>${k}</td><td class="mono"><strong>${v}</strong></td></tr>`;
+  abrirModal(`<div class="cert">
+    <div class="enc">
+      <div><div class="logo" style="margin-bottom:4px"><svg viewBox="-95 -108 190 216" aria-hidden="true"><path d="M0,-100 L86.6,-50 L86.6,50 L0,0 Z" fill="#E9CFA4"/><path d="M86.6,50 L0,100 L-86.6,50 L0,0 Z" fill="#8C4A22"/><path d="M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z" fill="#C98A3C"/><path d="M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z" fill="#F4E3C8"/></svg><b>ARENSIL</b></div>
+        <div class="muted" style="font-size:12px">Arena sílica · Lagos de Moreno, Jalisco · 322 310 2049</div></div>
+      <div style="text-align:right"><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700">Certificado de análisis</div>
+        <div style="font-size:1.2rem;font-weight:660" class="mono">Lote ${esc(c.codigo)}</div></div>
+    </div>
+    <table>
+      ${fila("Producto", esc(c.producto) + (c.malla ? " · " + esc(c.malla) : ""))}
+      ${fila("Fecha de producción", c.fecha_produccion || "—")}
+      ${fila("Toneladas del lote", c.toneladas != null ? num(c.toneladas) + " t" : "—")}
+      ${fila("SiO₂", pct(c.sio2_pct))}
+      ${fila("Fe₂O₃", pct(c.fe2o3_pct))}
+      ${fila("Al₂O₃", pct(c.al2o3_pct))}
+      ${fila("Humedad", pct(c.humedad_pct))}
+      ${fila("Granulometría", esc(c.granulometria || "—"))}
+      ${fila("Índice AFS", c.afs != null ? num(c.afs) : "—")}
+      ${fila("Laboratorio", esc(c.laboratorio || "—"))}
+      ${fila("Fecha de análisis", c.fecha_analisis || "—")}
+    </table>
+    ${c.certificado_url ? `<p style="margin-top:12px;font-size:13px"><a href="${esc(c.certificado_url)}" target="_blank" rel="noopener">Ver reporte original del laboratorio →</a></p>` : ""}
+    <p class="muted" style="font-size:11.5px;margin-top:14px">Los valores corresponden a la muestra representativa del lote indicado. Emitido desde la plataforma de ARENSIL el ${new Date().toLocaleDateString("es-MX")}.</p>
+    <div class="acciones"><button class="btn ghost" onclick="cerrarModal()">Cerrar</button><button class="btn" onclick="window.print()">Imprimir / guardar PDF</button></div>
+  </div>`);
 }
 
 async function pagarPedido(id, btn) {
