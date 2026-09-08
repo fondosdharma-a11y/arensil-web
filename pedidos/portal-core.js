@@ -1,4 +1,6 @@
 // ARENSIL · Portal de pedidos — núcleo: sesión, perfil, navegación y datos base.
+// El portal NUNCA lee las tablas productos ni zonas_flete: esas guardan costos
+// y precios piso internos. Lee las vistas catalogo, zonas_publicas y mi_cuenta_v.
 const SB_URL = "https://pfsbltkdlnrkodvetfnu.supabase.co";
 const SB_KEY = "sb_publishable_D-anC38mBEtdn9mEoxLtiA_3wjan8v2";
 const FN = SB_URL + "/functions/v1";
@@ -119,9 +121,9 @@ async function cargar(user) {
   $("#acceso").classList.add("hide");
 
   const [prod, zon, cta, dirs] = await Promise.all([
-    sb.from("productos").select("*").eq("activo", true).eq("publico", true).order("id"),
-    sb.from("zonas_flete").select("*").order("km_desde_lagos"),
-    D.perfil.cuenta_id ? sb.from("cuentas").select("*").eq("id", D.perfil.cuenta_id).single() : Promise.resolve({ data: null }),
+    sb.from("catalogo").select("*").order("id"),
+    sb.from("zonas_publicas").select("*").order("km_desde_lagos"),
+    D.perfil.cuenta_id ? sb.from("mi_cuenta_v").select("*").single() : Promise.resolve({ data: null }),
     D.perfil.cuenta_id ? sb.from("direcciones").select("*").eq("cuenta_id", D.perfil.cuenta_id).order("principal", { ascending: false }) : Promise.resolve({ data: [] })
   ]);
   D.productos = prod.data || []; D.zonas = zon.data || [];
@@ -144,7 +146,6 @@ async function cargar(user) {
 
   await Promise.all([cargarPedidos(), cargarProgramaciones()]);
 
-  // Regreso desde Stripe
   const pago = params.get("pago");
   if (pago === "ok") {
     irA("pedidos");
