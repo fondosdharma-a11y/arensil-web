@@ -38,6 +38,16 @@ try {
 } catch { /* almacenamiento bloqueado: seguimos sin referido */ }
 
 // Acceso con Google, Facebook o X. Supabase regresa a esta misma página con la sesión lista.
+// Solo mostramos los botones de los proveedores que ya están activados en Supabase.
+(async () => {
+  try {
+    const r = await fetch(SB_URL + "/auth/v1/settings", { headers: { apikey: SB_KEY } });
+    const ext = (await r.json()).external || {};
+    let activos = 0;
+    $$("#social [data-prov]").forEach(b => { const on = !!ext[b.dataset.prov]; b.classList.toggle("hide", !on); if (on) activos++; });
+    if (!activos) { $("#social").classList.add("hide"); $$(".sep").forEach(x => x.classList.add("hide")); }
+  } catch { /* si no se puede consultar, dejamos los botones */ }
+})();
 $$("#social [data-prov]").forEach(b => b.onclick = async () => {
   aviso("#acc-msg", "");
   b.disabled = true;
