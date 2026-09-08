@@ -443,7 +443,7 @@
     sb.from("catalogo").select("id,nombre,malla,presentacion,unidad,precio_lista,kg_por_unidad").order("id"),
     sb.from("zonas_publicas").select("id,nombre,cobertura,precio_cliente_ton,activa").order("km_desde_lagos")
   ]).then(function(r){
-    P = r[0].data || []; Z = (r[1].data || []).filter(function(z){ return z.activa !== false; });
+    P = (r[0].data || []).slice().sort(function(a,b){ var ga = /gre[ñn]a/i.test(a.nombre) ? 1 : 0, gb = /gre[ñn]a/i.test(b.nombre) ? 1 : 0; return ga - gb || a.id - b.id; }); Z = (r[1].data || []).filter(function(z){ return z.activa !== false; });
     if (!P.length) { $("#ct-estado").textContent = "No pudimos cargar el catálogo. Escríbanos por WhatsApp y le cotizamos de inmediato."; return; }
     $("#ct-prod").innerHTML = P.map(function(p){ return '<option value="' + p.id + '">' + p.nombre + (p.malla ? " · " + p.malla : "") + " — " + mx(p.precio_lista) + "/" + p.unidad + "</option>"; }).join("");
     $("#ct-zona").innerHTML += Z.map(function(z){ return '<option value="' + z.id + '">' + z.nombre + " · " + mx(z.precio_cliente_ton) + "/t</option>"; }).join("");
