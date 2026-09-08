@@ -1,6 +1,4 @@
 // ARENSIL · Portal de pedidos — núcleo: sesión, perfil, navegación y datos base.
-// El portal NUNCA lee las tablas productos ni zonas_flete: esas guardan costos
-// y precios piso internos. Lee las vistas catalogo, zonas_publicas y mi_cuenta_v.
 const SB_URL = "https://pfsbltkdlnrkodvetfnu.supabase.co";
 const SB_KEY = "sb_publishable_D-anC38mBEtdn9mEoxLtiA_3wjan8v2";
 const FN = SB_URL + "/functions/v1";
@@ -32,7 +30,24 @@ function aviso(sel, texto, tipo = "err") {
 
 // ---------------------------------------------------------------- acceso
 const params = new URLSearchParams(location.search);
-const REF = (params.get("ref") || "").trim().toUpperCase();
+const REF_KEY = "arensil_ref";
+let REF = (params.get("ref") || "").trim().toUpperCase();
+try {
+  if (REF) localStorage.setItem(REF_KEY, REF);
+  else REF = localStorage.getItem(REF_KEY) || "";
+} catch { /* almacenamiento bloqueado: seguimos sin referido */ }
+
+// Acceso con Google, Facebook o X. Supabase regresa a esta misma página con la sesión lista.
+$$("#social [data-prov]").forEach(b => b.onclick = async () => {
+  aviso("#acc-msg", "");
+  b.disabled = true;
+  const redirectTo = location.origin + location.pathname;
+  const { error } = await sb.auth.signInWithOAuth({ provider: b.dataset.prov, options: { redirectTo } });
+  if (error) {
+    b.disabled = false;
+    aviso("#acc-msg", "No pudimos conectar con ese servicio: " + error.message);
+  }
+});
 
 $("#pest").onclick = e => {
   const b = e.target.closest("button[data-p]"); if (!b) return;
@@ -71,6 +86,7 @@ $("#r-go").onclick = async () => {
     }
   });
   if (error) return aviso("#acc-msg", "No pudimos crear la cuenta: " + error.message);
+  try { localStorage.removeItem(REF_KEY); } catch {}
   if (!data.session) return aviso("#acc-msg", "Cuenta creada. Revisa tu correo para confirmarla y luego entra.", "ok");
   location.reload();
 };
@@ -91,6 +107,7 @@ function irA(v) {
 // ---------------------------------------------------------------- arranque
 async function arrancar() {
   const { data: { session } } = await sb.auth.getSession();
+  if (location.hash && /access_token|error/.test(location.hash)) history.replaceState({}, "", location.pathname + location.search);
   if (!session) {
     $("#acceso").classList.remove("hide");
     if (REF) {
@@ -110,12 +127,22 @@ async function cargar(user) {
   const { data: perfil } = await sb.from("perfiles").select("*").eq("id", user.id).single();
   D.perfil = perfil || { id: user.id, rol: "cliente", email: user.email };
 
-  if (D.perfil.rol === "interno") {
+  if (D.perfil.rol === "admin") {
     $("#acceso").classList.remove("hide");
-    aviso("#acc-msg", "Esta cuenta es del equipo interno. Entra al CRM en crm.arensil.com.", "ok");
+    $("#social").classList.add("hide"); $("#pest").classList.add("hide");
+    $("#p-entrar").classList.add("hide"); $("#p-registro").classList.add("hide");
+    $$(".sep").forEach(x => x.classList.add("hide"));
+    aviso("#acc-msg", "Esta cuenta es de administración. Entra al CRM en crm.arensil.com — te llevamos en un momento.", "ok");
     await sb.auth.signOut();
+    setTimeout(() => location.href = "https://crm.arensil.com/", 2500);
     return;
   }
+
+  // Referido pendiente (viene de un registro con Google/Facebook/X)
+  if (REF && !D.perfil.vendedor_id) {
+    await sb.rpc("vincular_referido", { p_codigo: REF });
+  }
+  try { localStorage.removeItem(REF_KEY); } catch {}
 
   $("#app").classList.remove("hide");
   $("#acceso").classList.add("hide");
@@ -129,9 +156,13 @@ async function cargar(user) {
   D.productos = prod.data || []; D.zonas = zon.data || [];
   D.cuenta = cta.data || null; D.direcciones = dirs.data || [];
 
-  $("#who").innerHTML = `<strong>${esc(D.cuenta?.nombre || D.perfil.email)}</strong><br>${esc(D.perfil.email || "")}`;
+  // Quien entra con Google/Facebook/X llega sin empresa ni municipio: lo pedimos una sola vez.
+  if (D.cuenta && !D.cuenta.municipio) { mostrarCompletarEmpresa(); return; }
 
-  if (D.perfil.rol === "vendedor") {
+  const avatar = D.perfil.avatar_url ? `<img src="${esc(D.perfil.avatar_url)}" alt="" referrerpolicy="no-referrer" style="width:28px;height:28px;border-radius:50%;vertical-align:middle;margin-right:6px">` : "";
+  $("#who").innerHTML = `${avatar}<strong>${esc(D.cuenta?.nombre || D.perfil.email)}</strong><br>${esc(D.perfil.email || "")}`;
+
+  if (D.perfil.es_vendedor && D.perfil.vendedor_id) {
     $('#tabs button[data-v="vendedor"]').classList.remove("hide");
     await cargarVendedor();
   }
@@ -146,6 +177,7 @@ async function cargar(user) {
 
   await Promise.all([cargarPedidos(), cargarProgramaciones()]);
 
+  // Regreso desde Stripe
   const pago = params.get("pago");
   if (pago === "ok") {
     irA("pedidos");
@@ -157,6 +189,34 @@ async function cargar(user) {
     history.replaceState({}, "", location.pathname);
   }
 }
+
+// ---------------------------------------------------------------- completar empresa
+function mostrarCompletarEmpresa() {
+  $("#app").classList.add("hide");
+  $("#acceso").classList.remove("hide");
+  ["#social", "#pest", "#p-entrar", "#p-registro"].forEach(s => $(s).classList.add("hide"));
+  $$(".sep").forEach(x => x.classList.add("hide"));
+  $("#p-empresa").classList.remove("hide");
+  $("#m-nombre").value = D.perfil.nombre || "";
+  $("#m-tel").value = D.perfil.telefono || "";
+  const n = D.cuenta?.nombre || "";
+  $("#m-empresa").value = (n && n !== D.perfil.nombre && !n.includes("@") && n !== (D.perfil.email || "").split("@")[0]) ? n : "";
+}
+
+$("#m-go").onclick = async () => {
+  aviso("#acc-msg", "");
+  const empresa = $("#m-empresa").value.trim(), muni = $("#m-muni").value.trim();
+  const nombre = $("#m-nombre").value.trim(), tel = $("#m-tel").value.trim();
+  if (!empresa) return aviso("#acc-msg", "Escribe el nombre de tu empresa.");
+  if (!muni) return aviso("#acc-msg", "Escribe tu municipio para poder calcular el flete.");
+  const btn = $("#m-go"); btn.disabled = true;
+  const [{ data: ok, error }, r2] = await Promise.all([
+    sb.rpc("actualizar_mi_empresa", { p_nombre: empresa, p_municipio: muni, p_estado: $("#m-edo").value.trim() || "Jalisco", p_telefono: tel }),
+    sb.from("perfiles").update({ nombre, telefono: tel }).eq("id", D.perfil.id)
+  ]);
+  if (error || !ok) { btn.disabled = false; return aviso("#acc-msg", "No pudimos guardar: " + (error?.message || "intenta de nuevo")); }
+  location.reload();
+};
 
 // ---------------------------------------------------------------- direcciones
 function zonaDe(dirId) {
@@ -203,10 +263,10 @@ $("#dir-nueva").onclick = async () => {
   const colonia = prompt("Colonia (opcional):") || null;
   const cp = prompt("Código postal (opcional):") || null;
 
-  const zonas = D.zonas.filter(z => z.activa);
-  const lista = zonas.map((z, i) => `${i + 1}. ${z.nombre} (${z.cobertura.slice(0, 60)})`).join("\n");
+  const lista = D.zonas.filter(z => z.activa).map((z, i) => `${i + 1}. ${z.nombre} (${z.cobertura.slice(0, 60)})`).join("\n");
   const eleccion = prompt("¿En qué zona queda? Escribe el número:\n\n" + lista);
   const zi = parseInt(eleccion, 10);
+  const zonas = D.zonas.filter(z => z.activa);
   const zona = zi >= 1 && zi <= zonas.length ? zonas[zi - 1] : null;
   if (!zona) return alert("No reconocí la zona. Intenta de nuevo.");
 
