@@ -5,7 +5,7 @@ function pintarProductos() {
     <div class="prod">
       <div class="malla">${esc(p.malla || PRES[p.presentacion])}</div>
       <h3>${esc(p.nombre)}</h3>
-      <p class="ficha">${esc((p.ficha_tecnica || "").slice(0, 150))}</p>
+      <p class="ficha">${esc((p.ficha_tecnica || "").slice(0, 150))}${p.ficha_url ? ` <a href="https://arensil.com${esc(p.ficha_url)}" target="_blank" rel="noopener" style="white-space:nowrap">Ficha técnica ↗</a>` : ""}</p>
       <div class="precio">${mx(p.precio_lista)} <small>por ${esc(p.unidad)}</small></div>
       ${p.requiere_certificado ? '<span class="tag warn">se entrega con análisis de lote</span>' : ""}
       <div class="addrow">
