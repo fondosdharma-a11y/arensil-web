@@ -129,6 +129,9 @@ function irA(v) {
   $$("main > section").forEach(s => s.classList.add("hide"));
   $("#v-" + v).classList.remove("hide");
   window.scrollTo({ top: 0 });
+  // Las listas se refrescan al entrar, para que un pedido recién creado aparezca sin recargar.
+  if (v === "pedidos" && typeof cargarPedidos === "function") cargarPedidos();
+  if (v === "programados" && typeof cargarProgramaciones === "function") cargarProgramaciones();
 }
 
 // ---------------------------------------------------------------- arranque

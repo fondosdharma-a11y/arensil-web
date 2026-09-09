@@ -22,9 +22,12 @@ function pintarPedidos() {
       ? "Recojo en el banco"
       : (p.direcciones ? `${esc(p.direcciones.alias)} · ${esc(p.direcciones.municipio)}` : "—");
     const items = (p.pedido_partidas || []).map(x => `<div>${num(x.cantidad)} ${x.unidad} de ${esc(x.descripcion)}${x.lote_id ? ` <button class="lnk" data-cert="${x.lote_id}">Certificado de lote</button>` : ""}</div>`).join("");
-    const accion = (p.estatus === "borrador" || p.estatus === "pendiente_pago")
+    const porTransferencia = p.estatus === "pendiente_pago" && p.metodo_pago === "transferencia" && !p.stripe_url;
+    const accion = p.estatus === "borrador" || (p.estatus === "pendiente_pago" && !porTransferencia)
       ? `<button class="btn sm" data-pagar="${p.id}">Pagar</button>`
-      : "";
+      : porTransferencia
+        ? `<span class="muted" style="font-size:11.5px">Pago por transferencia SPEI. Te enviamos los datos bancarios por WhatsApp o correo; si ya pagaste, mándanos el comprobante al <a href="https://wa.me/523223102049" target="_blank" rel="noopener">322 310 2049</a>.</span>`
+        : "";
     return `<tr>
       <td class="mono"><strong>${esc(p.folio)}</strong>
         <div class="partidas">${items}</div></td>
@@ -84,7 +87,12 @@ async function pagarPedido(id, btn) {
       body: JSON.stringify({ pedido_id: id })
     });
     const j = await r.json();
-    if (!r.ok || !j.url) throw new Error(j.error || "No se pudo generar la liga de pago.");
+    if (!r.ok || (!j.url && !j.sin_stripe)) throw new Error(j.error || "No se pudo generar la liga de pago.");
+    if (j.sin_stripe) {
+      await cargarPedidos();
+      aviso("#ped-msg", j.mensaje || "Tu pedido quedó registrado para pago por transferencia.", "ok");
+      return;
+    }
     location.href = j.url;
   } catch (e) {
     alert(e.message);

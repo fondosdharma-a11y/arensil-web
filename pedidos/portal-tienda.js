@@ -126,13 +126,22 @@ $("#c-pagar").onclick = async () => {
       body: JSON.stringify({ pedido_id: pedido.id })
     });
     const j = await r.json();
-    if (!r.ok || !j.url) throw new Error(j.error || "No se pudo generar la liga de pago.");
+    if (!r.ok || (!j.url && !j.sin_stripe)) throw new Error(j.error || "No se pudo generar la liga de pago.");
     CARRITO = [];
+    if (j.sin_stripe) {
+      // Pagos en línea aún no activos: el pedido queda registrado para pago por transferencia.
+      btn.disabled = false; btn.textContent = "Pagar y confirmar pedido";
+      recalcular();
+      await cargarPedidos();
+      irA("pedidos");
+      aviso("#ped-msg", j.mensaje || "Tu pedido quedó registrado para pago por transferencia.", "ok");
+      return;
+    }
     location.href = j.url;
   } catch (e) {
-    aviso("#car-msg", e.message);
     btn.disabled = false; btn.textContent = "Pagar y confirmar pedido";
     recalcular();
+    aviso("#car-msg", e.message);
   }
 };
 
