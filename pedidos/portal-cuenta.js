@@ -117,6 +117,77 @@ async function pagarPedido(id, btn) {
   }
 }
 
+// ---------------------------------------------------------------- cotizaciones
+const EST_COT = { enviada: ["Por aceptar", "warn"], aceptada: ["Aceptada", "ok"], rechazada: ["Rechazada", "bad"], vencida: ["Vencida", "bad"] };
+async function cargarCotizaciones() {
+  if (!D.perfil?.cuenta_id) return;
+  const [{ data: cots }, { data: parts }] = await Promise.all([
+    sb.from("mis_cotizaciones_v").select("*").order("fecha", { ascending: false }).limit(50),
+    sb.from("mis_cotizacion_partidas_v").select("*").order("orden")
+  ]);
+  D.cotizaciones = (cots || []).map(c => ({ ...c, partidas: (parts || []).filter(p => p.cotizacion_id === c.id) }));
+  const tab = $('#tabs button[data-v="cotizaciones"]');
+  const abiertas = D.cotizaciones.filter(c => c.estatus === "enviada").length;
+  tab.classList.toggle("hide", D.cotizaciones.length === 0);
+  tab.textContent = abiertas ? `Cotizaciones (${abiertas})` : "Cotizaciones";
+  pintarCotizaciones();
+}
+
+function pintarCotizaciones() {
+  const body = $("#cot-body");
+  if (!D.cotizaciones?.length) { body.innerHTML = '<tr><td colspan="7" class="muted">No tienes cotizaciones todavía. Pídenos una por WhatsApp o desde el cotizador.</td></tr>'; return; }
+  body.innerHTML = D.cotizaciones.map(c => {
+    const [txt, cls] = EST_COT[c.estatus] || [c.estatus, ""];
+    const items = c.partidas.map(x => `<div>${num(x.cantidad)} ${esc(x.unidad)} de ${esc(x.descripcion)} <span class="muted">· ${mx(x.precio_unitario)}${Number(x.flete_unitario) > 0 ? " + " + mx(x.flete_unitario) + " flete" : ""}</span></div>`).join("");
+    const entrega = c.incoterm === "lab_mina" ? "Recojo en el banco" : `Entregado${c.zona ? " · " + esc(c.zona) : ""}`;
+    const cond = [c.condiciones_pago, c.tiempo_entrega].filter(Boolean).map(esc).join(" · ");
+    const accion = c.estatus === "enviada" ? `<button class="btn sm" data-aceptar="${c.id}">Aceptar y pedir</button>` : "";
+    return `<tr>
+      <td class="mono"><strong>${esc(c.folio)}</strong><div class="partidas">${items}</div>${cond ? `<div class="muted" style="font-size:11.5px;margin-top:4px">${cond}</div>` : ""}</td>
+      <td class="mono">${new Date(c.fecha + "T12:00:00").toLocaleDateString("es-MX")}</td>
+      <td class="mono">${new Date(c.vigente_hasta + "T12:00:00").toLocaleDateString("es-MX")}</td>
+      <td>${entrega}</td>
+      <td class="right mono"><strong>${mx(c.total)}</strong><div class="muted" style="font-size:11.5px">IVA incluido</div></td>
+      <td><span class="tag ${cls}">${txt}</span></td>
+      <td>${accion}</td>
+    </tr>`;
+  }).join("");
+  $$("#cot-body [data-aceptar]").forEach(b => b.onclick = () => aceptarCotizacion(b.dataset.aceptar));
+}
+
+function aceptarCotizacion(id) {
+  const c = D.cotizaciones.find(x => x.id === id); if (!c) return;
+  const entregado = c.incoterm === "entregado";
+  if (entregado && !D.direcciones.length) {
+    aviso("#cot-msg", "Para aceptar una cotización con entrega, primero agrega una dirección en Mi cuenta.");
+    return;
+  }
+  const dirs = D.direcciones.filter(d => !c.zona_flete_id || d.zona_flete_id === c.zona_flete_id);
+  const lista = dirs.length ? dirs : D.direcciones;
+  abrirModal(`
+    <h2>Aceptar cotización ${esc(c.folio)}</h2>
+    <p class="sub">Se crea tu pedido con los precios cotizados (${mx(c.total)} con IVA) y pasas al pago.</p>
+    <div class="grid">
+      ${entregado ? `<label class="f">Dirección de entrega <select id="ac-dir">${lista.map(d => `<option value="${d.id}">${esc(d.alias)} — ${esc(d.municipio)}</option>`).join("")}</select></label>` : `<p class="muted" style="font-size:13px">Recoges en el banco, en Lagos de Moreno.</p>`}
+      ${entregado && dirs.length !== D.direcciones.length ? `<p class="muted" style="font-size:12px">Solo se muestran direcciones de la zona cotizada (${esc(c.zona || "")}). Si necesitas otra zona, pídenos una cotización nueva.</p>` : ""}
+      <label class="f">¿Para cuándo lo necesitas? <input id="ac-fecha" type="date" min="${hoyMas(1)}" value="${hoyMas(3)}"></label>
+    </div>
+    <div id="ac-msg"></div>
+    <div class="acciones"><button class="btn ghost" onclick="cerrarModal()">Cancelar</button><button class="btn" id="ac-ok">Aceptar y pagar</button></div>`);
+  $("#ac-ok").onclick = async () => {
+    const btn = $("#ac-ok"); btn.disabled = true; btn.textContent = "Creando tu pedido…";
+    const { data: pedidoId, error } = await sb.rpc("aceptar_cotizacion", {
+      p_cotizacion: c.id, p_direccion: entregado ? $("#ac-dir").value : null, p_entrega: $("#ac-fecha").value || null
+    });
+    if (error) { btn.disabled = false; btn.textContent = "Aceptar y pagar"; return aviso("#ac-msg", error.message); }
+    cerrarModal();
+    await Promise.all([cargarCotizaciones(), cargarPedidos()]);
+    irA("pedidos");
+    const b = $(`#ped-body [data-pagar="${pedidoId}"]`);
+    if (b) pagarPedido(pedidoId, b);
+  };
+}
+
 // ---------------------------------------------------------------- programados
 async function cargarProgramaciones() {
   if (!D.perfil?.cuenta_id) return;

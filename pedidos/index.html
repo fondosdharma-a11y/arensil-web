@@ -217,6 +217,7 @@ tr:last-child td{border-bottom:0}
     <nav class="tabs" id="tabs">
       <button data-v="tienda" aria-current="true">Hacer pedido</button>
       <button data-v="pedidos">Mis pedidos</button>
+      <button data-v="cotizaciones" class="hide">Cotizaciones</button>
       <button data-v="programados">Programados</button>
       <button data-v="cuenta">Mi cuenta</button>
       <button data-v="vendedor" class="hide">Vendedor</button>
@@ -276,6 +277,18 @@ tr:last-child td{border-bottom:0}
       <table><thead><tr>
         <th>Folio</th><th>Fecha</th><th>Entrega</th><th class="right">Total</th><th>Estatus</th><th></th>
       </tr></thead><tbody id="ped-body"></tbody></table>
+    </div>
+  </section>
+
+  <!-- COTIZACIONES -->
+  <section id="v-cotizaciones" class="wrap hide">
+    <h1>Cotizaciones</h1>
+    <p class="muted" style="margin-top:6px">Las cotizaciones que te preparó nuestro equipo. Al aceptar una, se convierte en pedido con los precios cotizados y pasas directo al pago.</p>
+    <div id="cot-msg"></div>
+    <div class="card tblwrap" style="margin-top:16px">
+    <table><thead><tr>
+        <th>Folio</th><th>Fecha</th><th>Vigente hasta</th><th>Entrega</th><th class="right">Total</th><th>Estatus</th><th></th>
+      </tr></thead><tbody id="cot-body"></tbody></table>
     </div>
   </section>
 

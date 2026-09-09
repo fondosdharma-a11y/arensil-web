@@ -19,7 +19,7 @@ const EST_PED = {
 };
 const FREC = { semanal: "Cada semana", quincenal: "Cada quince días", mensual: "Cada mes", bimestral: "Cada dos meses" };
 
-const D = { perfil: null, cuenta: null, productos: [], zonas: [], direcciones: [], pedidos: [], programaciones: [], vendedor: null, comisiones: [], config: {} };
+const D = { perfil: null, cuenta: null, productos: [], zonas: [], direcciones: [], pedidos: [], programaciones: [], vendedor: null, comisiones: [], config: {}, cotizaciones: [] };
 let CARRITO = [];
 
 function aviso(sel, texto, tipo = "err") {
@@ -132,6 +132,7 @@ function irA(v) {
   // Las listas se refrescan al entrar, para que un pedido recién creado aparezca sin recargar.
   if (v === "pedidos" && typeof cargarPedidos === "function") cargarPedidos();
   if (v === "programados" && typeof cargarProgramaciones === "function") cargarProgramaciones();
+  if (v === "cotizaciones" && typeof cargarCotizaciones === "function") cargarCotizaciones();
 }
 
 // ---------------------------------------------------------------- arranque
@@ -218,7 +219,7 @@ async function cargar(user) {
   $("#c-fecha").min = hoyMas(1);
   $("#c-fecha").value = hoyMas(3);
 
-  await Promise.all([cargarPedidos(), cargarProgramaciones()]);
+  await Promise.all([cargarPedidos(), cargarProgramaciones(), cargarCotizaciones()]);
 
   // Regreso desde Stripe
   const pago = params.get("pago");
