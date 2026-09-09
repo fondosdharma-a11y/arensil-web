@@ -121,6 +121,22 @@
 .cot .res .cta{display:block;text-align:center;margin-top:18px;padding:13px 18px}
 .cot .res .nota{color:#8F887D;margin-top:12px}
 .cot .estado{font-size:.86rem;color:var(--gris)}
+.sol{margin-top:26px;border-top:1px solid var(--linea);padding-top:20px}
+.sol summary{cursor:pointer;font-weight:700;color:var(--terra);font-size:.95rem;list-style:none}
+.sol summary::-webkit-details-marker{display:none}
+.sol summary::after{content:" →";}
+.sol .form{margin-top:16px;max-width:760px;background:var(--papel);border:1px solid var(--linea);border-radius:14px;padding:24px;display:grid;gap:14px}
+.sol label{display:flex;flex-direction:column;gap:6px;font-size:.8rem;font-weight:700;color:var(--gris)}
+.sol input,.sol textarea{font:inherit;color:var(--grafito);background:var(--hueso);border:1px solid var(--linea);border-radius:8px;padding:11px 12px;width:100%}
+.sol input:focus,.sol textarea:focus{outline:2px solid var(--ambar);outline-offset:-1px}
+.sol textarea{min-height:80px;resize:vertical}
+.sol .dos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sol .tres{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:700px){.sol .tres,.sol .dos{grid-template-columns:1fr}}
+.sol .estado{font-size:.86rem;color:var(--gris)}
+.sol .hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}
+.sol .ok{margin-top:16px;max-width:760px;background:#EAF3EC;border:1px solid #BFDCC7;color:#1E5631;border-radius:10px;padding:14px 16px;font-size:.95rem}
+.sol .err{color:#9B2C1E;font-size:.9rem;margin-left:10px}
 </style>
 </head>
 <body>
@@ -246,6 +262,26 @@
         <p class="nota">Al continuar, la cantidad y el producto ya van cargados en su carrito. Pague con tarjeta, OXXO o SPEI.</p>
       </div>
     </div>
+    <details class="sol" id="sol">
+      <summary>¿Prefiere que una persona le cotice? Pida cotización formal sin registrarse</summary>
+      <form class="form" id="sol-form" novalidate>
+        <p class="estado" style="margin:0">Le llamamos o le escribimos por WhatsApp el mismo día hábil con precio, ficha técnica y flete a su dirección. El producto y la cantidad se toman del cotizador de arriba.</p>
+        <div class="tres">
+          <label>Su nombre <input id="sol-nombre" required maxlength="120" autocomplete="name"></label>
+          <label>Empresa <input id="sol-empresa" maxlength="160" autocomplete="organization"></label>
+          <label>Teléfono o WhatsApp <input id="sol-tel" required inputmode="tel" autocomplete="tel" placeholder="10 dígitos"></label>
+        </div>
+        <div class="dos">
+          <label>Correo (opcional) <input id="sol-mail" type="email" autocomplete="email"></label>
+          <label>Municipio de entrega <input id="sol-muni" maxlength="80"></label>
+        </div>
+        <label>¿Algo más que debamos saber? (uso, malla, frecuencia) <textarea id="sol-msg" maxlength="1000"></textarea></label>
+        <label class="hp" aria-hidden="true">Sitio web <input id="sol-web" tabindex="-1" autocomplete="off"></label>
+        <div><button class="cta" type="submit" id="sol-go">Pedir cotización</button> <span class="err" id="sol-err"></span></div>
+        <p class="estado" style="margin:0">Sus datos solo se usan para atender esta solicitud. <a href="/privacidad/">Aviso de privacidad</a>.</p>
+      </form>
+      <div class="ok" id="sol-ok" hidden></div>
+    </details>
   </div>
 </section>
 
@@ -450,6 +486,31 @@
     ["#ct-prod","#ct-cant","#ct-zona"].forEach(function(s){ $(s).addEventListener("input", calc); $(s).addEventListener("change", calc); });
     calc();
   }).catch(function(){ $("#ct-estado").textContent = "No pudimos cargar el catálogo. Escríbanos por WhatsApp y le cotizamos de inmediato."; });
+
+  // Solicitud de cotización formal (sin registro)
+  var f = $("#sol-form");
+  if (f) f.addEventListener("submit", function(e){
+    e.preventDefault();
+    var err = $("#sol-err"); err.textContent = "";
+    if ($("#sol-web").value) return; // trampa para bots
+    var nombre = $("#sol-nombre").value.trim(), tel = $("#sol-tel").value.trim();
+    if (!nombre) { err.textContent = "Escriba su nombre."; return; }
+    if (tel.replace(/\D/g, "").length < 10) { err.textContent = "Escriba un teléfono de 10 dígitos."; return; }
+    var p = P.find(function(x){ return x.id === Number($("#ct-prod").value); });
+    var z = Z.find(function(x){ return x.id === Number($("#ct-zona").value); });
+    var btn = $("#sol-go"); btn.disabled = true; btn.textContent = "Enviando…";
+    sb.from("solicitudes_web").insert({
+      nombre: nombre, empresa: $("#sol-empresa").value.trim() || null, telefono: tel,
+      email: $("#sol-mail").value.trim() || null, municipio: $("#sol-muni").value.trim() || (z ? z.nombre : null),
+      producto: p ? p.nombre + (p.malla ? " · " + p.malla : "") : null,
+      cantidad: p ? ($("#ct-cant").value + " " + (UNI[p.presentacion] || p.unidad)) : null,
+      mensaje: $("#sol-msg").value.trim() || null, origen: "sitio/cotizador"
+    }).then(function(r){
+      if (r.error) { btn.disabled = false; btn.textContent = "Pedir cotización"; err.textContent = "No se pudo enviar. Escríbanos por WhatsApp al 322 310 2049."; return; }
+      f.hidden = true; var ok = $("#sol-ok"); ok.hidden = false;
+      ok.innerHTML = "<strong>Recibimos su solicitud, " + nombre.replace(/[<>&]/g, "") + ".</strong> Le contactamos el mismo día hábil al " + tel.replace(/[<>&]/g, "") + " con precio y ficha técnica. Si prefiere adelantar, escríbanos por <a href=\"https://wa.me/523223102049\">WhatsApp</a>.";
+    });
+  });
 })();
 </script>
 </body>
