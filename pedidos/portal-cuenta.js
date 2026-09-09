@@ -26,7 +26,7 @@ function pintarPedidos() {
     const accion = p.estatus === "borrador" || (p.estatus === "pendiente_pago" && !porTransferencia)
       ? `<button class="btn sm" data-pagar="${p.id}">Pagar</button>`
       : porTransferencia
-        ? `<span class="muted" style="font-size:11.5px">Pago por transferencia SPEI. Te enviamos los datos bancarios por WhatsApp o correo; si ya pagaste, mándanos el comprobante al <a href="https://wa.me/523223102049" target="_blank" rel="noopener">322 310 2049</a>.</span>`
+        ? datosTransferencia(p)
         : "";
     return `<tr>
       <td class="mono"><strong>${esc(p.folio)}</strong>
@@ -42,6 +42,23 @@ function pintarPedidos() {
 
   $$("#ped-body [data-pagar]").forEach(b => b.onclick = () => pagarPedido(b.dataset.pagar, b));
   $$("#ped-body [data-cert]").forEach(b => b.onclick = () => verCertificado(b.dataset.cert));
+}
+
+// Instrucciones de pago por transferencia: con los datos bancarios si JP ya los capturó en el CRM.
+function datosTransferencia(p) {
+  const c = D.config || {};
+  const wa = (c.whatsapp || "523223102049").replace(/\D/g, "");
+  const msg = encodeURIComponent(`Hola, soy ${D.cuenta?.nombre || D.perfil?.nombre || ""}. Te mando el comprobante del pedido ${p.folio} (${mx(p.total)}).`);
+  const waLink = `<a href="https://wa.me/${wa}?text=${msg}" target="_blank" rel="noopener">enviar comprobante por WhatsApp</a>`;
+  if (!c.pago_clabe) {
+    return `<span class="muted" style="font-size:11.5px">Pago por transferencia SPEI. Te enviamos los datos bancarios por WhatsApp o correo; si ya pagaste, ${waLink}.</span>`;
+  }
+  return `<div style="font-size:11.5px;line-height:1.45">
+    <strong>Transferencia SPEI</strong><br>
+    ${c.pago_beneficiario ? esc(c.pago_beneficiario) + "<br>" : ""}${c.pago_banco ? esc(c.pago_banco) + " · " : ""}CLABE <span class="mono">${esc(c.pago_clabe)}</span><br>
+    Referencia: <span class="mono">${esc(p.folio)}</span> · Importe: <span class="mono">${mx(p.total)}</span><br>
+    <span class="muted">${esc(c.pago_instrucciones || "")}</span> ${waLink}.
+  </div>`;
 }
 
 // Certificado de análisis del lote con el que se surtió la partida.

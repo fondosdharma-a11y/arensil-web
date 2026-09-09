@@ -19,7 +19,7 @@ const EST_PED = {
 };
 const FREC = { semanal: "Cada semana", quincenal: "Cada quince días", mensual: "Cada mes", bimestral: "Cada dos meses" };
 
-const D = { perfil: null, cuenta: null, productos: [], zonas: [], direcciones: [], pedidos: [], programaciones: [], vendedor: null, comisiones: [] };
+const D = { perfil: null, cuenta: null, productos: [], zonas: [], direcciones: [], pedidos: [], programaciones: [], vendedor: null, comisiones: [], config: {} };
 let CARRITO = [];
 
 function aviso(sel, texto, tipo = "err") {
@@ -177,14 +177,16 @@ async function cargar(user) {
   $("#app").classList.remove("hide");
   $("#acceso").classList.add("hide");
 
-  const [prod, zon, cta, dirs] = await Promise.all([
+  const [prod, zon, cta, dirs, cfg] = await Promise.all([
     sb.from("catalogo").select("*").order("id"),
     sb.from("zonas_publicas").select("*").order("km_desde_lagos"),
     D.perfil.cuenta_id ? sb.from("mi_cuenta_v").select("*").single() : Promise.resolve({ data: null }),
-    D.perfil.cuenta_id ? sb.from("direcciones").select("*").eq("cuenta_id", D.perfil.cuenta_id).order("principal", { ascending: false }) : Promise.resolve({ data: [] })
+    D.perfil.cuenta_id ? sb.from("direcciones").select("*").eq("cuenta_id", D.perfil.cuenta_id).order("principal", { ascending: false }) : Promise.resolve({ data: [] }),
+    sb.from("config_publica").select("clave,valor")
   ]);
   D.productos = prod.data || []; D.zonas = zon.data || [];
   D.cuenta = cta.data || null; D.direcciones = dirs.data || [];
+  D.config = Object.fromEntries((cfg.data || []).map(c => [c.clave, c.valor]));
 
   // Quien entra con Google/Facebook/X llega sin empresa ni municipio: lo pedimos una sola vez.
   if (D.cuenta && !D.cuenta.municipio) { mostrarCompletarEmpresa(); return; }
