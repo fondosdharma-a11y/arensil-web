@@ -81,7 +81,7 @@
     <div><div class="k">Presentaciones</div><div class="v">Granel por tonelada; súper saco de 1 t y saco de 25 kg bajo pedido.</div></div>
     <div><div class="k">Certificado por lote</div><div class="v">Sí, con cada entrega</div></div>
   </div>
-  <div class="ficha-acciones"><a class="cta" href="/pedidos/">Pedir en línea</a><a class="cta ghost" href="javascript:window.print()">Imprimir / guardar PDF</a><a class="cta ghost" href="https://wa.me/523223102049?text=Hola, me interesa la ficha Sílice molida malla 200 (Malla 200).">Pedir muestra por WhatsApp</a></div>
+  <div class="ficha-acciones"><a class="cta" href="/pedidos/">Pedir en línea</a><button type="button" class="cta ghost" data-imprimir>Imprimir / guardar PDF</button><a class="cta ghost" href="https://wa.me/523223102049?text=Hola, me interesa la ficha Sílice molida malla 200 (Malla 200).">Pedir muestra por WhatsApp</a></div>
 </div></div>
 <section><div class="wrap">
   <div class="eyebrow">Aplicaciones</div>
@@ -138,6 +138,8 @@
   });
   m.addEventListener("click",function(e){if(e.target.closest("a"))cerrar();});
   document.addEventListener("keydown",function(e){if(e.key==="Escape")cerrar();});
+  var imp=document.querySelector("[data-imprimir]");
+  if(imp) imp.addEventListener("click",function(){window.print();});
 })();
 </script>
 <script defer src="/chat.js"></script>

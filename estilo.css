@@ -49,6 +49,9 @@ header{position:sticky;top:0;z-index:30;background:rgba(247,245,241,.94);
   border-radius:7px;font-weight:600;font-size:.92rem;white-space:nowrap;display:inline-block}
 .cta:hover{background:#73391a}
 .cta.ghost{background:transparent;color:var(--grafito)!important;border:1px solid var(--linea)}
+button.cta{font:inherit;font-weight:600;font-size:.92rem;border:0;cursor:pointer;line-height:normal}
+button.cta.ghost{border:1px solid var(--linea)}
+button.cta:focus-visible{outline:3px solid var(--ambar);outline-offset:2px}
 .cta.ghost:hover{background:#EFEBE4}
 .burger{display:none;margin-left:auto;background:none;border:1px solid var(--linea);border-radius:8px;
   width:42px;height:38px;padding:0;cursor:pointer;flex-direction:column;justify-content:center;align-items:center;gap:5px}
