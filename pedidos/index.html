@@ -7,6 +7,20 @@
 <meta name="description" content="Plataforma de pedidos de ARENSIL: cotiza arena sílica con flete por zona, paga con tarjeta, OXXO o SPEI, programa entregas recurrentes y descarga certificados de lote.">
 <link rel="canonical" href="https://arensil.com/pedidos/">
 <meta name="robots" content="noindex">
+<meta property="og:title" content="ARENSIL · Portal de pedidos">
+<meta property="og:description" content="Plataforma de pedidos de ARENSIL: cotiza arena sílica con flete por zona, paga con tarjeta, OXXO o SPEI, programa entregas recurrentes y descarga certificados de lote.">
+<meta property="og:url" content="https://arensil.com/pedidos/">
+<meta property="og:locale" content="es_MX">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://arensil.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ARENSIL · arena sílica de banco propio en Lagos de Moreno, Jalisco">
+<meta property="og:site_name" content="ARENSIL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://arensil.com/og.png">
+<meta name="twitter:title" content="ARENSIL · Portal de pedidos">
+<meta name="twitter:description" content="Plataforma de pedidos de ARENSIL: cotiza arena sílica con flete por zona, paga con tarjeta, OXXO o SPEI, programa entregas recurrentes y descarga certificados de lote.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-95 -108 190 216'%3E%3Cpath d='M0,-100 L86.6,-50 L86.6,50 L0,0 Z' fill='%23E9CFA4'/%3E%3Cpath d='M86.6,50 L0,100 L-86.6,50 L0,0 Z' fill='%238C4A22'/%3E%3Cpath d='M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z' fill='%23C98A3C'/%3E%3Cpath d='M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z' fill='%23F4E3C8'/%3E%3C/svg%3E">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
@@ -138,6 +152,8 @@ tr:last-child td{border-bottom:0}
 @media print{body *{visibility:hidden}.modal,.modal *{visibility:visible}.modal{position:absolute;inset:0;background:#fff;padding:0}.modal-card{box-shadow:none;max-height:none;width:100%}.acciones{display:none!important}}
 .sitio-link{font-size:12.5px;color:var(--muted);text-decoration:none;margin-left:6px}
 .sitio-link:hover{color:var(--terra)}
+
+.titulo{font-size:clamp(1.5rem,3vw,1.9rem);line-height:1.16;letter-spacing:-.02em;font-weight:640;margin:0}
 </style>
 </head>
 <body>
@@ -271,7 +287,7 @@ tr:last-child td{border-bottom:0}
 
   <!-- PEDIDOS -->
   <section id="v-pedidos" class="wrap hide">
-    <h1>Mis pedidos</h1>
+    <h2 class="titulo">Mis pedidos</h2>
     <div id="ped-msg"></div>
     <div class="card tblwrap" style="margin-top:16px">
       <table><thead><tr>
@@ -282,7 +298,7 @@ tr:last-child td{border-bottom:0}
 
   <!-- COTIZACIONES -->
   <section id="v-cotizaciones" class="wrap hide">
-    <h1>Cotizaciones</h1>
+    <h2 class="titulo">Cotizaciones</h2>
     <p class="muted" style="margin-top:6px">Las cotizaciones que te preparó nuestro equipo. Al aceptar una, se convierte en pedido con los precios cotizados y pasas directo al pago.</p>
     <div id="cot-msg"></div>
     <div class="card tblwrap" style="margin-top:16px">
@@ -294,7 +310,7 @@ tr:last-child td{border-bottom:0}
 
   <!-- PROGRAMADOS -->
   <section id="v-programados" class="wrap hide">
-    <h1>Pedidos programados</h1>
+    <h2 class="titulo">Pedidos programados</h2>
     <p class="muted" style="margin-top:6px">Deja lista tu compra recurrente y nosotros la preparamos sin que tengas que volver a capturarla.</p>
     <div class="card tblwrap" style="margin-top:16px">
       <table><thead><tr>
@@ -306,7 +322,7 @@ tr:last-child td{border-bottom:0}
 
   <!-- CUENTA -->
   <section id="v-cuenta" class="wrap hide">
-    <h1>Mi cuenta</h1>
+    <h2 class="titulo">Mi cuenta</h2>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:16px" id="cuenta-grid">
       <div class="card pad">
         <h2 style="font-size:1.05rem">Datos</h2>
@@ -341,12 +357,12 @@ tr:last-child td{border-bottom:0}
 
   <!-- VENDEDOR -->
   <section id="v-vendedor" class="wrap hide">
-    <h1>Panel de vendedor</h1>
+    <h2 class="titulo">Panel de vendedor</h2>
     <div class="card pad" style="margin-top:16px">
       <h2 style="font-size:1.05rem">Tu enlace de referido</h2>
       <p class="muted" style="font-size:13.5px;margin-top:6px">Todo cliente que se registre con este enlace queda ligado a ti, y cada pedido que pague te genera comisión sobre el producto.</p>
       <div class="row" style="margin-top:12px">
-        <input id="ven-link" readonly style="flex:1;min-width:240px">
+        <input id="ven-link" readonly aria-label="Tu enlace de referido" style="flex:1;min-width:240px">
         <button class="btn sm" id="ven-copiar">Copiar</button>
       </div>
     </div>

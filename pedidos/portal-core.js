@@ -107,14 +107,14 @@ $("#r-go").onclick = async () => {
       emailRedirectTo: location.origin + location.pathname,
       data: {
         empresa, nombre: $("#r-nombre").value.trim(), telefono: $("#r-tel").value.trim(),
-        municipio: $("#r-muni").value.trim(), estado: $("#r-edo").value.trim() || "Jalisco",
+        municipio: $("#r-muni").value.trim(), estado: $("#r-edo").value.trim() || null,
         ref: REF || null
       }
     }
   });
   if (error) return aviso("#acc-msg", "No pudimos crear la cuenta: " + error.message);
   try { localStorage.removeItem(REF_KEY); } catch {}
-  if (!data.session) return aviso("#acc-msg", "Cuenta creada. Revisa tu correo para confirmarla y luego entra.", "ok");
+  if (!data.session) return avisoConfirmacion(email);
   location.reload();
 };
 
@@ -376,3 +376,24 @@ $("#q-save").onclick = async () => {
 // portal-cuenta.js definen funciones que cargar() necesita.
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", arrancar);
 else arrancar();
+
+// Cuando Supabase pide confirmar el correo, el cliente se queda sin saber qué hacer.
+// Le decimos exactamente qué esperar, le damos reenvío y una salida por WhatsApp.
+function avisoConfirmacion(email) {
+  const wa = "523223102049";
+  const msg = encodeURIComponent(`Hola, me registré en arensil.com con ${email} y quiero hacer un pedido.`);
+  $("#acc-msg").innerHTML = `<div class="aviso ok" style="text-align:left">
+    <strong>Cuenta creada.</strong> Te mandamos un correo a <strong>${esc(email)}</strong> para confirmarla.
+    Revisa también la carpeta de correo no deseado; a veces tarda unos minutos.
+    <div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap">
+      <button class="btn ghost sm" id="re-conf">Reenviar el correo</button>
+      <a class="btn sm" target="_blank" rel="noopener" href="https://wa.me/${wa}?text=${msg}">Mejor pedir por WhatsApp</a>
+    </div></div>`;
+  const b = $("#re-conf");
+  if (b) b.onclick = async () => {
+    b.disabled = true; b.textContent = "Enviando…";
+    const { error } = await sb.auth.resend({ type: "signup", email,
+      options: { emailRedirectTo: location.origin + location.pathname } });
+    b.textContent = error ? "No se pudo reenviar" : "Correo reenviado";
+  };
+}

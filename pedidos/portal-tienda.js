@@ -129,12 +129,11 @@ $("#c-pagar").onclick = async () => {
     if (!r.ok || (!j.url && !j.sin_stripe)) throw new Error(j.error || "No se pudo generar la liga de pago.");
     CARRITO = [];
     if (j.sin_stripe) {
-      // Pagos en línea aún no activos: el pedido queda registrado para pago por transferencia.
+      // Pagos en línea aún no activos: el pedido queda registrado y le damos el siguiente paso claro.
       btn.disabled = false; btn.textContent = "Pagar y confirmar pedido";
       recalcular();
       await cargarPedidos();
-      irA("pedidos");
-      aviso("#ped-msg", j.mensaje || "Tu pedido quedó registrado para pago por transferencia.", "ok");
+      confirmacionTransferencia(j);
       return;
     }
     location.href = j.url;
@@ -186,3 +185,37 @@ $("#c-prog").onclick = () => {
     irA("programados");
   };
 };
+
+// Cierre del pedido cuando el pago en línea todavía no está activo: el cliente
+// necesita saber el folio, el monto y a quién escribirle, sin buscarlo.
+function confirmacionTransferencia(j) {
+  const c = D.config || {};
+  const wa = (c.whatsapp || "523223102049").replace(/\D/g, "");
+  const folio = j.folio || "";
+  const total = j.total != null ? mx(j.total) : "";
+  const msg = encodeURIComponent(
+    `Hola, acabo de confirmar el pedido ${folio} en arensil.com${total ? " por " + total : ""}. ` +
+    `¿Me pasan los datos para la transferencia?`);
+  const datos = c.pago_clabe
+    ? `<div class="card pad" style="margin:14px 0">
+         <div class="muted" style="font-size:12px;letter-spacing:.1em;text-transform:uppercase">Transferencia SPEI</div>
+         ${c.pago_beneficiario ? `<div style="margin-top:6px"><strong>${esc(c.pago_beneficiario)}</strong></div>` : ""}
+         ${c.pago_banco ? `<div>${esc(c.pago_banco)}</div>` : ""}
+         <div>CLABE <span class="mono"><strong>${esc(c.pago_clabe)}</strong></span></div>
+         <div class="muted" style="font-size:12.5px;margin-top:8px">${esc(c.pago_instrucciones || "Pon el folio como referencia y mándanos el comprobante.")}</div>
+       </div>`
+    : `<div class="card pad" style="margin:14px 0">
+         <div style="font-size:14px">Te mandamos los datos de la cuenta por WhatsApp en cuanto nos escribas. Guarda tu folio.</div>
+       </div>`;
+  abrirModal(`
+    <h2>Pedido ${esc(folio)} registrado</h2>
+    <p class="sub">Ya lo tenemos. ${total ? "Total <strong>" + total + "</strong>. " : ""}Falta el pago para que entre a preparación.</p>
+    ${datos}
+    <a class="btn" style="display:block;text-align:center" target="_blank" rel="noopener"
+       href="https://wa.me/${wa}?text=${msg}">Escribir por WhatsApp y cerrar el pedido</a>
+    <button class="btn ghost" id="mod-ver" style="width:100%;margin-top:8px">Ver mis pedidos</button>
+    <p class="muted" style="font-size:12px;margin-top:10px">Lo preparamos el mismo día hábil en que se confirma el pago. Entrega de 48 a 72 horas hábiles.</p>
+  `);
+  const ver = document.querySelector("#mod-ver");
+  if (ver) ver.onclick = () => { cerrarModal(); irA("pedidos"); };
+}
