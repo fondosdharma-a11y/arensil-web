@@ -22,6 +22,8 @@ const FREC = { semanal: "Cada semana", quincenal: "Cada quince días", mensual: 
 const D = { perfil: null, cuenta: null, productos: [], zonas: [], direcciones: [], pedidos: [], programaciones: [], vendedor: null, comisiones: [], config: {}, cotizaciones: [] };
 let CARRITO = [];
 
+const sinAcento = s => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
+
 function aviso(sel, texto, tipo = "err") {
   const el = $(sel);
   if (!texto) { el.innerHTML = ""; return; }
@@ -255,7 +257,7 @@ $("#m-go").onclick = async () => {
   if (!muni) return aviso("#acc-msg", "Escribe tu municipio para poder calcular el flete.");
   const btn = $("#m-go"); btn.disabled = true;
   const [{ data: ok, error }, r2] = await Promise.all([
-    sb.rpc("actualizar_mi_empresa", { p_nombre: empresa, p_municipio: muni, p_estado: $("#m-edo").value.trim() || "Jalisco", p_telefono: tel }),
+    sb.rpc("actualizar_mi_empresa", { p_nombre: empresa, p_municipio: muni, p_estado: $("#m-edo").value.trim() || null, p_telefono: tel }),
     sb.from("perfiles").update({ nombre, telefono: tel }).eq("id", D.perfil.id)
   ]);
   if (error || !ok) { btn.disabled = false; return aviso("#acc-msg", "No pudimos guardar: " + (error?.message || "intenta de nuevo")); }
@@ -302,7 +304,7 @@ $("#dir-nueva").onclick = () => {
   const zonas = D.zonas.filter(z => z.activa);
   abrirModal(`
     <h2>Nueva dirección de entrega</h2>
-    <p class="sub">Con la zona calculamos el flete por tonelada. Si no sabes cuál es, elige el municipio más cercano.</p>
+    <p class="sub">Escribe el municipio y calculamos solos la zona y el flete por tonelada. Si tu municipio no aparece en ninguna zona, elige la más cercana.</p>
     <div class="grid">
       <label class="f">Nombre de la dirección <input id="d-alias" placeholder="Obra principal, planta, bodega"></label>
       <label class="f">Calle y número <input id="d-calle"></label>
@@ -312,9 +314,9 @@ $("#dir-nueva").onclick = () => {
       </div>
       <div class="row">
         <label class="f" style="flex:1;min-width:150px">Municipio <input id="d-muni" value="${esc(D.cuenta?.municipio || "")}"></label>
-        <label class="f" style="flex:1;min-width:110px">Estado <input id="d-edo" value="${esc(D.cuenta?.estado || "Jalisco")}"></label>
+        <label class="f" style="flex:1;min-width:110px">Estado <input id="d-edo" value="${esc(D.cuenta?.estado || "")}"></label>
       </div>
-      <label class="f">Zona de flete <select id="d-zona">${zonas.map(z => `<option value="${z.id}">${esc(z.nombre)} · ${mx(z.precio_cliente_ton)}/t — ${esc((z.cobertura || "").slice(0, 70))}</option>`).join("")}</select></label>
+      <label class="f">Zona de flete <span class="muted" id="d-zauto" style="font-weight:400"></span> <select id="d-zona">${zonas.map(z => `<option value="${z.id}">${esc(z.nombre)} · ${mx(z.precio_cliente_ton)}/t — ${esc((z.cobertura || "").slice(0, 70))}</option>`).join("")}</select></label>
       <label class="f">Referencias para el chofer <input id="d-ref" placeholder="Portón verde, preguntar por…"></label>
       <div class="row">
         <label class="f" style="flex:1;min-width:150px">Contacto en sitio <input id="d-cont" value="${esc(D.perfil.nombre || "")}"></label>
@@ -324,6 +326,24 @@ $("#dir-nueva").onclick = () => {
     <div id="d-msg"></div>
     <div class="acciones"><button class="btn ghost" onclick="cerrarModal()">Cancelar</button><button class="btn" id="d-ok">Guardar dirección</button></div>`);
 
+  // La zona sale del municipio: si el cliente la elige a ojo, el flete se cobra mal.
+  const zonaDeMunicipio = m => {
+    const n = sinAcento(m);
+    if (!n) return null;
+    const z = (D.zonas || []).filter(z => z.activa && Number(z.precio_cliente_ton) > 0)
+      .find(z => String(z.cobertura || "").split(",").some(c => sinAcento(c) === n));
+    return z || null;
+  };
+  const aplicaZona = () => {
+    const z = zonaDeMunicipio($("#d-muni").value);
+    const et = $("#d-zauto");
+    if (z) { $("#d-zona").value = z.id; et.textContent = "· la calculamos por tu municipio"; }
+    else { et.textContent = $("#d-muni").value.trim() ? "· no reconocimos el municipio, revísala" : ""; }
+  };
+  $("#d-muni").addEventListener("input", aplicaZona);
+  $("#d-muni").addEventListener("blur", aplicaZona);
+  aplicaZona();
+
   $("#d-ok").onclick = async () => {
     const alias = $("#d-alias").value.trim(), municipio = $("#d-muni").value.trim();
     if (!alias) return aviso("#d-msg", "Ponle un nombre a la dirección.");
@@ -331,7 +351,7 @@ $("#dir-nueva").onclick = () => {
     $("#d-ok").disabled = true;
     const { error } = await sb.from("direcciones").insert({
       cuenta_id: D.perfil.cuenta_id, alias, calle: $("#d-calle").value.trim() || null, colonia: $("#d-col").value.trim() || null,
-      cp: $("#d-cp").value.trim() || null, municipio, estado: $("#d-edo").value.trim() || "Jalisco",
+      cp: $("#d-cp").value.trim() || null, municipio, estado: $("#d-edo").value.trim() || null,
       zona_flete_id: Number($("#d-zona").value), referencias: $("#d-ref").value.trim() || null,
       contacto: $("#d-cont").value.trim() || null, telefono: $("#d-tel").value.trim() || null,
       principal: D.direcciones.length === 0
