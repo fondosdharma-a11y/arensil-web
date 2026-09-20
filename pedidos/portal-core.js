@@ -57,14 +57,41 @@ try {
 
 // Acceso con Google, Facebook o X. Supabase regresa a esta misma página con la sesión lista.
 // Solo mostramos los botones de los proveedores que ya están activados en Supabase.
+const ocultarSociales = () => {
+  $("#social")?.classList.add("hide");
+  $$(".sep").forEach(x => x.classList.add("hide"));
+};
+// Nacen ocultos: un botón de acceso que no funciona es peor que no tenerlo.
+ocultarSociales();
 (async () => {
   try {
-    const r = await fetch(SB_URL + "/auth/v1/settings", { headers: { apikey: SB_KEY } });
+    const ctrl = new AbortController();
+    const corta = setTimeout(() => ctrl.abort(), 7000);
+    const r = await fetch(SB_URL + "/auth/v1/settings", { headers: { apikey: SB_KEY }, signal: ctrl.signal });
+    clearTimeout(corta);
     const ext = (await r.json()).external || {};
     let activos = 0;
     $$("#social [data-prov]").forEach(b => { const on = !!ext[b.dataset.prov]; b.classList.toggle("hide", !on); if (on) activos++; });
-    if (!activos) { $("#social").classList.add("hide"); $$(".sep").forEach(x => x.classList.add("hide")); }
-  } catch { /* si no se puede consultar, dejamos los botones */ }
+    if (activos) { $("#social").classList.remove("hide"); $$(".sep").forEach(x => x.classList.remove("hide")); }
+  } catch { ocultarSociales(); }
+})();
+
+// Si la plataforma no responde, el cliente merece saberlo y tener por dónde salir.
+(async () => {
+  try {
+    const ctrl = new AbortController();
+    const corta = setTimeout(() => ctrl.abort(), 9000);
+    const r = await fetch(SB_URL + "/rest/v1/catalogo?select=id&limit=1", { headers: { apikey: SB_KEY }, signal: ctrl.signal });
+    clearTimeout(corta);
+    if (!r.ok) throw new Error("sin catálogo");
+  } catch {
+    const caja = $("#acc-msg");
+    if (caja && !caja.innerHTML.trim()) caja.innerHTML = `<div class="aviso err" style="text-align:left">
+      <strong>La plataforma no está respondiendo en este momento.</strong>
+      No es su conexión. Escríbanos por
+      <a href="https://wa.me/523223102049?text=${encodeURIComponent("Buen día, la plataforma de pedidos no carga y quiero hacer un pedido.")}">WhatsApp al 322 310 2049</a>
+      y le tomamos el pedido de inmediato.</div>`;
+  }
 })();
 $$("#social [data-prov]").forEach(b => b.onclick = async () => {
   aviso("#acc-msg", "");

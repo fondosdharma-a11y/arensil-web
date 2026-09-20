@@ -581,17 +581,34 @@
     $("#ct-uni").value = UNI[p.presentacion] || p.unidad;
     $("#ct-go").href = "/pedidos/?producto=" + p.id + "&cantidad=" + cant + (z ? "&zona=" + z.id : "");
   }
+  // Si el catálogo no llega (base pausada, sin red, bloqueo), el cotizador no se queda
+  // en blanco: lo decimos y damos la salida por WhatsApp.
+  var cotizadorVivo = false;
+  function cotizadorCaido(){
+    if (cotizadorVivo) return;
+    var e = $("#ct-estado");
+    if (e) e.innerHTML = '<strong>El cotizador no está disponible en este momento.</strong> ' +
+      'Escríbanos por <a href="https://wa.me/523223102049?text=' +
+      encodeURIComponent("Buen día, quiero cotizar arena sílica. ") + '">WhatsApp al 322 310 2049</a>' +
+      ' o llámenos y le damos precio puesto en su dirección en el momento.';
+    ["#ct-prod","#ct-cant","#ct-zona"].forEach(function(s){ var el = $(s); if (el) el.disabled = true; });
+    var g = $("#ct-go");
+    if (g) { g.href = "https://wa.me/523223102049"; g.textContent = "Cotizar por WhatsApp"; }
+  }
+  setTimeout(cotizadorCaido, 8000);
+
   Promise.all([
     sb.from("catalogo").select("id,nombre,malla,presentacion,unidad,precio_lista,kg_por_unidad").order("id"),
     sb.from("zonas_publicas").select("id,nombre,cobertura,precio_cliente_ton,activa").order("km_desde_lagos")
   ]).then(function(r){
     P = (r[0].data || []).slice().sort(function(a,b){ var ga = /gre[ñn]a/i.test(a.nombre) ? 1 : 0, gb = /gre[ñn]a/i.test(b.nombre) ? 1 : 0; return ga - gb || a.id - b.id; }); Z = (r[1].data || []).filter(function(z){ return z.activa !== false; });
-    if (!P.length) { $("#ct-estado").textContent = "No pudimos cargar el catálogo. Escríbanos por WhatsApp y le cotizamos de inmediato."; return; }
+    if (!P.length) { cotizadorCaido(); return; }
+    cotizadorVivo = true;
     $("#ct-prod").innerHTML = P.map(function(p){ return '<option value="' + p.id + '">' + p.nombre + (p.malla ? " · " + p.malla : "") + " — " + mx(p.precio_lista) + "/" + p.unidad + "</option>"; }).join("");
     $("#ct-zona").innerHTML += Z.map(function(z){ return '<option value="' + z.id + '">' + z.nombre + " · " + mx(z.precio_cliente_ton) + "/t</option>"; }).join("");
     ["#ct-prod","#ct-cant","#ct-zona"].forEach(function(s){ $(s).addEventListener("input", calc); $(s).addEventListener("change", calc); });
     calc();
-  }).catch(function(){ $("#ct-estado").textContent = "No pudimos cargar el catálogo. Escríbanos por WhatsApp y le cotizamos de inmediato."; });
+  }).catch(function(){ cotizadorCaido(); });
 
   // Solicitud de cotización formal (sin registro)
   var f = $("#sol-form");
