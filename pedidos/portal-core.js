@@ -435,10 +435,10 @@ else arrancar();
 // Le decimos exactamente qué esperar, le damos reenvío y una salida por WhatsApp.
 function avisoConfirmacion(email) {
   const wa = "523223102049";
-  const msg = encodeURIComponent(`Hola, me registré en arensil.com con ${email} y quiero hacer un pedido.`);
+  const msg = encodeURIComponent(`Hola, me registré en arensil.com con ${email}. ¿Me activan la cuenta? Quiero hacer un pedido.`);
   $("#acc-msg").innerHTML = `<div class="aviso ok" style="text-align:left">
     <strong>Cuenta creada.</strong> Te mandamos un correo a <strong>${esc(email)}</strong> para confirmarla.
-    Revisa también la carpeta de correo no deseado; a veces tarda unos minutos.
+    Revisa también la carpeta de correo no deseado. Si en 10 minutos no te llega, escríbenos por WhatsApp y activamos tu cuenta, o entra con Google.
     <div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap">
       <button class="btn ghost sm" id="re-conf">Reenviar el correo</button>
       <a class="btn sm" target="_blank" rel="noopener" href="https://wa.me/${wa}?text=${msg}">Mejor pedir por WhatsApp</a>

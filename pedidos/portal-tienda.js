@@ -133,7 +133,8 @@ $("#c-pagar").onclick = async () => {
       btn.disabled = false; btn.textContent = "Pagar y confirmar pedido";
       recalcular();
       await cargarPedidos();
-      confirmacionTransferencia(j);
+      const ped = (D.pedidos || []).find(x => x.id === j.pedido_id);
+      confirmacionTransferencia({ ...j, total: j.total ?? ped?.total, folio: j.folio || ped?.folio });
       return;
     }
     location.href = j.url;
