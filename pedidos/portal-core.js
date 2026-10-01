@@ -73,6 +73,13 @@ ocultarSociales();
     let activos = 0;
     $$("#social [data-prov]").forEach(b => { const on = !!ext[b.dataset.prov]; b.classList.toggle("hide", !on); if (on) activos++; });
     if (activos) { $("#social").classList.remove("hide"); $$(".sep").forEach(x => x.classList.remove("hide")); }
+    // Desde la portada: /pedidos/?entrar=google abre Google directo (solo si no hay sesión).
+    const prov = params.get("entrar");
+    if (prov && ext[prov]) {
+      const { data: { session } } = await sb.auth.getSession();
+      const b = $(`#social [data-prov="${prov}"]`);
+      if (!session && b) b.click();
+    }
   } catch { ocultarSociales(); }
 })();
 
