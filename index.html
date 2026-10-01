@@ -606,7 +606,7 @@
     if (!P.length) { cotizadorCaido(); return; }
     cotizadorVivo = true;
     $("#ct-prod").innerHTML = P.map(function(p){ return '<option value="' + p.id + '">' + p.nombre + (p.malla ? " · " + p.malla : "") + " — " + mx(p.precio_lista) + "/" + p.unidad + "</option>"; }).join("");
-    $("#ct-zona").innerHTML += Z.map(function(z){ return '<option value="' + z.id + '">' + z.nombre + " · " + mx(z.precio_cliente_ton) + "/t</option>"; }).join("");
+    $("#ct-zona").innerHTML += Z.filter(function(z){ return Number(z.precio_cliente_ton) > 0; }).map(function(z){ return '<option value="' + z.id + '">' + z.nombre + " · " + mx(z.precio_cliente_ton) + "/t</option>"; }).join("");
     ["#ct-prod","#ct-cant","#ct-zona"].forEach(function(s){ $(s).addEventListener("input", calc); $(s).addEventListener("change", calc); });
     calc();
   }).catch(function(){ cotizadorCaido(); });
