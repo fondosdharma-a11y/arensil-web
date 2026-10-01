@@ -1,0 +1,18 @@
+# Mantiene despierto el proyecto de Supabase de ARENSIL (el plan gratuito lo pausa tras 7 días sin uso).
+# Solo consulta el catálogo público con la llave publicable (la misma que usa el sitio). No escribe nada.
+name: Mantener activa la base
+on:
+  schedule:
+    - cron: "17 13 * * *"
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Consultar el catálogo
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 \
+            "https://pfsbltkdlnrkodvetfnu.supabase.co/rest/v1/catalogo?select=id&limit=1" \
+            -H "apikey: sb_publishable_D-anC38mBEtdn9mEoxLtiA_3wjan8v2")
+          echo "Respuesta: $code"
+          test "$code" = "200"
