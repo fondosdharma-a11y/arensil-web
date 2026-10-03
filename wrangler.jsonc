@@ -1,0 +1,22 @@
+// Sitio servido por Cloudflare (mudanza desde GitHub Pages, auditoría de seguridad 2026-10-03).
+// GitHub sigue siendo la fuente: cada push a main se publica solo (Workers Builds).
+// Servidor: cloudflare/worker.js (mismas URLs que GitHub Pages + cabeceras de seguridad).
+// Regreso de emergencia: en Cloudflare DNS, quitar el proxy (nube gris) a los registros del dominio.
+{
+  "name": "arensil-sitio",
+  "main": "cloudflare/worker.js",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": true,
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "html_handling": "none",
+    "not_found_handling": "none"
+  },
+  "routes": [
+    { "pattern": "arensil.com/*", "zone_name": "arensil.com" },
+    { "pattern": "www.arensil.com/*", "zone_name": "arensil.com" }
+  ],
+  "vars": { "HOST_CANONICO": "arensil.com", "HOSTS_ALTERNOS": "www.arensil.com" }
+}

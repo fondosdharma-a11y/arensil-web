@@ -1,0 +1,9 @@
+.git
+.github
+cloudflare
+wrangler.jsonc
+README.md
+CNAME
+.assetsignore
+.wrangler
+node_modules
