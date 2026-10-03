@@ -24,6 +24,47 @@
   }
   var TOK = token();
 
+  /* Estadística anónima del sitio: sin cookies, sin IP y sin identificadores de persona
+     (aviso de privacidad, punto 7). Solo cuenta páginas vistas y clics a WhatsApp, al portal,
+     a las calculadoras y al chat. Respeta «No rastrear» y no corre en pruebas locales. */
+  var est = (function () {
+    var RPC = "https://pfsbltkdlnrkodvetfnu.supabase.co/rest/v1/rpc/registrar_visita";
+    var off = /^(localhost|127\.|\[::1\])/.test(location.hostname) ||
+      navigator.doNotTrack === "1" || window.doNotTrack === "1";
+    var hechos = {};
+    var disp = /Mobi|Android|iPhone/i.test(navigator.userAgent) ? "movil" : "escritorio";
+    function manda(ev, nueva) {
+      if (off) return;
+      var ref = null, camp = null;
+      try { ref = document.referrer ? new URL(document.referrer).hostname : null; } catch (e) {}
+      if (ref === location.hostname) ref = null;
+      try { camp = new URLSearchParams(location.search).get("utm_source"); } catch (e) {}
+      try {
+        fetch(RPC, {
+          method: "POST", keepalive: true,
+          headers: { "apikey": KEY, "Content-Type": "application/json" },
+          body: JSON.stringify({ p_evento: ev, p_ruta: location.pathname, p_origen: ref, p_campana: camp,
+            p_dispositivo: disp, p_nueva: !!nueva })
+        }).catch(function () {});
+      } catch (e) {}
+    }
+    function una(ev) { if (!hechos[ev]) { hechos[ev] = 1; manda(ev, false); } }
+    var nueva = false;
+    try { nueva = !sessionStorage.getItem("ar_ses"); sessionStorage.setItem("ar_ses", "1"); } catch (e) {}
+    manda("vista", nueva);
+    document.addEventListener("click", function (e) {
+      var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+      if (!a) return;
+      var h = a.getAttribute("href") || "";
+      if (/wa\.me\//.test(h)) una("whatsapp");
+      else if (/^\/pedidos\/|arensil\.com\/pedidos\//.test(h)) una("portal");
+    }, true);
+    function calc(e) { if (/^(ct|f|p|g)-/.test((e.target && e.target.id) || "")) una("cotizador"); }
+    document.addEventListener("input", calc, true);
+    document.addEventListener("change", calc, true);
+    return { una: una };
+  })();
+
   var css = ""
     + "#ar-chat-btn{position:fixed;right:18px;bottom:18px;z-index:2147483000;display:flex;align-items:center;gap:9px;"
     + "padding:13px 17px 13px 14px;border:0;border-radius:999px;cursor:pointer;font:600 15px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;"
@@ -206,6 +247,7 @@
   }
 
   btn.addEventListener("click", abre);
+  btn.addEventListener("click", function () { est.una("chat"); });
   caja.querySelector(".ar-x").addEventListener("click", cierra);
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !caja.hidden) cierra(); });
   form.addEventListener("submit", function (e) { e.preventDefault(); manda(txt.value); });
