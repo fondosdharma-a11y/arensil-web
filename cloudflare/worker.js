@@ -1,4 +1,4 @@
-// Sirve el sitio desde Cloudflare igual que lo servía GitHub Pages (mismas URLs, mismos 301 y la misma
+// Sirve el sitio desde Cloudflare igual que lo servía GitHub Pages (los archivos se leen de GitHub) (mismas URLs, mismos 301 y la misma
 // página 404) y agrega las cabeceras de seguridad que GitHub Pages no permite (auditoría 2026-10-03).
 //
 // Cómo resuelve una ruta, igual que GitHub Pages:
@@ -49,9 +49,39 @@ async function porPartes(req, r) {
   return new Response(datos.slice(ini, fin + 1), { status: 206, headers: h });
 }
 
+// Tipos por extensión (raw.githubusercontent.com todo lo entrega como text/plain).
+const TIPOS = {
+  html: "text/html", css: "text/css", js: "application/javascript", mjs: "application/javascript",
+  json: "application/json", xml: "application/xml", txt: "text/plain", md: "text/markdown",
+  svg: "image/svg+xml", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", webp: "image/webp",
+  avif: "image/avif", gif: "image/gif", ico: "image/x-icon", mp4: "video/mp4", webm: "video/webm",
+  mp3: "audio/mpeg", vtt: "text/vtt", pdf: "application/pdf", woff: "font/woff", woff2: "font/woff2",
+  ttf: "font/ttf", otf: "font/otf", webmanifest: "application/manifest+json", csv: "text/csv",
+};
+const tipoDe = (ruta) => TIPOS[(ruta.split("/").pop().split(".").pop() || "").toLowerCase()] || "application/octet-stream";
+
+// Lo que GitHub Pages nunca publicó: archivos ocultos o con guion bajo (Jekyll) y la configuración de Cloudflare.
+const PRIVADO = /(^|\/)[._]|^\/(cloudflare\/|wrangler\.jsonc$|README\.md$|CNAME$)/;
+
+// Busca un archivo. Fuente: GitHub (main), con caché de 5 min en Cloudflare, así lo que se sube aparece
+// solo, sin desplegar. Si GitHub no responde, se usa la copia empaquetada en el Worker (ASSETS).
 async function buscar(env, req, url, ruta) {
-  const r = await env.ASSETS.fetch(new Request(url.origin + ruta, { method: req.method, headers: req.headers }));
-  return r.status === 404 ? null : r;
+  if (PRIVADO.test(ruta)) return null;
+  let r;
+  try {
+    r = await fetch(env.FUENTE + ruta, { cf: { cacheTtlByStatus: { "200-299": 300, "404": 60, "500-599": 0 }, cacheEverything: true } });
+  } catch { r = null; }
+  if (r && r.status === 404) return null;
+  if (!r || !r.ok) {
+    const copia = await env.ASSETS.fetch(new Request(url.origin + ruta, { method: req.method, headers: req.headers }));
+    return copia.status === 404 ? null : copia;
+  }
+  const etiqueta = r.headers.get("ETag");
+  const h = new Headers({ "Content-Type": tipoDe(ruta), "Cache-Control": "public, max-age=600", "Accept-Ranges": "bytes" });
+  if (etiqueta) h.set("ETag", etiqueta);
+  if (etiqueta && req.headers.get("If-None-Match") === etiqueta) return new Response(null, { status: 304, headers: h });
+  if (req.method === "HEAD") { const largo = r.headers.get("Content-Length"); if (largo) h.set("Content-Length", largo); return new Response(null, { status: 200, headers: h }); }
+  return new Response(r.body, { status: 200, headers: h });
 }
 
 export default {
@@ -80,7 +110,7 @@ export default {
         return conSeguridad(Response.redirect(url.origin + p + "/" + url.search, 301), propio);
       }
     }
-    const pagina = await env.ASSETS.fetch(new Request(url.origin + "/404.html"));
+    const pagina = (await buscar(env, new Request(req.url), url, "/404.html")) || (await env.ASSETS.fetch(new Request(url.origin + "/404.html")));
     return conSeguridad(new Response(req.method === "HEAD" ? null : pagina.body, {
       status: 404, headers: { "Content-Type": "text/html; charset=utf-8" },
     }), propio);

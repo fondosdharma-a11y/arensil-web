@@ -1,5 +1,6 @@
 // Sitio servido por Cloudflare (mudanza desde GitHub Pages, auditoría de seguridad 2026-10-03).
-// GitHub sigue siendo la fuente: cada push a main se publica solo (Workers Builds).
+// GitHub sigue siendo la fuente: el Worker lee cada archivo de main (caché de 5 min), así que lo que se sube
+// aparece solo. La copia empaquetada (assets) es el respaldo si GitHub no responde.
 // Servidor: cloudflare/worker.js (mismas URLs que GitHub Pages + cabeceras de seguridad).
 // Regreso de emergencia: en Cloudflare DNS, quitar el proxy (nube gris) a los registros del dominio.
 {
@@ -18,5 +19,5 @@
     { "pattern": "arensil.com/*", "zone_name": "arensil.com" },
     { "pattern": "www.arensil.com/*", "zone_name": "arensil.com" }
   ],
-  "vars": { "HOST_CANONICO": "arensil.com", "HOSTS_ALTERNOS": "www.arensil.com" }
+  "vars": { "FUENTE": "https://raw.githubusercontent.com/fondosdharma-a11y/arensil-web/main", "HOST_CANONICO": "arensil.com", "HOSTS_ALTERNOS": "www.arensil.com" }
 }
