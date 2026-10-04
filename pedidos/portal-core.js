@@ -96,7 +96,7 @@ ocultarSociales();
     if (caja && !caja.innerHTML.trim()) caja.innerHTML = `<div class="aviso err" style="text-align:left">
       <strong>La plataforma no está respondiendo en este momento.</strong>
       No es su conexión. Escríbanos por
-      <a href="https://wa.me/523223102049?text=${encodeURIComponent("Buen día, la plataforma de pedidos no carga y quiero hacer un pedido.")}">WhatsApp al 322 310 2049</a>
+      <a href="https://wa.me/523324934360?text=${encodeURIComponent("Buen día, la plataforma de pedidos no carga y quiero hacer un pedido.")}">WhatsApp al 33 2493 4360</a>
       y le tomamos el pedido de inmediato.</div>`;
   }
 })();
@@ -434,7 +434,7 @@ else arrancar();
 // Cuando Supabase pide confirmar el correo, el cliente se queda sin saber qué hacer.
 // Le decimos exactamente qué esperar, le damos reenvío y una salida por WhatsApp.
 function avisoConfirmacion(email) {
-  const wa = "523223102049";
+  const wa = "523324934360";
   const msg = encodeURIComponent(`Hola, me registré en arensil.com con ${email}. ¿Me activan la cuenta? Quiero hacer un pedido.`);
   $("#acc-msg").innerHTML = `<div class="aviso ok" style="text-align:left">
     <strong>Cuenta creada.</strong> Te mandamos un correo a <strong>${esc(email)}</strong> para confirmarla.

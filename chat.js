@@ -8,7 +8,7 @@
 
   var API = "https://pfsbltkdlnrkodvetfnu.supabase.co/functions/v1/chat-soporte";
   var KEY = "sb_publishable_D-anC38mBEtdn9mEoxLtiA_3wjan8v2";
-  var WA = "https://wa.me/523223102049";
+  var WA = "https://wa.me/523324934360";
   var LS = "arensil_chat_token";
   var SS = "arensil_chat_abierto";
   var TOPE = 1200;
@@ -146,7 +146,7 @@
     + '<label for="ar-txt" style="position:absolute;left:-9999px">Escriba su mensaje</label>'
     + '<textarea id="ar-txt" rows="1" maxlength="' + TOPE + '" placeholder="Escriba su pregunta…"></textarea>'
     + '<button id="ar-env" type="submit" aria-label="Enviar">' + AVION + "</button></form>"
-    + '<small>Le responde un asistente automático. Para algo urgente, <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp 322 310 2049</a>.</small></div>';
+    + '<small>Le responde un asistente automático. Para algo urgente, <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp 33 2493 4360</a>.</small></div>';
 
   document.body.appendChild(btn);
   document.body.appendChild(caja);
@@ -165,7 +165,7 @@
     return escapa(s)
       .replace(/\b(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')
       .replace(/\b(arensil\.com[\w\/#.-]*)/g, '<a href="https://$1" target="_blank" rel="noopener">$1</a>')
-      .replace(/\b322 310 2049\b/g, '<a href="' + WA + '" target="_blank" rel="noopener">322 310 2049</a>');
+      .replace(/\b33 2493 4360\b/g, '<a href="' + WA + '" target="_blank" rel="noopener">33 2493 4360</a>');
   }
   function pinta(rol, texto) {
     var d = document.createElement("div");
@@ -218,12 +218,12 @@
     }).then(function (r) { return r.json(); }).then(function (d) {
       if (corta) clearTimeout(corta);
       esp.remove();
-      pinta("bot", d.respuesta || "No pude responderle en este momento. Escríbanos por WhatsApp al 322 310 2049.");
+      pinta("bot", d.respuesta || "No pude responderle en este momento. Escríbanos por WhatsApp al 33 2493 4360.");
       if (d.cerrado) { cerrado = true; txt.disabled = true; txt.placeholder = "Conversación cerrada"; }
     }).catch(function () {
       if (corta) clearTimeout(corta);
       esp.remove();
-      pinta("bot", "Se me cayó la conexión. Vuelva a intentar o escríbanos por WhatsApp al 322 310 2049.");
+      pinta("bot", "Se me cayó la conexión. Vuelva a intentar o escríbanos por WhatsApp al 33 2493 4360.");
     }).then(function () {
       ocupado = false;
       env.disabled = false;

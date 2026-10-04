@@ -191,7 +191,7 @@ $("#c-prog").onclick = () => {
 // necesita saber el folio, el monto y a quién escribirle, sin buscarlo.
 function confirmacionTransferencia(j) {
   const c = D.config || {};
-  const wa = (c.whatsapp || "523223102049").replace(/\D/g, "");
+  const wa = (c.whatsapp || "523324934360").replace(/\D/g, "");
   const folio = j.folio || "";
   const total = j.total != null ? mx(j.total) : "";
   const msg = encodeURIComponent(

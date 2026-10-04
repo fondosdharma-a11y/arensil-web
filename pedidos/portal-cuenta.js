@@ -47,7 +47,7 @@ function pintarPedidos() {
 // Instrucciones de pago por transferencia: con los datos bancarios si JP ya los capturó en el CRM.
 function datosTransferencia(p) {
   const c = D.config || {};
-  const wa = (c.whatsapp || "523223102049").replace(/\D/g, "");
+  const wa = (c.whatsapp || "523324934360").replace(/\D/g, "");
   const msg = encodeURIComponent(`Hola, soy ${D.cuenta?.nombre || D.perfil?.nombre || ""}. Te mando el comprobante del pedido ${p.folio} (${mx(p.total)}).`);
   const waLink = `<a href="https://wa.me/${wa}?text=${msg}" target="_blank" rel="noopener">enviar comprobante por WhatsApp</a>`;
   if (!c.pago_clabe) {
@@ -70,7 +70,7 @@ async function verCertificado(loteId) {
   abrirModal(`<div class="cert">
     <div class="enc">
       <div><div class="logo" style="margin-bottom:4px"><svg viewBox="-95 -108 190 216" aria-hidden="true"><path d="M0,-100 L86.6,-50 L86.6,50 L0,0 Z" fill="#E9CFA4"/><path d="M86.6,50 L0,100 L-86.6,50 L0,0 Z" fill="#8C4A22"/><path d="M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z" fill="#C98A3C"/><path d="M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z" fill="#F4E3C8"/></svg><b>ARENSIL</b></div>
-        <div class="muted" style="font-size:12px">Arena sílica · Lagos de Moreno, Jalisco · 322 310 2049</div></div>
+        <div class="muted" style="font-size:12px">Arena sílica · Lagos de Moreno, Jalisco · 33 2493 4360</div></div>
       <div style="text-align:right"><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700">Certificado de análisis</div>
         <div style="font-size:1.2rem;font-weight:660" class="mono">Lote ${esc(c.codigo)}</div></div>
     </div>
