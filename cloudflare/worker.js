@@ -100,6 +100,10 @@ export default {
     }
 
     const p = url.pathname;
+    // Redirecciones fijas del sitio (var REDIRECCIONES = JSON {"/vieja.html": "/nueva.html"}).
+    let mapa = {};
+    try { mapa = JSON.parse(env.REDIRECCIONES || "{}"); } catch { mapa = {}; }
+    if (mapa[p]) return conSeguridad(Response.redirect(url.origin + mapa[p] + url.search, 301), propio);
     if (p.endsWith("/")) {
       const r = await buscar(env, req, url, p + "index.html");
       if (r) return conSeguridad(r, propio);
