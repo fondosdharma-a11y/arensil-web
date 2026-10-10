@@ -104,6 +104,8 @@
     + "display:flex;align-items:center;justify-content:center}"
     + "#ar-env:disabled{opacity:.45;cursor:default}"
     + "#ar-env svg{width:18px;height:18px}"
+    + "#ar-ok{display:flex;gap:7px;align-items:flex-start;margin-top:8px;font-size:.74rem;line-height:1.35;color:#3A352E;cursor:pointer}"
+    + "#ar-ok input{margin-top:2px;flex:0 0 auto}"
     + "#ar-pie small{display:block;margin-top:8px;font-size:.72rem;color:#6F6A62;text-align:center}"
     + "#ar-pie small a{color:#8C4A22}"
     + ".ar-esc{display:flex;gap:4px;padding:4px 2px}"
@@ -146,6 +148,7 @@
     + '<label for="ar-txt" style="position:absolute;left:-9999px">Escriba su mensaje</label>'
     + '<textarea id="ar-txt" rows="1" maxlength="' + TOPE + '" placeholder="Escriba su pregunta…"></textarea>'
     + '<button id="ar-env" type="submit" aria-label="Enviar">' + AVION + "</button></form>"
+    + '<label id="ar-ok"><input type="checkbox" id="ar-acepto"> <span>Acepto que ARENSIL me contacte por WhatsApp al número que puse</span></label>'
     + '<small>Le responde un asistente automático. Para algo urgente, <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp 33 2493 4360</a>.</small></div>';
 
   document.body.appendChild(btn);
@@ -156,6 +159,9 @@
   var form = caja.querySelector("#ar-form");
   var txt = caja.querySelector("#ar-txt");
   var env = caja.querySelector("#ar-env");
+  var acepto = caja.querySelector("#ar-acepto");
+  var inv = 0;   // cuántas veces se le contestó la regla de inversión en esta sesión
+  try { inv = parseInt(sessionStorage.getItem("ar_inv") || "0", 10) || 0; } catch (e) {}
   var cerrado = false;
 
   function escapa(s) {
@@ -213,12 +219,13 @@
     fetch(API, {
       method: "POST",
       headers: { "Content-Type": "application/json", apikey: KEY, Authorization: "Bearer " + KEY },
-      body: JSON.stringify({ token: TOK, mensaje: texto, origen: location.pathname }),
+      body: JSON.stringify({ token: TOK, mensaje: texto, origen: location.pathname, acepta: !!acepto.checked, inv: inv }),
       signal: ctrl ? ctrl.signal : undefined
     }).then(function (r) { return r.json(); }).then(function (d) {
       if (corta) clearTimeout(corta);
       esp.remove();
       pinta("bot", d.respuesta || "No pude responderle en este momento. Escríbanos por WhatsApp al 33 2493 4360.");
+      if (d.inversion) { inv++; try { sessionStorage.setItem("ar_inv", String(inv)); } catch (e) {} }
       if (d.cerrado) { cerrado = true; txt.disabled = true; txt.placeholder = "Conversación cerrada"; }
     }).catch(function () {
       if (corta) clearTimeout(corta);
