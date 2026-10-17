@@ -21,12 +21,12 @@
 <meta name="twitter:image" content="https://arensil.com/og.png">
 <meta name="twitter:title" content="ARENSIL · Portal de pedidos">
 <meta name="twitter:description" content="Plataforma de pedidos de ARENSIL: cotiza arena sílica con flete por zona, paga por transferencia SPEI y programa entregas recurrentes.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-95 -108 190 216'%3E%3Cpath d='M0,-100 L86.6,-50 L86.6,50 L0,0 Z' fill='%23E9CFA4'/%3E%3Cpath d='M86.6,50 L0,100 L-86.6,50 L0,0 Z' fill='%238C4A22'/%3E%3Cpath d='M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z' fill='%23C98A3C'/%3E%3Cpath d='M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z' fill='%23F4E3C8'/%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
 :root{
   --bg:#F7F5F1; --panel:#fff; --ink:#1C1A17; --tinta:#3A352E; --muted:#6F6A62;
-  --line:#E3DED6; --arena:#E9CFA4; --ambar:#C98A3C; --terra:#8C4A22;
+  --line:#E3DED6; --arena:#EBD9A8; --ambar:#B8862B; --terra:#8A6418;
   --ok:#2f6b48; --warn:#a8761b; --bad:#a3392c; --r:11px;
   --shadow:0 1px 2px rgba(28,26,23,.06),0 10px 28px rgba(28,26,23,.06);
 }
@@ -48,7 +48,7 @@ header.top{position:sticky;top:0;z-index:30;background:rgba(247,245,241,.94);
   backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;gap:22px;padding:12px 20px;max-width:1120px;margin:0 auto;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
-.logo svg{width:22px;height:25px;display:block}
+.logo svg{width:42px;height:23px;display:block}
 .logo b{font-weight:700;letter-spacing:.1em}
 nav.tabs{display:flex;gap:2px;flex-wrap:wrap}
 nav.tabs button{background:none;border:0;padding:7px 13px;border-radius:8px;color:var(--muted);
@@ -69,7 +69,7 @@ input,select,textarea{background:var(--bg);border:1px solid var(--line);border-r
 input:focus,select:focus,textarea:focus{outline:2px solid var(--ambar);outline-offset:-1px}
 .btn{background:var(--terra);color:#fff;border:0;border-radius:8px;padding:10px 17px;
   cursor:pointer;font-weight:600}
-.btn:hover{background:#73391a}
+.btn:hover{background:#6E4F12}
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 .btn.ghost:hover{background:#EFEBE4}
 .btn.sm{padding:6px 11px;font-size:13px}
@@ -162,7 +162,7 @@ tr:last-child td{border-bottom:0}
 <div id="acceso" class="acceso hide">
   <div class="card pad">
     <div class="logo" style="margin-bottom:6px">
-      <svg viewBox="-95 -108 190 216" aria-hidden="true"><path d="M0,-100 L86.6,-50 L86.6,50 L0,0 Z" fill="#E9CFA4"/><path d="M86.6,50 L0,100 L-86.6,50 L0,0 Z" fill="#8C4A22"/><path d="M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z" fill="#C98A3C"/><path d="M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z" fill="#F4E3C8"/></svg>
+      <svg class="marca-mt" viewBox="0 0 120 64" aria-hidden="true"><path d="M6 62L58 4l52 58H88L58 28 28 62z" fill="#B8862B"/><path d="M84 24l11-7 21 45h-16z" fill="#C9A24B"/></svg>
       <b>ARENSIL</b>
     </div>
     <p class="muted" style="font-size:13.5px;margin-bottom:16px">Portal de pedidos · Lagos de Moreno, Jalisco</p>
@@ -218,7 +218,7 @@ tr:last-child td{border-bottom:0}
     </div>
 
     <div id="acc-msg"></div>
-    <p class="muted" style="font-size:12px;margin-top:14px">¿Solo quieres un precio? Usa el <a href="https://arensil.com/#cotizar">cotizador en la portada</a> sin registrarte.</p>
+    <p class="muted" style="font-size:12px;margin-top:14px">¿Solo quieres un precio? Mira precios en la <a href="https://arensil.com/#tienda">tienda de la portada</a> sin registrarte.</p>
   </div>
 </div>
 
@@ -227,7 +227,7 @@ tr:last-child td{border-bottom:0}
 <header class="top">
   <div class="nav">
     <a class="logo" href="/">
-      <svg viewBox="-95 -108 190 216" aria-hidden="true"><path d="M0,-100 L86.6,-50 L86.6,50 L0,0 Z" fill="#E9CFA4"/><path d="M86.6,50 L0,100 L-86.6,50 L0,0 Z" fill="#8C4A22"/><path d="M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z" fill="#C98A3C"/><path d="M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z" fill="#F4E3C8"/></svg>
+      <svg class="marca-mt" viewBox="0 0 120 64" aria-hidden="true"><path d="M6 62L58 4l52 58H88L58 28 28 62z" fill="#B8862B"/><path d="M84 24l11-7 21 45h-16z" fill="#C9A24B"/></svg>
       <b>ARENSIL</b>
     </a>
     <a class="sitio-link" href="https://arensil.com/">← arensil.com</a>

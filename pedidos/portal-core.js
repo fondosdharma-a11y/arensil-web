@@ -47,6 +47,11 @@ const params = new URLSearchParams(location.search);
 const PRE_KEY = "arensil_pre";
 try {
   if (params.get("producto")) localStorage.setItem(PRE_KEY, JSON.stringify({ producto_id: Number(params.get("producto")), cantidad: Number(params.get("cantidad")) || 0, zona: Number(params.get("zona")) || null }));
+  // Carrito completo armado en la tienda de la portada: ?carrito=id:cantidad,id:cantidad&zona=
+  if (params.get("carrito")) {
+    const items = params.get("carrito").split(",").map(s => s.split(":")).map(([id, c]) => ({ producto_id: Number(id), cantidad: Number(c) })).filter(l => l.producto_id > 0 && l.cantidad > 0);
+    if (items.length) localStorage.setItem(PRE_KEY, JSON.stringify({ items, zona: Number(params.get("zona")) || null }));
+  }
 } catch {}
 const REF_KEY = "arensil_ref";
 let REF = (params.get("ref") || "").trim().toUpperCase();
@@ -241,13 +246,15 @@ async function cargar(user) {
   llenarSelectDireccion();
   try {
     const pre = JSON.parse(localStorage.getItem(PRE_KEY) || "null");
-    if (pre && pre.producto_id && pre.cantidad > 0 && D.productos.some(p => p.id === pre.producto_id)) {
-      CARRITO.push({ producto_id: pre.producto_id, cantidad: pre.cantidad });
+    const lineas = pre && pre.items ? pre.items : (pre && pre.producto_id && pre.cantidad > 0 ? [{ producto_id: pre.producto_id, cantidad: pre.cantidad }] : []);
+    const validas = lineas.filter(l => D.productos.some(p => p.id === l.producto_id));
+    if (validas.length) {
+      validas.forEach(l => CARRITO.push({ producto_id: l.producto_id, cantidad: l.cantidad }));
       recalcular();
-      aviso("#car-msg", "Traemos tu cotización de la portada. Elige la dirección de entrega y confirma.", "ok");
+      aviso("#car-msg", "Traemos tu pedido de la tienda. Elige la dirección de entrega y confirma.", "ok");
     }
     localStorage.removeItem(PRE_KEY);
-    if (params.get("producto")) history.replaceState({}, "", location.pathname);
+    if (params.get("producto") || params.get("carrito")) history.replaceState({}, "", location.pathname);
   } catch {}
   pintarEmpresa();
   $("#q-nombre").value = D.perfil.nombre || "";

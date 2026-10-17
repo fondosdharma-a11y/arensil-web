@@ -69,7 +69,7 @@ async function verCertificado(loteId) {
   const fila = (k, v) => `<tr><td>${k}</td><td class="mono"><strong>${v}</strong></td></tr>`;
   abrirModal(`<div class="cert">
     <div class="enc">
-      <div><div class="logo" style="margin-bottom:4px"><svg viewBox="-95 -108 190 216" aria-hidden="true"><path d="M0,-100 L86.6,-50 L86.6,50 L0,0 Z" fill="#E9CFA4"/><path d="M86.6,50 L0,100 L-86.6,50 L0,0 Z" fill="#8C4A22"/><path d="M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z" fill="#C98A3C"/><path d="M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z" fill="#F4E3C8"/></svg><b>ARENSIL</b></div>
+      <div><div class="logo" style="margin-bottom:4px"><svg class="marca-mt" viewBox="0 0 120 64" aria-hidden="true"><path d="M6 62L58 4l52 58H88L58 28 28 62z" fill="#B8862B"/><path d="M84 24l11-7 21 45h-16z" fill="#C9A24B"/></svg><b>ARENSIL</b></div>
         <div class="muted" style="font-size:12px">Arena sílica · Lagos de Moreno, Jalisco · 33 2493 4360</div></div>
       <div style="text-align:right"><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700">Certificado de análisis</div>
         <div style="font-size:1.2rem;font-weight:660" class="mono">Lote ${esc(c.codigo)}</div></div>

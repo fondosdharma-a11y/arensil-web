@@ -20,7 +20,7 @@
 <meta name="twitter:image" content="https://arensil.com/og.png">
 <meta name="twitter:title" content="ARENSIL | Arena sílica con precio publicado en Jalisco">
 <meta name="twitter:description" content="Productor de arena sílica cribada, secada y clasificada por malla en Lagos de Moreno, Jalisco. Plataforma de pedidos en línea con pago por transferencia SPEI, y entrega en Guadalajara, León, Aguascal">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-95 -108 190 216'%3E%3Cpath d='M0,-100 L86.6,-50 L86.6,50 L0,0 Z' fill='%23E9CFA4'/%3E%3Cpath d='M86.6,50 L0,100 L-86.6,50 L0,0 Z' fill='%238C4A22'/%3E%3Cpath d='M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z' fill='%23C98A3C'/%3E%3Cpath d='M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z' fill='%23F4E3C8'/%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/estilo.css">
 <script type="application/ld+json">{
  "@context": "https://schema.org",
@@ -127,7 +127,7 @@
 <style>
 /* ---- solo portada ---- */
 .hero{padding:64px 0 56px;background:
-  radial-gradient(120% 90% at 92% 0%, #F3E4CE 0%, rgba(243,228,206,0) 60%), var(--hueso)}
+  radial-gradient(120% 90% at 92% 0%, #F2E7C9 0%, rgba(243,228,206,0) 60%), var(--hueso)}
 .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
 @media(max-width:940px){.hero-grid{grid-template-columns:1fr;gap:36px}}
 .hero h1{margin-bottom:18px;font-size:clamp(2.05rem,4.9vw,3.35rem)}
@@ -196,17 +196,17 @@
 .proceso p{font-size:.92rem;color:var(--tinta)}
 
 /* contacto */
-.contacto{background:linear-gradient(160deg,#8C4A22,#5E2F14);color:#fff;border-top:0}
+.contacto{background:linear-gradient(160deg,#8A6418,#3F2E0C);color:#fff;border-top:0}
 .contacto h2{color:#fff}
 .contacto .eyebrow{color:var(--arena)}
-.contacto .lede{color:#F0DCC6}
+.contacto .lede{color:#F2E7C9}
 .cbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:34px}
 .cbox a,.cbox div.box{display:block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
   border-radius:11px;padding:19px 21px;text-decoration:none;color:#fff}
 .cbox a:hover{background:rgba(255,255,255,.16)}
 .cbox .k{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--arena);font-weight:700}
 .cbox .v{font-size:1.14rem;font-weight:640;margin-top:5px}
-.cbox .s{font-size:.84rem;color:#E4CDB4;margin-top:3px}
+.cbox .s{font-size:.84rem;color:#E6D6AC;margin-top:3px}
 
 /* cotizador público */
 .cot{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;margin-top:34px;align-items:start}
@@ -245,13 +245,82 @@
 .cot>*{min-width:0}
 .form label,.dos,.dos>*{min-width:0}
 .form input,.form select,.form textarea{width:100%;max-width:100%;min-width:0;box-sizing:border-box}
+
+/* ---- rediseño 2026-10-17: portada con foto y tienda ---- */
+.hero.hero-foto{position:relative;padding:0;background:#1A1A1A;color:#fff;overflow:hidden;min-height:560px;display:flex;align-items:flex-end}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center 55%}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,16,12,.55) 0%,rgba(18,16,12,.62) 45%,rgba(18,16,12,.9) 100%)}
+.hero-in{position:relative;padding-top:88px;padding-bottom:42px}
+.hero-foto .eyebrow{color:#EBD9A8}
+.hero-foto h1{color:#fff;max-width:19ch;font-size:clamp(2.1rem,5.2vw,3.7rem);margin-bottom:18px}
+.hero-foto .lede{color:#EFE8D8;max-width:58ch}
+.hero-foto .hero-btns{margin-top:6px}
+.cta-grande{padding:14px 26px!important;font-size:1.02rem!important;border-radius:9px}
+.cta.ghost.claro{color:#fff!important;border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.08)}
+.cta.ghost.claro:hover{background:rgba(255,255,255,.18)}
+.hero-datos{list-style:none;margin:34px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.18);border-radius:12px;overflow:hidden}
+.hero-datos li{background:rgba(20,18,14,.72);backdrop-filter:blur(6px);padding:15px 18px}
+.hero-datos b{display:block;font-size:1.08rem;letter-spacing:-.01em}
+.hero-datos span{font-size:.8rem;color:#D8D0BF}
+.hero-foto .hero-nota{color:#D8D0BF}
+.hero-foto .hero-nota a{color:#EBD9A8}
+.tienda{background:#fff;border-top:0}
+.filtros{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 6px}
+.chip{font:inherit;font-size:.88rem;font-weight:600;padding:8px 15px;border-radius:999px;border:1px solid var(--linea);background:var(--hueso);color:var(--tinta);cursor:pointer}
+.chip:hover{border-color:var(--ambar)}
+.chip.on{background:var(--grafito);color:#fff;border-color:var(--grafito)}
+.chip:focus-visible,.qty button:focus-visible{outline:3px solid var(--ambar);outline-offset:2px}
+.tienda-grid{display:grid;grid-template-columns:1fr 340px;gap:26px;align-items:start;margin-top:18px}
+@media(max-width:980px){.tienda-grid{grid-template-columns:1fr}}
+.prods{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;min-width:0}
+.prod{background:var(--hueso);border:1px solid var(--linea);border-radius:13px;overflow:hidden;display:flex;flex-direction:column}
+.prod .cab{padding:16px 18px 12px;background:linear-gradient(135deg,#F2E7C9,#EBD9A8);border-bottom:1px solid var(--linea)}
+.prod .malla{font-size:1.55rem;font-weight:700;letter-spacing:-.02em;line-height:1}
+.prod .pres{display:inline-block;margin-top:7px;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--terra)}
+.prod .cuerpo{padding:14px 18px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
+.prod h3{font-size:.98rem}
+.prod .precio{font-size:1.3rem;font-weight:700;letter-spacing:-.02em}
+.prod .precio small{font-size:.78rem;font-weight:500;color:var(--gris)}
+.prod .agregar{display:flex;gap:8px;align-items:center;margin-top:auto}
+.qty{display:flex;align-items:center;border:1px solid var(--linea);border-radius:8px;background:#fff;overflow:hidden}
+.qty button{font:inherit;font-size:1.1rem;width:34px;height:38px;border:0;background:none;cursor:pointer;color:var(--tinta)}
+.qty button:hover{background:#F2EEE4}
+.qty input{width:48px;text-align:center;border:0;font:inherit;font-weight:600;background:none;padding:0;-moz-appearance:textfield}
+.prod .agregar .cta{flex:1;text-align:center;padding:10px 12px}
+.prod .unidad{font-size:.78rem;color:var(--gris)}
+.carrito{position:sticky;top:84px;background:var(--grafito);color:#EDE9E1;border-radius:15px;padding:22px;display:grid;gap:12px}
+.carrito h3{color:#fff;font-size:1.15rem}
+.carrito .zona{display:flex;flex-direction:column;gap:6px;font-size:.78rem;font-weight:700;color:#CFC8BD}
+.carrito select{font:inherit;color:var(--grafito);background:#fff;border:1px solid var(--linea);border-radius:8px;padding:10px;width:100%}
+.lineas{display:grid;gap:8px;max-height:260px;overflow:auto}
+.lineas .vacio{font-size:.9rem;color:#B8B1A6}
+.linea{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:.88rem;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.linea small{color:#B8B1A6;grid-column:1}
+.linea .quitar{grid-row:1/3;grid-column:2;align-self:center;background:none;border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:7px;width:30px;height:30px;cursor:pointer}
+.carrito .fila{display:flex;justify-content:space-between;gap:16px;font-variant-numeric:tabular-nums;font-size:.92rem}
+.carrito .fila span:first-child{color:#B8B1A6}
+.carrito .fila.total{font-size:1.45rem;font-weight:660;letter-spacing:-.02em;padding-top:6px;border-top:1px solid rgba(255,255,255,.14)}
+.carrito .fila.total span:first-child{color:#fff}
+.carrito .cta{display:block;text-align:center}
+.carrito .cta.ghost{color:#fff!important;border-color:rgba(255,255,255,.3)}
+.carrito .cta[aria-disabled="true"]{opacity:.45;pointer-events:none}
+.carrito .nota{color:#8F887D;margin-top:2px}
+.barra-pedido{position:fixed;left:12px;right:12px;bottom:12px;z-index:25;display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--grafito);color:#fff;text-decoration:none;padding:13px 18px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.35);font-size:.95rem}
+.barra-pedido b{font-variant-numeric:tabular-nums}
+@media(min-width:981px){.barra-pedido{display:none!important}}
+.galeria{background:var(--hueso)}
+.fotos{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:28px}
+.fotos figure{margin:0;border-radius:14px;overflow:hidden;background:#fff;border:1px solid var(--linea)}
+.fotos img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
+.fotos figcaption{padding:12px 16px;font-size:.9rem;color:var(--tinta)}
+@media(prefers-reduced-motion:no-preference){.prod{transition:transform .18s,box-shadow .18s}.prod:hover{transform:translateY(-2px);box-shadow:0 14px 30px -16px rgba(40,30,10,.35)}}
 </style>
 </head>
 <body>
 
 <div class="anuncio">
   <div class="wrap">
-    <span><b>Nuevo:</b> plataforma de pedidos en línea.<span class="largo"> Cotice, pague y programe sus entregas sin llamadas.</span></span>
+    <span><b>Tienda en línea:</b> arme su pedido con precio y flete al momento.<span class="largo"> Pago por transferencia SPEI.</span></span>
     <a href="/pedidos/">Entrar a la plataforma →</a>
   </div>
 </div>
@@ -259,7 +328,7 @@
 <header>
   <div class="nav">
     <a class="logo" href="/">
-      <svg viewBox="-95 -108 190 216" aria-hidden="true"><path d="M0,-100 L86.6,-50 L86.6,50 L0,0 Z" fill="#E9CFA4"/><path d="M86.6,50 L0,100 L-86.6,50 L0,0 Z" fill="#8C4A22"/><path d="M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z" fill="#C98A3C"/><path d="M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z" fill="#F4E3C8"/></svg>
+      <svg class="marca-mt" viewBox="0 0 120 64" aria-hidden="true"><path d="M6 62L58 4l52 58H88L58 28 28 62z" fill="#B8862B"/><path d="M84 24l11-7 21 45h-16z" fill="#C9A24B"/></svg>
       <b>ARENSIL</b>
     </a>
     <nav id="menu" aria-label="Principal">
@@ -286,46 +355,70 @@
 
 <main id="top">
 
-<div class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow">Productor de arena sílica · Lagos de Moreno, Jalisco</div>
-      <h1>Arena sílica industrial, directo del banco y con pedidos en línea.</h1>
-      <p class="lede">ARENSIL extrae, criba, seca y clasifica arena sílica por malla (y lava la de filtración y pozo) en yacimiento propio en Los Altos de Jalisco, y la entrega en obra o en planta en Guadalajara, León, Aguascalientes y el Bajío. Cada remisión indica su lote, y cada pedido puede hacerse, pagarse y programarse desde nuestra plataforma.</p>
-      <div class="hero-btns">
-        <a class="cta" href="/pedidos/">Entrar a la plataforma de pedidos</a>
-        <a class="cta ghost" href="https://wa.me/523324934360?text=Buen%20d%C3%ADa%2C%20solicito%20cotizaci%C3%B3n%20de%20arena%20s%C3%ADlica.%20Uso%3A%20___%2C%20volumen%3A%20___%2C%20entrega%20en%3A%20___">Solicitar cotización</a>
-      </div>
-      <p class="hero-nota">Atención directa: 33 2493 4360 · Lunes a sábado, 8:00 a 18:00.</p>
+<div class="hero hero-foto">
+  <div class="hero-bg" style="background-image:url(/img/jardin-1.webp)" role="img" aria-label="Andador de piedra sobre una cama de arena en un jardín (imagen ilustrativa)"></div>
+  <div class="wrap hero-in">
+    <div class="eyebrow">Banco propio · Lagos de Moreno, Jalisco</div>
+    <h1>Arena sílica de banco propio. Arme su pedido aquí, con precio y flete al momento.</h1>
+    <p class="lede">Elija la malla, la presentación y su zona de entrega: el total se calcula en pantalla y su pedido queda listo para confirmar. Entrega habitual de 48 a 72 horas en Guadalajara, León, Aguascalientes y el Bajío.</p>
+    <div class="hero-btns">
+      <a class="cta cta-grande" href="#tienda">Ir a la tienda</a>
+      <a class="cta ghost claro" href="https://wa.me/523324934360?text=Buen%20d%C3%ADa%2C%20quiero%20cotizar%20arena%20s%C3%ADlica.%20Uso%3A%20___%2C%20volumen%3A%20___%2C%20entrega%20en%3A%20___">Cotizar por WhatsApp</a>
     </div>
-
-    <aside class="panel" aria-label="Plataforma de pedidos">
-      <div class="k"><i></i> Plataforma de pedidos en línea</div>
-      <h2>Su cuenta ARENSIL, disponible las 24 horas.</h2>
-      <p>Registre a su empresa una sola vez y gestione sus compras de arena sílica sin llamadas ni correos.</p>
-      <ul>
-        <li><svg viewBox="0 0 20 20" fill="none" stroke="#2f8f5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Precio y flete calculados al instante según su zona de entrega</li>
-        <li><svg viewBox="0 0 20 20" fill="none" stroke="#2f8f5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Pago seguro con tarjeta, OXXO, transferencia SPEI o meses sin intereses</li>
-        <li><svg viewBox="0 0 20 20" fill="none" stroke="#2f8f5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Pedidos recurrentes programados: semanal, quincenal o mensual</li>
-        <li><svg viewBox="0 0 20 20" fill="none" stroke="#2f8f5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Historial, estatus de entrega y direcciones de obra guardadas</li>
-      </ul>
-      <a class="cta" href="/pedidos/?entrar=google" style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:18px;background:#fff;color:#1C1A17!important;border:1px solid var(--linea)"><span style="display:inline-flex;width:18px;height:18px"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.6v3h3.9c2.2-2.1 3.5-5.1 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.2v3.1C3.2 21.3 7.3 24 12 24z"/><path fill="#FBBC05" d="M5.3 14.3c-.5-1.5-.5-3.1 0-4.6V6.6H1.2c-1.6 3.3-1.6 7.5 0 10.8l4.1-3.1z"/><path fill="#EA4335" d="M12 4.7c1.8 0 3.3.6 4.6 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0 7.3 0 3.2 2.7 1.2 6.6l4.1 3.1c.9-2.9 3.6-5 6.7-5z"/></svg></span>Entrar con Google</a>
-      <div class="btns">
-        <a class="cta" href="/pedidos/">Crear cuenta con correo</a>
-        <a class="cta ghost" href="/pedidos/">Ya tengo cuenta</a>
-      </div>
-      <div class="pagos"><span>Transferencia SPEI</span><span>Tarjeta y OXXO: muy pronto</span></div>
-    </aside>
-  </div>
-  <div class="wrap">
-    <div class="stats">
-      <div class="stat"><b>Banco propio</b><span>Extracción y proceso en Lagos de Moreno</span></div>
-      <div class="stat"><b>48–72 h</b><span>Tiempo de entrega en zona</span></div>
-      <div class="stat"><b>25 kg a 30 t</b><span>Del saco a la carga completa</span></div>
-      <div class="stat"><b>Lote en cada remisión</b><span>Trazabilidad de cada entrega</span></div>
-    </div>
+    <ul class="hero-datos">
+      <li><b>Precio publicado</b><span>sin IVA, cargado en el banco</span></li>
+      <li><b>48–72 h</b><span>entrega habitual en zona</span></li>
+      <li><b>Saco a 30 t</b><span>25 kg, 50 kg, súper saco y granel</span></li>
+      <li><b>Lote en cada remisión</b><span>trazabilidad de la entrega</span></li>
+    </ul>
+    <p class="hero-nota">Atención directa: 33 2493 4360 · Lunes a sábado, 8:00 a 18:00. <a href="/pedidos/">Mi cuenta y mis pedidos →</a></p>
   </div>
 </div>
+
+<section id="tienda" class="tienda">
+  <div class="wrap">
+    <div class="eyebrow">Tienda en línea</div>
+    <h2>Elija su arena y arme el pedido.</h2>
+    <p class="lede" style="margin-top:12px">Precios de lista sin IVA, cargados en el banco. Agregue lo que necesita, elija su zona y el flete se suma solo. Para confirmar, entra a su cuenta (o la crea en un minuto) y paga por transferencia SPEI.</p>
+    <div class="filtros" id="t-filtros" role="group" aria-label="Filtrar por uso">
+      <button type="button" class="chip on" data-f="">Todo</button>
+      <button type="button" class="chip" data-f="construcci|16-40">Construcción</button>
+      <button type="button" class="chip" data-f="filtraci">Filtración</button>
+      <button type="button" class="chip" data-f="pozo">Empaque de pozo</button>
+      <button type="button" class="chip" data-f="gre[ñn]a">En greña</button>
+    </div>
+    <div class="tienda-grid">
+      <div class="prods" id="t-prods" aria-live="polite"><p class="nota">Cargando el catálogo…</p></div>
+      <aside class="carrito" id="carrito-panel" aria-label="Su pedido">
+        <h3>Su pedido</h3>
+        <label class="zona">Entrega
+          <select id="t-zona"><option value="0">Recojo en el banco (Lagos de Moreno)</option></select>
+        </label>
+        <div id="t-lineas" class="lineas"><p class="vacio">Aún no agrega productos.</p></div>
+        <div class="fila"><span>Producto</span><span id="t-sub">$0.00</span></div>
+        <div class="fila"><span>Flete</span><span id="t-fle">$0.00</span></div>
+        <div class="fila"><span>IVA 16 %</span><span id="t-iva">$0.00</span></div>
+        <div class="fila total"><span>Total</span><span id="t-tot">$0.00</span></div>
+        <a class="cta cta-grande" id="t-go" href="/pedidos/" aria-disabled="true">Continuar con mi pedido</a>
+        <a class="cta ghost" id="t-wa" href="https://wa.me/523324934360?text=Buen%20d%C3%ADa%2C%20quiero%20cotizar%20arena%20s%C3%ADlica.%20Uso%3A%20___%2C%20volumen%3A%20___%2C%20entrega%20en%3A%20___">Pedirlo por WhatsApp</a>
+        <p class="nota">Pago por transferencia SPEI; el pago con tarjeta y OXXO llegará más adelante. Si el flete a su dirección exacta cambia, se lo confirmamos antes de cobrar.</p>
+      </aside>
+    </div>
+    <a class="barra-pedido" id="t-barra" href="#carrito-panel" hidden><span id="t-barra-n">0 productos</span><b id="t-barra-t">$0.00</b><span>Ver pedido →</span></a>
+  </div>
+</section>
+
+<section class="galeria" aria-label="Dónde se usa">
+  <div class="wrap">
+    <div class="eyebrow">Dónde se usa</div>
+    <h2>Cama de arena para andadores, jardines y canchas.</h2>
+    <div class="fotos">
+      <figure><img src="/img/jardin-2.webp" alt="Andador de lajas sobre una cama de arena fina en un jardín" loading="lazy" width="1600" height="1067"><figcaption>Cama de arena para andadores y lajas</figcaption></figure>
+      <figure><img src="/img/jardin-3.webp" alt="Jardín con olivos y un andador curvo sobre arena" loading="lazy" width="1600" height="1067"><figcaption>Rellenos y acabados de jardín</figcaption></figure>
+    </div>
+    <p class="nota">Imágenes ilustrativas generadas con IA. Para canchas y pasto sintético, vea <a href="/usos/arena-para-pasto-sintetico-y-canchas/">cuánta arena lleva su cancha</a>.</p>
+  </div>
+</section>
 
 <section class="oscuro" id="plataforma">
   <div class="wrap">
@@ -348,33 +441,13 @@
 
 <section id="cotizar">
   <div class="wrap">
-    <div class="eyebrow">Cotizador</div>
-    <h2>Precio entregado en su zona, en diez segundos.</h2>
-    <p class="lede" style="margin-top:14px">Elija producto, cantidad y zona de entrega. El cálculo usa nuestra lista pública y el flete vigente por zona; no necesita registrarse para verlo.</p>
-    <div class="cot">
-      <div class="form">
-        <label>Producto <select id="ct-prod"><option>Cargando catálogo…</option></select></label>
-        <div class="dos">
-          <label>Cantidad <input id="ct-cant" type="number" min="1" step="1" value="20"></label>
-          <label>Unidad <input id="ct-uni" value="toneladas" readonly></label>
-        </div>
-        <label>Entrega <select id="ct-zona"><option value="0">Recojo en el banco (Lagos de Moreno)</option></select></label>
-        <p class="estado" id="ct-estado">Precios de referencia, cargados en el banco, sin IVA. El flete mostrado es por zona; el precio final se confirma en la plataforma con la dirección exacta.</p>
-      </div>
-      <div class="res">
-        <div class="k">Su cotización</div>
-        <div class="fila"><span>Producto</span><span id="ct-sub">$0.00</span></div>
-        <div class="fila"><span>Flete</span><span id="ct-fle">$0.00</span></div>
-        <div class="fila"><span>IVA 16 %</span><span id="ct-iva">$0.00</span></div>
-        <div class="fila total"><span>Total</span><span id="ct-tot">$0.00</span></div>
-        <a class="cta" id="ct-go" href="/pedidos/">Confirmar este pedido en la plataforma</a>
-        <p class="nota">Al continuar, la cantidad y el producto ya van cargados en su carrito. Pague con tarjeta, OXXO o SPEI.</p>
-      </div>
-    </div>
+    <div class="eyebrow">Cotización formal</div>
+    <h2>¿Prefiere que una persona le cotice?</h2>
+    <p class="lede" style="margin-top:14px">Para volúmenes grandes, obra con varias entregas o un proceso con especificación, le respondemos el mismo día hábil con precio, ficha técnica y flete a su dirección.</p>
     <details class="sol" id="sol">
-      <summary>¿Prefiere que una persona le cotice? Pida cotización formal sin registrarse</summary>
+      <summary>Pedir cotización formal, sin registrarse</summary>
       <form class="form" id="sol-form" novalidate>
-        <p class="estado" style="margin:0">Le llamamos o le escribimos por WhatsApp el mismo día hábil con precio, ficha técnica y flete a su dirección. El producto y la cantidad se toman del cotizador de arriba.</p>
+        <p class="estado" style="margin:0">Le llamamos o le escribimos por WhatsApp el mismo día hábil con precio, ficha técnica y flete a su dirección. Si ya armó un pedido en la tienda, lo incluimos.</p>
         <div class="tres">
           <label>Su nombre <input id="sol-nombre" required maxlength="120" autocomplete="name"></label>
           <label>Empresa <input id="sol-empresa" maxlength="160" autocomplete="organization"></label>
@@ -533,7 +606,7 @@
   <div class="wrap">
     <div class="pie-grid">
       <div class="pie-marca">
-        <a class="logo" href="/"><svg viewBox="-95 -108 190 216" aria-hidden="true"><path d="M0,-100 L86.6,-50 L86.6,50 L0,0 Z" fill="#E9CFA4"/><path d="M86.6,50 L0,100 L-86.6,50 L0,0 Z" fill="#8C4A22"/><path d="M-86.6,50 L-86.6,-50 L0,-100 L0,0 Z" fill="#C98A3C"/><path d="M0,-44 L38.11,-22 L38.11,22 L0,44 L-38.11,22 L-38.11,-22 Z" fill="#F4E3C8"/></svg><b>ARENSIL</b></a>
+        <a class="logo" href="/"><svg class="marca-mt" viewBox="0 0 120 64" aria-hidden="true"><path d="M6 62L58 4l52 58H88L58 28 28 62z" fill="#B8862B"/><path d="M84 24l11-7 21 45h-16z" fill="#C9A24B"/></svg><b>ARENSIL</b></a>
         <p>Productor de arena sílica industrial. Banco propio en Lagos de Moreno, Jalisco. Cribada, secada y clasificada por malla; lavada para filtración y pozo.</p>
       </div>
       <div><h4>Productos</h4><a href="/industrias/#filtracion">Filtración de agua</a><a href="/industrias/#albercas">Arena para alberca</a><a href="/fichas/empaque-de-pozo-8-16/">Empaque de pozo</a><a href="/industrias/#construccion">Construcción y prefabricados</a><a href="/productos/">Catálogo completo</a></div>
@@ -569,71 +642,112 @@
   var sb = supabase.createClient("https://pfsbltkdlnrkodvetfnu.supabase.co", "sb_publishable_D-anC38mBEtdn9mEoxLtiA_3wjan8v2");
   var $ = function(s){ return document.querySelector(s); };
   var mx = function(n){ return "$" + (Number(n)||0).toLocaleString("es-MX",{minimumFractionDigits:2,maximumFractionDigits:2}); };
-  var P = [], Z = [];
+  var esc = function(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); };
+  var PRES = {granel_ton:"A granel · por tonelada", saco_25kg:"Saco de 25 kg", saco_50kg:"Saco de 50 kg", supersaco_1t:"Súper saco de 1 t"};
   var UNI = {granel_ton:"toneladas", saco_25kg:"sacos de 25 kg", saco_50kg:"sacos de 50 kg", supersaco_1t:"súper sacos"};
-  function calc(){
-    var p = P.find(function(x){ return x.id === Number($("#ct-prod").value); }); if (!p) return;
-    var cant = Math.max(0, Number($("#ct-cant").value) || 0);
-    var z = Z.find(function(x){ return x.id === Number($("#ct-zona").value); });
-    var sub = cant * Number(p.precio_lista);
-    var fle = z ? cant * Number(z.precio_cliente_ton) * (Number(p.kg_por_unidad)/1000) : 0;
-    var iva = (sub + fle) * 0.16;
-    $("#ct-sub").textContent = mx(sub); $("#ct-fle").textContent = mx(fle);
-    $("#ct-iva").textContent = mx(iva); $("#ct-tot").textContent = mx(sub + fle + iva);
-    $("#ct-uni").value = UNI[p.presentacion] || p.unidad;
-    $("#ct-go").href = "/pedidos/?producto=" + p.id + "&cantidad=" + cant + (z ? "&zona=" + z.id : "");
+  var P = [], Z = [], C = [], filtro = "", KEY = "arensil_carrito";
+  var WA = "https://wa.me/523324934360?text=";
+
+  function guardar(){ try { localStorage.setItem(KEY, JSON.stringify({items:C, zona:$("#t-zona").value})); } catch(e){} }
+  function leer(){ try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch(e){ return null; } }
+  function prod(id){ return P.find(function(p){ return p.id === id; }); }
+  function zonaSel(){ return Z.find(function(z){ return z.id === Number($("#t-zona").value); }); }
+
+  function pintarProductos(){
+    var re = filtro ? new RegExp(filtro, "i") : null;
+    var lista = P.filter(function(p){ return !re || re.test(p.nombre + " " + (p.malla || "")); });
+    $("#t-prods").innerHTML = lista.length ? lista.map(function(p){
+      var q0 = p.presentacion === "granel_ton" ? 10 : (p.presentacion === "supersaco_1t" ? 2 : 20);
+      return '<div class="prod"><div class="cab"><div class="malla">' + esc(p.malla || "Sin clasificar") + '</div><span class="pres">' + esc(PRES[p.presentacion] || p.unidad) + '</span></div>' +
+        '<div class="cuerpo"><h3>' + esc(p.nombre) + '</h3><div class="precio">' + mx(p.precio_lista) + ' <small>por ' + esc(p.unidad) + ' · sin IVA</small></div>' +
+        '<div class="agregar"><div class="qty"><button type="button" data-m="' + p.id + '" aria-label="Menos">−</button><input type="number" min="1" step="1" value="' + q0 + '" data-q="' + p.id + '" aria-label="Cantidad de ' + esc(p.nombre) + '"><button type="button" data-p="' + p.id + '" aria-label="Más">+</button></div>' +
+        '<button type="button" class="cta" data-a="' + p.id + '">Agregar</button></div></div></div>';
+    }).join("") : '<p class="nota">No hay productos con ese filtro.</p>';
   }
-  // Si el catálogo no llega (base pausada, sin red, bloqueo), el cotizador no se queda
-  // en blanco: lo decimos y damos la salida por WhatsApp.
-  var cotizadorVivo = false;
-  function cotizadorCaido(){
-    if (cotizadorVivo) return;
-    var e = $("#ct-estado");
-    if (e) e.innerHTML = '<strong>El cotizador no está disponible en este momento.</strong> ' +
-      'Escríbanos por <a href="https://wa.me/523324934360?text=' +
-      encodeURIComponent("Buen día, quiero cotizar arena sílica. ") + '">WhatsApp al 33 2493 4360</a>' +
-      ' o llámenos y le damos precio puesto en su dirección en el momento.';
-    ["#ct-prod","#ct-cant","#ct-zona"].forEach(function(s){ var el = $(s); if (el) el.disabled = true; });
-    var g = $("#ct-go");
-    if (g) { g.href = "https://wa.me/523324934360"; g.textContent = "Cotizar por WhatsApp"; }
+
+  function totales(){
+    var z = zonaSel(), sub = 0, fle = 0;
+    C.forEach(function(l){ var p = prod(l.id); if (!p) return;
+      sub += l.cant * Number(p.precio_lista);
+      fle += z ? l.cant * Number(z.precio_cliente_ton) * (Number(p.kg_por_unidad)/1000) : 0; });
+    return {sub:sub, fle:fle, iva:(sub+fle)*0.16, tot:(sub+fle)*1.16};
   }
-  setTimeout(cotizadorCaido, 8000);
+
+  function pintarCarrito(){
+    var t = totales(), z = zonaSel();
+    $("#t-lineas").innerHTML = C.length ? C.map(function(l, i){ var p = prod(l.id); if (!p) return "";
+      return '<div class="linea"><b>' + esc(p.nombre) + '</b><button type="button" class="quitar" data-x="' + i + '" aria-label="Quitar">×</button>' +
+        '<small>' + l.cant + ' ' + esc(UNI[p.presentacion] || p.unidad) + ' × ' + mx(p.precio_lista) + '</small></div>'; }).join("")
+      : '<p class="vacio">Aún no agrega productos.</p>';
+    $("#t-sub").textContent = mx(t.sub); $("#t-fle").textContent = mx(t.fle);
+    $("#t-iva").textContent = mx(t.iva); $("#t-tot").textContent = mx(t.tot);
+    var go = $("#t-go"), wa = $("#t-wa");
+    if (C.length){
+      go.removeAttribute("aria-disabled");
+      go.href = "/pedidos/?carrito=" + C.map(function(l){ return l.id + ":" + l.cant; }).join(",") + (z ? "&zona=" + z.id : "");
+      wa.href = WA + encodeURIComponent("Buen día, quiero este pedido de arena sílica:\n" + C.map(function(l){ var p = prod(l.id); return "- " + l.cant + " " + (p ? (UNI[p.presentacion] || p.unidad) + " de " + p.nombre : ""); }).join("\n") + "\nEntrega en: " + (z ? z.nombre : "recojo en el banco") + ". Total estimado con IVA: " + mx(t.tot));
+    } else { go.setAttribute("aria-disabled", "true"); go.href = "/pedidos/"; }
+    var n = C.length, b = $("#t-barra");
+    b.hidden = !n; $("#t-barra-n").textContent = n + (n === 1 ? " producto" : " productos"); $("#t-barra-t").textContent = mx(t.tot);
+    guardar();
+  }
+
+  $("#t-prods").addEventListener("click", function(e){
+    var el = e.target.closest("button"); if (!el) return;
+    var id = Number(el.dataset.a || el.dataset.p || el.dataset.m); var inp = document.querySelector('[data-q="' + id + '"]');
+    if (el.dataset.p) inp.value = Math.max(1, Number(inp.value || 0) + 1);
+    else if (el.dataset.m) inp.value = Math.max(1, Number(inp.value || 0) - 1);
+    else if (el.dataset.a){
+      var cant = Math.max(1, Math.round(Number(inp.value) || 0)); var ya = C.find(function(l){ return l.id === id; });
+      if (ya) ya.cant += cant; else C.push({id:id, cant:cant});
+      pintarCarrito(); el.textContent = "Agregado ✓"; setTimeout(function(){ el.textContent = "Agregar"; }, 1100);
+    }
+  });
+  $("#t-lineas").addEventListener("click", function(e){ var x = e.target.closest("[data-x]"); if (!x) return; C.splice(Number(x.dataset.x), 1); pintarCarrito(); });
+  $("#t-zona").addEventListener("change", pintarCarrito);
+  $("#t-filtros").addEventListener("click", function(e){ var c = e.target.closest(".chip"); if (!c) return;
+    document.querySelectorAll("#t-filtros .chip").forEach(function(x){ x.classList.toggle("on", x === c); });
+    filtro = c.dataset.f; pintarProductos(); });
+
+  function caido(){
+    if (P.length) return;
+    $("#t-prods").innerHTML = '<p class="nota"><strong>La tienda no está disponible en este momento.</strong> Escríbanos por <a href="' + WA + encodeURIComponent("Buen día, quiero cotizar arena sílica. ") + '">WhatsApp al 33 2493 4360</a> o llámenos y le damos precio puesto en su dirección al momento.</p>';
+  }
+  setTimeout(caido, 8000);
 
   Promise.all([
     sb.from("catalogo").select("id,nombre,malla,presentacion,unidad,precio_lista,kg_por_unidad").order("id"),
     sb.from("zonas_publicas").select("id,nombre,cobertura,precio_cliente_ton,activa").order("km_desde_lagos")
   ]).then(function(r){
-    P = (r[0].data || []).slice().sort(function(a,b){ var ga = /gre[ñn]a/i.test(a.nombre) ? 1 : 0, gb = /gre[ñn]a/i.test(b.nombre) ? 1 : 0; return ga - gb || a.id - b.id; }); Z = (r[1].data || []).filter(function(z){ return z.activa !== false; });
-    if (!P.length) { cotizadorCaido(); return; }
-    cotizadorVivo = true;
-    $("#ct-prod").innerHTML = P.map(function(p){ return '<option value="' + p.id + '">' + p.nombre + (p.malla ? " · " + p.malla : "") + " — " + mx(p.precio_lista) + "/" + p.unidad + "</option>"; }).join("");
-    $("#ct-zona").innerHTML += Z.filter(function(z){ return Number(z.precio_cliente_ton) > 0; }).map(function(z){ return '<option value="' + z.id + '">' + z.nombre + " · " + mx(z.precio_cliente_ton) + "/t</option>"; }).join("");
-    ["#ct-prod","#ct-cant","#ct-zona"].forEach(function(s){ $(s).addEventListener("input", calc); $(s).addEventListener("change", calc); });
-    calc();
-  }).catch(function(){ cotizadorCaido(); });
+    P = (r[0].data || []).slice().sort(function(a,b){ var ga = /gre[ñn]a/i.test(a.nombre) ? 1 : 0, gb = /gre[ñn]a/i.test(b.nombre) ? 1 : 0; return ga - gb || a.id - b.id; });
+    Z = (r[1].data || []).filter(function(z){ return z.activa !== false; });
+    if (!P.length){ caido(); return; }
+    $("#t-zona").innerHTML += Z.filter(function(z){ return Number(z.precio_cliente_ton) > 0; }).map(function(z){ return '<option value="' + z.id + '">' + esc(z.nombre) + " · " + mx(z.precio_cliente_ton) + "/t</option>"; }).join("");
+    var g = leer(); if (g && g.items){ C = g.items.filter(function(l){ return prod(l.id) && l.cant > 0; }); if (g.zona) $("#t-zona").value = g.zona; }
+    pintarProductos(); pintarCarrito();
+  }).catch(caido);
 
   // Solicitud de cotización formal (sin registro)
   var f = $("#sol-form");
   if (f) f.addEventListener("submit", function(e){
     e.preventDefault();
     var err = $("#sol-err"); err.textContent = "";
-    if ($("#sol-web").value) return; // trampa para bots
+    if ($("#sol-web").value) return;
     var nombre = $("#sol-nombre").value.trim(), tel = $("#sol-tel").value.trim();
     if (!nombre) { err.textContent = "Escriba su nombre."; return; }
     if (tel.replace(/\D/g, "").length < 10) { err.textContent = "Escriba un teléfono de 10 dígitos."; return; }
-    var p = P.find(function(x){ return x.id === Number($("#ct-prod").value); });
-    var z = Z.find(function(x){ return x.id === Number($("#ct-zona").value); });
+    var z = zonaSel();
+    var resumen = C.length ? C.map(function(l){ var p = prod(l.id); return l.cant + " " + (p ? (UNI[p.presentacion] || p.unidad) + " de " + p.nombre : ""); }).join("; ") : null;
     var btn = $("#sol-go"); btn.disabled = true; btn.textContent = "Enviando…";
     sb.from("solicitudes_web").insert({
       nombre: nombre, empresa: $("#sol-empresa").value.trim() || null, telefono: tel,
       email: $("#sol-mail").value.trim() || null, municipio: $("#sol-muni").value.trim() || (z ? z.nombre : null),
-      producto: p ? p.nombre + (p.malla ? " · " + p.malla : "") : null,
-      cantidad: p ? ($("#ct-cant").value + " " + (UNI[p.presentacion] || p.unidad)) : null,
+      producto: resumen, cantidad: null,
       mensaje: $("#sol-msg").value.trim() || null, origen: "sitio/cotizador"
     }).then(function(r){
       if (r.error) { btn.disabled = false; btn.textContent = "Pedir cotización"; err.textContent = "No se pudo enviar. Escríbanos por WhatsApp al 33 2493 4360."; return; }
       f.hidden = true; var ok = $("#sol-ok"); ok.hidden = false;
-      ok.innerHTML = "<strong>Recibimos su solicitud, " + nombre.replace(/[<>&]/g, "") + ".</strong> Le contactamos el mismo día hábil al " + tel.replace(/[<>&]/g, "") + " con precio y ficha técnica. Si prefiere adelantar, escríbanos por <a href=\"https://wa.me/523324934360\">WhatsApp</a>.";
+      ok.innerHTML = "<strong>Recibimos su solicitud, " + esc(nombre) + ".</strong> Le contactamos el mismo día hábil al " + esc(tel) + " con precio y ficha técnica. Si prefiere adelantar, escríbanos por <a href=\"https://wa.me/523324934360\">WhatsApp</a>.";
     });
   });
 })();
