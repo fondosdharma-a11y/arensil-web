@@ -38,7 +38,7 @@ header{position:sticky;top:0;z-index:30;background:rgba(247,245,241,.94);
   backdrop-filter:blur(10px);border-bottom:1px solid var(--linea)}
 .nav{display:flex;align-items:center;gap:24px;padding:13px 22px;max-width:var(--max);margin:0 auto}
 .logo{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--grafito);flex:none}
-.logo svg{width:46px;height:25px;display:block;flex:none}
+.logo svg{height:26px;width:auto;display:block;flex:none}
 .logo b{font-size:1.14rem;font-weight:700;letter-spacing:.11em}
 .nav nav{display:flex;gap:20px;margin-left:auto;font-size:.92rem;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 .nav nav a{color:var(--tinta);text-decoration:none}

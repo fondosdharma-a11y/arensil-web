@@ -79,7 +79,7 @@
     + "font:15px/1.6 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}"
     + "#ar-chat header{display:flex;align-items:center;gap:11px;padding:14px 14px 13px;background:#1C1A17;color:#F7F5F1}"
     + "#ar-chat header .ar-marca{width:34px;height:34px;border-radius:9px;background:#8A6418;display:flex;align-items:center;justify-content:center;flex:0 0 auto}"
-    + "#ar-chat header .ar-marca svg{width:19px;height:19px}"
+    + "#ar-chat header .ar-marca svg{width:24px;height:12px}"
     + "#ar-chat header b{display:block;font-size:.95rem;font-weight:650;letter-spacing:-.01em}"
     + "#ar-chat header span{display:block;font-size:.76rem;color:#B9B2A7}"
     + "#ar-chat header .ar-x{margin-left:auto;background:transparent;border:0;color:#EDE9E1;font-size:24px;line-height:1;"
@@ -116,7 +116,7 @@
     + "#ar-chat-btn{right:14px;bottom:14px;padding:12px 15px 12px 13px}#ar-chat-btn .ar-eti{display:none}}"
     + "@media (prefers-reduced-motion:reduce){#ar-chat-btn,.ar-esc i{transition:none;animation:none}}";
 
-  var CRISTAL = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.2 21 8v8l-9 5.8L3 16V8l9-5.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 2.2v19.6M3 8l9 4.6L21 8" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" opacity=".75"/></svg>';
+  var CRISTAL = '<svg viewBox="276.8 175.2 468.2 203.0" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M601.5 278.8 L600.8 280.8 L637.2 324.0 L639.8 324.5 L653.2 312.2 L657.0 310.5 L708.8 371.2 L737.2 371.8 L738.8 371.0 L738.2 368.5 L635.2 246.5 L632.8 246.8ZM659.2 369.5 L510.2 184.5 L506.2 181.2 L480.5 208.5 L463.5 229.0 L432.5 262.8 L357.8 349.2 L347.2 350.5 L343.8 349.8 L343.5 348.5 L352.2 337.5 L355.2 335.2 L414.0 269.2 L412.0 265.8 L390.5 249.2 L386.8 251.8 L321.5 325.0 L313.5 335.2 L310.5 337.5 L283.2 368.5 L282.8 371.0 L286.0 371.8 L407.2 371.5 L520.5 249.2 L522.2 249.2 L629.0 371.0 L633.2 372.0 L659.2 371.2Z"/></svg>';
   var GLOBO = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L3.5 20.5l1.4-5.9A8 8 0 1 1 21 12Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>';
   var AVION = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 11.4 20 4l-7.4 16.6-2.2-6.9-7-2.3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>';
 
