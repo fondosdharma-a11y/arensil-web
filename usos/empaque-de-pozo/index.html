@@ -28,7 +28,7 @@
 
 <div class="anuncio">
   <div class="wrap">
-    <span><b class="ar-promo">Lanzamiento: 50 % de descuento en todos los productos hasta el 14 de julio de 2027.</b> <b>Tienda en línea:</b> arme su pedido con precio y flete al momento.<span class="largo"> Pago por transferencia SPEI.</span></span>
+    <span><b class="ar-promo">Lanzamiento: 35 % de descuento en todos los productos hasta el 14 de julio de 2027.</b> <b>Tienda en línea:</b> arme su pedido con precio y flete al momento.<span class="largo"> Pago por transferencia SPEI.</span></span>
     <a href="/pedidos/">Entrar a la plataforma →</a>
   </div>
 </div>
@@ -77,7 +77,7 @@
   <div class="wrap">
     <div class="eyebrow">Precio</div>
     <h2>$5,130 por tonelada, a granel.</h2>
-    <p class="lede" style="margin-top:14px">Sin IVA, cargado en el banco. Más el flete de su zona (<a href="/entrega/">vea su ciudad</a>): por ejemplo, un torton de 14 t puesto en León (flete $180/t) queda en 14 × $5,310 = <strong>$74,340</strong> más IVA. Hasta el 14 de julio de 2027 el precio del producto lleva 50 % de descuento de lanzamiento ($2,565 por tonelada): el mismo torton queda en 14 × $2,745 = <strong>$38,430</strong> más IVA. Ficha técnica: <a href="/fichas/empaque-de-pozo-8-16/">malla 8–16</a>.</p>
+    <p class="lede" style="margin-top:14px">Sin IVA, cargado en el banco. Más el flete de su zona (<a href="/entrega/">vea su ciudad</a>): por ejemplo, un torton de 14 t puesto en León (flete $180/t) queda en 14 × $5,310 = <strong>$74,340</strong> más IVA. Hasta el 14 de julio de 2027 el precio del producto lleva 35 % de descuento de lanzamiento ($3,334.50 por tonelada): el mismo torton queda en 14 × $3,514.50 = <strong>$49,203</strong> más IVA. Ficha técnica: <a href="/fichas/empaque-de-pozo-8-16/">malla 8–16</a>.</p>
   </div>
 </section>
 
@@ -100,13 +100,13 @@
 <script>
 (function(){
   function mx(n){return "$"+n.toLocaleString("es-MX",{maximumFractionDigits:0});}
-  var D=(Date.now()<=Date.parse("2027-07-15T06:00:00Z"))?0.5:1;
+  var D=(Date.now()<=Date.parse("2027-07-15T06:00:00Z"))?0.65:1;
   function v(id){return parseFloat(document.getElementById(id).value)||0;}
   function calc(){
     var dp=v("p-dp")*0.0254, da=v("p-da")*0.0254, l=v("p-l"), r=document.getElementById("p-res");
     if(dp<=da||l<=0){r.textContent="La perforación debe ser más ancha que el ademe y la longitud mayor que cero.";return;}
     var vol=Math.PI/4*(dp*dp-da*da)*l, t=vol*1.55*1.15, tor=Math.ceil(t/14);
-    r.innerHTML="Espacio anular: <strong>"+vol.toFixed(1)+" m³</strong>.<br>Grava 8–16: <strong>"+t.toFixed(1)+" t</strong> ≈ "+mx(t*5130*D)+" + IVA, sin flete"+(D<1?" (con 50 % de descuento de lanzamiento)":"")+".<br>Equivale a unos <strong>"+tor+" viaje"+(tor>1?"s":"")+" de torton</strong> (14 t)"+(t>=30?" o "+Math.ceil(t/30)+" de tráiler (30 t)":"")+".";
+    r.innerHTML="Espacio anular: <strong>"+vol.toFixed(1)+" m³</strong>.<br>Grava 8–16: <strong>"+t.toFixed(1)+" t</strong> ≈ "+mx(t*5130*D)+" + IVA, sin flete"+(D<1?" (con 35 % de descuento de lanzamiento)":"")+".<br>Equivale a unos <strong>"+tor+" viaje"+(tor>1?"s":"")+" de torton</strong> (14 t)"+(t>=30?" o "+Math.ceil(t/30)+" de tráiler (30 t)":"")+".";
   }
   ["p-dp","p-da","p-l"].forEach(function(i){document.getElementById(i).addEventListener("input",calc);});
   calc();

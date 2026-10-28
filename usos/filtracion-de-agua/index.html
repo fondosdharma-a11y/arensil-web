@@ -28,7 +28,7 @@
 
 <div class="anuncio">
   <div class="wrap">
-    <span><b class="ar-promo">Lanzamiento: 50 % de descuento en todos los productos hasta el 14 de julio de 2027.</b> <b>Tienda en línea:</b> arme su pedido con precio y flete al momento.<span class="largo"> Pago por transferencia SPEI.</span></span>
+    <span><b class="ar-promo">Lanzamiento: 35 % de descuento en todos los productos hasta el 14 de julio de 2027.</b> <b>Tienda en línea:</b> arme su pedido con precio y flete al momento.<span class="largo"> Pago por transferencia SPEI.</span></span>
     <a href="/pedidos/">Entrar a la plataforma →</a>
   </div>
 </div>
@@ -86,7 +86,7 @@
         </tbody>
       </table>
     </div>
-    <p class="nota">Sin IVA, cargado en el banco. También en saco de 25 kg (20–30: $236.25; 10–20: $249.75), saco de 50 kg (20–30: $418.50; 10–20: $445.50) y súper saco de 1 t con válvula (20–30: $7,020), precios normales. Hasta el 14 de julio de 2027 el precio de los productos lleva 50 % de descuento de lanzamiento. El flete depende de la zona: <a href="/entrega/">vea su ciudad</a>.</p>
+    <p class="nota">Sin IVA, cargado en el banco. También en saco de 25 kg (20–30: $236.25; 10–20: $249.75), saco de 50 kg (20–30: $418.50; 10–20: $445.50) y súper saco de 1 t con válvula (20–30: $7,020), precios normales. Hasta el 14 de julio de 2027 el precio de los productos lleva 35 % de descuento de lanzamiento. El flete depende de la zona: <a href="/entrega/">vea su ciudad</a>.</p>
   </div>
 </section>
 
@@ -109,7 +109,7 @@
 <script>
 (function(){
   function mx(n){return "$"+n.toLocaleString("es-MX",{maximumFractionDigits:0});}
-  var D=(Date.now()<=Date.parse("2027-07-15T06:00:00Z"))?0.5:1;
+  var D=(Date.now()<=Date.parse("2027-07-15T06:00:00Z"))?0.65:1;
   function v(id){return parseFloat(document.getElementById(id).value)||0;}
   function calc(){
     var d=v("f-d"), a=Math.PI*d*d/4, r=document.getElementById("f-res");
@@ -118,7 +118,7 @@
     var tx="Área del tanque: <strong>"+a.toFixed(2)+" m²</strong>.<br>";
     if(tl>0)tx+="· Lecho 20–30: <strong>"+tl.toFixed(2)+" t</strong> ≈ "+mx(tl*5265*D)+" a granel o "+Math.ceil(tl*1000/50)+" sacos de 50 kg ("+mx(Math.ceil(tl*1000/50)*418.5*D)+")<br>";
     if(ts>0)tx+="· Soporte 10–20: <strong>"+ts.toFixed(2)+" t</strong> ≈ "+mx(ts*5535*D)+" a granel o "+Math.ceil(ts*1000/50)+" sacos de 50 kg ("+mx(Math.ceil(ts*1000/50)*445.5*D)+")<br>";
-    r.innerHTML=tx+"Precios sin IVA y sin flete"+(D<1?", con 50 % de descuento de lanzamiento.":".");
+    r.innerHTML=tx+"Precios sin IVA y sin flete"+(D<1?", con 35 % de descuento de lanzamiento.":".");
   }
   ["f-d","f-l","f-s"].forEach(function(i){document.getElementById(i).addEventListener("input",calc);});
   calc();
