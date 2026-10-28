@@ -116,7 +116,7 @@
     if(d<=0){r.textContent="Escriba el diámetro del tanque.";return;}
     var tl=a*v("f-l")/100*1.5*1.05, ts=a*v("f-s")/100*1.55*1.05;
     var tx="Área del tanque: <strong>"+a.toFixed(2)+" m²</strong>.<br>";
-    if(tl>0)tx+="· Lecho 20–30: <strong>"+tl.toFixed(2)+" t</strong> ≈ "+mx(tl*5265*D)+" a granel o "+Math.ceil(tl*1000/50)+" sacos de 50 kg ("+mx(Math.ceil(tl*1000/50)*418.5*D)+")<br>";
+    if(tl>0)tx+="· Lecho 20–30: <strong>"+tl.toFixed(2)+" t</strong> ≈ "+mx(tl*(D<1?3550:5265))+" a granel o "+Math.ceil(tl*1000/50)+" sacos de 50 kg ("+mx(Math.ceil(tl*1000/50)*418.5*D)+")<br>";
     if(ts>0)tx+="· Soporte 10–20: <strong>"+ts.toFixed(2)+" t</strong> ≈ "+mx(ts*5535*D)+" a granel o "+Math.ceil(ts*1000/50)+" sacos de 50 kg ("+mx(Math.ceil(ts*1000/50)*445.5*D)+")<br>";
     r.innerHTML=tx+"Precios sin IVA y sin flete"+(D<1?", con 35 % de descuento de lanzamiento.":".");
   }
