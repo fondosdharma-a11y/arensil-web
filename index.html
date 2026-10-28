@@ -322,7 +322,7 @@
 
 <div class="anuncio">
   <div class="wrap">
-    <span><b>Tienda en línea:</b> arme su pedido con precio y flete al momento.<span class="largo"> Pago por transferencia SPEI.</span></span>
+    <span><b class="ar-promo">Lanzamiento: 50 % de descuento en todos los productos hasta el 14 de julio de 2027.</b> <b>Tienda en línea:</b> arme su pedido con precio y flete al momento.<span class="largo"> Pago por transferencia SPEI.</span></span>
     <a href="/pedidos/">Entrar a la plataforma →</a>
   </div>
 </div>
@@ -548,17 +548,17 @@
     <p class="lede" style="margin-top:14px">Publicamos nuestra lista de referencia porque creemos que el comprador industrial merece planear con información. Los precios son por tonelada, cargados en el banco, sin IVA y sin flete. La plataforma calcula el precio final para su zona en segundos.</p>
     <div class="tblwrap">
       <table>
-        <thead><tr><th>Producto</th><th>Malla</th><th class="right">MXN / tonelada</th></tr></thead>
+        <thead><tr><th>Producto</th><th>Malla</th><th class="right">Normal / t</th><th class="right">Lanzamiento −50 % / t</th></tr></thead>
         <tbody>
-          <tr><td>En greña — relleno</td><td>Sin clasificar</td><td class="right">$2,475</td></tr>
-          <tr><td>Cribada seca — construcción</td><td>16–40</td><td class="right">$3,975</td></tr>
-          <tr><td>Empaque de pozo</td><td>8–16</td><td class="right">$5,700</td></tr>
-          <tr><td>Filtración lavada</td><td>20–30</td><td class="right">$5,850</td></tr>
-          <tr><td>Filtración lavada</td><td>10–20</td><td class="right">$6,150</td></tr>
+          <tr><td>En greña — relleno</td><td>Sin clasificar</td><td class="right"><s>$2,227.50</s></td><td class="right"><strong>$1,113.75</strong></td></tr>
+          <tr><td>Cribada seca — construcción</td><td>16–40</td><td class="right"><s>$3,577.50</s></td><td class="right"><strong>$1,788.75</strong></td></tr>
+          <tr><td>Empaque de pozo</td><td>8–16</td><td class="right"><s>$5,130</s></td><td class="right"><strong>$2,565</strong></td></tr>
+          <tr><td>Filtración lavada</td><td>20–30</td><td class="right"><s>$5,265</s></td><td class="right"><strong>$2,632.50</strong></td></tr>
+          <tr><td>Filtración lavada</td><td>10–20</td><td class="right"><s>$5,535</s></td><td class="right"><strong>$2,767.50</strong></td></tr>
         </tbody>
       </table>
     </div>
-    <p class="nota">Precios de referencia vigentes a octubre de 2026, en pesos mexicanos, sin IVA, cargados en el banco en Lagos de Moreno. Las presentaciones en saco y súper saco, los volúmenes mayores y los contratos de suministro mensual se cotizan por separado. <a href="/pedidos/">Cotice con flete incluido en la plataforma →</a></p>
+    <p class="nota">Precio de lanzamiento: 50 % de descuento en todos los productos (no incluye flete) del 27 de octubre de 2026 al 14 de julio de 2027. Precios de referencia vigentes a octubre de 2026, en pesos mexicanos, sin IVA, cargados en el banco en Lagos de Moreno. Las presentaciones en saco y súper saco, los volúmenes mayores y los contratos de suministro mensual se cotizan por separado. <a href="/pedidos/">Cotice con flete incluido en la plataforma →</a></p>
   </div>
 </section>
 
@@ -653,6 +653,10 @@
   function prod(id){ return P.find(function(p){ return p.id === id; }); }
   function zonaSel(){ return Z.find(function(z){ return z.id === Number($("#t-zona").value); }); }
 
+  function precioHtml(p){
+    if (Number(p.promo_pct) > 0) return '<s style="font-weight:500;font-size:.85rem;color:var(--gris)">' + mx(p.precio_normal) + '</s> ' + mx(p.precio_lista) + ' <small>por ' + esc(p.unidad) + ' · sin IVA · lanzamiento −' + Number(p.promo_pct) + ' %</small>';
+    return mx(p.precio_lista) + ' <small>por ' + esc(p.unidad) + ' · sin IVA</small>';
+  }
   function pintarProductos(){
     var re = filtro ? new RegExp(filtro, "i") : null;
     var lista = P.filter(function(p){ return !re || re.test(p.nombre + " " + (p.malla || "")); });
@@ -716,7 +720,7 @@
   setTimeout(caido, 8000);
 
   Promise.all([
-    sb.from("catalogo").select("id,nombre,malla,presentacion,unidad,precio_lista,kg_por_unidad").order("id"),
+    sb.from("catalogo").select("id,nombre,malla,presentacion,unidad,precio_lista,precio_normal,promo_pct,kg_por_unidad").order("id"),
     sb.from("zonas_publicas").select("id,nombre,cobertura,precio_cliente_ton,activa").order("km_desde_lagos")
   ]).then(function(r){
     P = (r[0].data || []).slice().sort(function(a,b){ var ga = /gre[ñn]a/i.test(a.nombre) ? 1 : 0, gb = /gre[ñn]a/i.test(b.nombre) ? 1 : 0; return ga - gb || a.id - b.id; });

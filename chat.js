@@ -273,3 +273,6 @@
 
   try { if (sessionStorage.getItem(SS) === "1") abre(); } catch (e) {}
 })();
+
+/* ar-promo-fin: el banner de lanzamiento se retira solo después del 14-jul-2027 */
+(function(){try{if(Date.now()>Date.parse("2027-07-15T06:00:00Z")){document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".ar-promo").forEach(function(e){e.remove()})})}}catch(e){}})();

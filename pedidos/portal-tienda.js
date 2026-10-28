@@ -6,7 +6,7 @@ function pintarProductos() {
       <div class="malla">${esc(p.malla || PRES[p.presentacion])}</div>
       <h3>${esc(p.nombre)}</h3>
       <p class="ficha">${esc((p.ficha_tecnica || "").slice(0, 150))}${p.ficha_url ? ` <a href="https://arensil.com${esc(p.ficha_url)}" target="_blank" rel="noopener" style="white-space:nowrap">Ficha técnica ↗</a>` : ""}</p>
-      <div class="precio">${mx(p.precio_lista)} <small>por ${esc(p.unidad)}</small></div>
+      <div class="precio">${Number(p.promo_pct) > 0 ? `<s style="font-weight:500;font-size:.85em;opacity:.65">${mx(p.precio_normal)}</s> ` : ""}${mx(p.precio_lista)} <small>por ${esc(p.unidad)}${Number(p.promo_pct) > 0 ? ` · lanzamiento −${Number(p.promo_pct)} %` : ""}</small></div>
       ${p.requiere_certificado ? '<span class="tag warn">se entrega con análisis de lote</span>' : ""}
       <div class="addrow">
         <input type="number" min="0.5" step="0.5" value="${p.presentacion === "granel_ton" ? 10 : 20}" data-qty="${p.id}">

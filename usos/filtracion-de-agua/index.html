@@ -28,7 +28,7 @@
 
 <div class="anuncio">
   <div class="wrap">
-    <span><b>Tienda en línea:</b> arme su pedido con precio y flete al momento.<span class="largo"> Pago por transferencia SPEI.</span></span>
+    <span><b class="ar-promo">Lanzamiento: 50 % de descuento en todos los productos hasta el 14 de julio de 2027.</b> <b>Tienda en línea:</b> arme su pedido con precio y flete al momento.<span class="largo"> Pago por transferencia SPEI.</span></span>
     <a href="/pedidos/">Entrar a la plataforma →</a>
   </div>
 </div>
@@ -81,12 +81,12 @@
       <table>
         <thead><tr><th>Capa</th><th>Malla</th><th>Para qué sirve</th><th class="right">Granel $/t</th></tr></thead>
         <tbody>
-          <tr><td><a href="/fichas/filtracion-20-30/"><strong>Lecho filtrante</strong></a></td><td>20–30</td><td>La capa de trabajo: retiene la turbiedad y los sólidos. Es la que se retrolava.</td><td class="right">$5,850</td></tr>
-          <tr><td><a href="/fichas/filtracion-10-20/"><strong>Capa de soporte</strong></a></td><td>10–20</td><td>Va debajo del lecho, sostiene la cama y evita que la arena fina pase a los colectores.</td><td class="right">$6,150</td></tr>
+          <tr><td><a href="/fichas/filtracion-20-30/"><strong>Lecho filtrante</strong></a></td><td>20–30</td><td>La capa de trabajo: retiene la turbiedad y los sólidos. Es la que se retrolava.</td><td class="right">$5,265</td></tr>
+          <tr><td><a href="/fichas/filtracion-10-20/"><strong>Capa de soporte</strong></a></td><td>10–20</td><td>Va debajo del lecho, sostiene la cama y evita que la arena fina pase a los colectores.</td><td class="right">$5,535</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="nota">Sin IVA, cargado en el banco. También en saco de 25 kg (20–30: $262.50; 10–20: $277.50), saco de 50 kg (20–30: $465; 10–20: $495) y súper saco de 1 t con válvula (20–30: $7,800). El flete depende de la zona: <a href="/entrega/">vea su ciudad</a>.</p>
+    <p class="nota">Sin IVA, cargado en el banco. También en saco de 25 kg (20–30: $236.25; 10–20: $249.75), saco de 50 kg (20–30: $418.50; 10–20: $445.50) y súper saco de 1 t con válvula (20–30: $7,020), precios normales. Hasta el 14 de julio de 2027 el precio de los productos lleva 50 % de descuento de lanzamiento. El flete depende de la zona: <a href="/entrega/">vea su ciudad</a>.</p>
   </div>
 </section>
 
@@ -109,15 +109,16 @@
 <script>
 (function(){
   function mx(n){return "$"+n.toLocaleString("es-MX",{maximumFractionDigits:0});}
+  var D=(Date.now()<=Date.parse("2027-07-15T06:00:00Z"))?0.5:1;
   function v(id){return parseFloat(document.getElementById(id).value)||0;}
   function calc(){
     var d=v("f-d"), a=Math.PI*d*d/4, r=document.getElementById("f-res");
     if(d<=0){r.textContent="Escriba el diámetro del tanque.";return;}
     var tl=a*v("f-l")/100*1.5*1.05, ts=a*v("f-s")/100*1.55*1.05;
     var tx="Área del tanque: <strong>"+a.toFixed(2)+" m²</strong>.<br>";
-    if(tl>0)tx+="· Lecho 20–30: <strong>"+tl.toFixed(2)+" t</strong> ≈ "+mx(tl*5850)+" a granel o "+Math.ceil(tl*1000/50)+" sacos de 50 kg ("+mx(Math.ceil(tl*1000/50)*465)+")<br>";
-    if(ts>0)tx+="· Soporte 10–20: <strong>"+ts.toFixed(2)+" t</strong> ≈ "+mx(ts*6150)+" a granel o "+Math.ceil(ts*1000/50)+" sacos de 50 kg ("+mx(Math.ceil(ts*1000/50)*495)+")<br>";
-    r.innerHTML=tx+"Precios sin IVA y sin flete.";
+    if(tl>0)tx+="· Lecho 20–30: <strong>"+tl.toFixed(2)+" t</strong> ≈ "+mx(tl*5265*D)+" a granel o "+Math.ceil(tl*1000/50)+" sacos de 50 kg ("+mx(Math.ceil(tl*1000/50)*418.5*D)+")<br>";
+    if(ts>0)tx+="· Soporte 10–20: <strong>"+ts.toFixed(2)+" t</strong> ≈ "+mx(ts*5535*D)+" a granel o "+Math.ceil(ts*1000/50)+" sacos de 50 kg ("+mx(Math.ceil(ts*1000/50)*445.5*D)+")<br>";
+    r.innerHTML=tx+"Precios sin IVA y sin flete"+(D<1?", con 50 % de descuento de lanzamiento.":".");
   }
   ["f-d","f-l","f-s"].forEach(function(i){document.getElementById(i).addEventListener("input",calc);});
   calc();
